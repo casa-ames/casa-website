@@ -6,6 +6,8 @@ backend:
   auth_endpoint: auth
   site_domain: casa-ames.github.io
 
+publish_mode: editorial_workflow
+
 local_backend: true
 site_url: https://casa-ames.github.io/casa-website
 display_url: https://casa-ames.github.io/casa-website
