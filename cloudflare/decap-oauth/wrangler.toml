@@ -1,0 +1,9 @@
+name = "casa-decap-oauth"
+main = "worker.js"
+compatibility_date = "2026-08-26"
+workers_dev = true
+
+[vars]
+ALLOWED_SITE_ORIGINS = "https://casa-ames.github.io"
+GITHUB_REPO_PRIVATE = "0"
+
