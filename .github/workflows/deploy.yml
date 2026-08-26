@@ -22,11 +22,12 @@ jobs:
       BASE_PATH: /casa-website/
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Build Astro site
-        uses: withastro/action@v3
+        uses: withastro/action@v6
         with:
           path: .
+          node-version: 24
 
   deploy:
     environment:
@@ -37,4 +38,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
