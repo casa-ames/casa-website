@@ -12,5 +12,6 @@ imageAlt: Ceramic artist wearing an apron and gloves while holding an unfinished
   clay mug in the CASA studio.
 status: past
 featured: false
+registrationUrl: https://www.zeffy.com/en-US/ticketing/casa-website-registration-test-not-a-real-event
 ---
 * `This hidden entry verifies that CASA staff can create, review, and publish website content`
