@@ -2,15 +2,16 @@ backend:
   name: github
   repo: casa-ames/casa-website
   branch: main
-  base_url: https://REPLACE_WITH_DECAP_OAUTH_WORKER.workers.dev
+  base_url: https://casa-decap-oauth.admincasa0.workers.dev
   auth_endpoint: auth
+  site_domain: casa-ames.github.io
 
 local_backend: true
 site_url: https://casa-ames.github.io/casa-website
 display_url: https://casa-ames.github.io/casa-website
 logo_url: /casa-website/images/casa-logo-source.jpg
 media_folder: public/images/uploads
-public_folder: /images/uploads
+public_folder: /casa-website/images/uploads
 
 collections:
   - name: classes
