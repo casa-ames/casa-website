@@ -1,0 +1,126 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+
+const classes = (await getCollection('classes'))
+  .filter(({ data }) => data.status !== 'past')
+  .sort((a, b) => a.data.dateStart.getTime() - b.data.dateStart.getTime());
+const page = await getEntry('pages', 'classes');
+if (!page) throw new Error('Missing classes page content');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (path: string) => `${base}${path}` || '/';
+const statusLabel = {
+  upcoming: 'Open',
+  'sold-out': 'Sold out',
+  cancelled: 'Cancelled',
+  past: 'Past',
+  'coming-soon': 'Registration coming soon',
+};
+---
+
+<BaseLayout title={page.data.title} active="classes" description={page.data.description}>
+  <section class="classes-intro page-shell section--compact">
+    <div class="classes-intro__copy">
+      <h1 class="page-heading">{page.data.headingLine1}<br />{page.data.headingLine2}</h1>
+      <p class="lead">{page.data.intro}</p>
+      <a class="text-link" href="#registration">How registration works <ArrowIcon direction="down" /></a>
+    </div>
+    <figure class="classes-intro__image media-frame">
+      <img src={`${import.meta.env.BASE_URL}images/class-wheel.webp`} alt="Artist smiling while working at a pottery wheel in CASA's ceramics studio" />
+    </figure>
+  </section>
+
+  <section class="class-list page-shell section--compact" aria-labelledby="class-list-title">
+    <h2 id="class-list-title" class="eyeless-label">Upcoming classes</h2>
+    <div class="class-list__rows">
+      {classes.map(({ data }) => (
+        <article class="class-row">
+          <p class="class-row__date">{data.dateLabel}</p>
+          <div class="class-row__main">
+            <h3>{data.title}</h3>
+            <p>{data.summary}</p>
+          </div>
+          <dl class="class-row__details">
+            <div><dt class="sr-only">Time</dt><dd>{data.time}</dd></div>
+            <div><dt class="sr-only">Instructor</dt><dd>{data.instructor}</dd></div>
+            <div><dt class="sr-only">Location</dt><dd>{data.location}</dd></div>
+            <div><dt class="sr-only">Price</dt><dd>{data.price}</dd></div>
+          </dl>
+          <p class="class-row__status">{statusLabel[data.status]}</p>
+          <div class="class-row__action">
+            {data.registrationUrl && data.status === 'upcoming' ? (
+              <a class="button button--red" href={data.registrationUrl} target="_blank" rel="noreferrer">Register</a>
+            ) : data.status === 'upcoming' ? (
+              <a class="button" href={`${href('/contact/')}?interest=classes&class=${encodeURIComponent(data.title)}`}>Ask about it</a>
+            ) : null}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="class-help black-band" id="registration">
+    <div class="page-shell class-help__inner">
+      <div class="class-help__copy">
+        <h2>Not sure where to begin?</h2>
+        <p>We’re happy to help you find the right class or path. Reach out with your questions.</p>
+        <a class="button button--dark" href={`${href('/contact/')}?interest=classes`}>Ask about classes</a>
+      </div>
+      <figure class="class-help__image media-frame">
+        <img src={`${import.meta.env.BASE_URL}images/class-teen.webp`} alt="Young artist working with clay at CASA" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+  <div class="registration-note page-shell">
+    <p>Registration and payment are securely handled through Zeffy. CASA does not store payment information on this website.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .classes-intro { display: grid; grid-template-columns: minmax(310px, 0.7fr) minmax(560px, 1.3fr); align-items: center; gap: clamp(3rem, 6vw, 7rem); }
+  .classes-intro__copy .lead { margin: 2rem 0; max-width: 34rem; }
+  .classes-intro__image { aspect-ratio: 16 / 6.2; }
+  .classes-intro__image img { object-position: center 22%; }
+  .class-list { border-top: 1px solid var(--red); padding-top: 0.8rem; }
+  .class-list > h2 { margin-bottom: 0.8rem; }
+  .class-list__rows { border-top: 1px solid var(--black); }
+  .class-row { display: grid; grid-template-columns: 190px minmax(280px, 1.35fr) minmax(380px, 1.9fr) 120px 150px; align-items: center; gap: clamp(1rem, 2vw, 2.2rem); border-bottom: var(--line); padding-block: 1.2rem; }
+  .class-row p, .class-row dl { margin: 0; }
+  .class-row__date, .class-row__status { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; }
+  .class-row__main h3 { margin-bottom: 0.25rem; font-size: 1.05rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+  .class-row__main p { color: var(--gray-700); font-size: 0.8rem; line-height: 1.35; }
+  .class-row__details { display: flex; flex-wrap: wrap; gap: 0.3rem 0; color: var(--gray-700); font-size: 0.78rem; }
+  .class-row__details div { display: contents; }
+  .class-row__details dd { margin: 0; }
+  .class-row__details div:not(:last-child) dd::after { content: ''; display: inline-block; width: 1px; height: 0.8em; margin-inline: 0.8rem; background: var(--gray-400); vertical-align: -0.08em; }
+  .class-row__action { min-width: 0; }
+  .class-row__action .button { width: 100%; min-height: 2.8rem; padding-inline: 0.7rem; }
+  .class-help__inner { display: grid; grid-template-columns: minmax(320px, 0.85fr) minmax(520px, 1.15fr); min-height: 410px; align-items: stretch; }
+  .class-help__copy { display: flex; align-items: flex-start; flex-direction: column; justify-content: center; padding: clamp(3rem, 6vw, 6rem) clamp(3rem, 7vw, 8rem) clamp(3rem, 6vw, 6rem) 0; }
+  .class-help__copy h2 { margin-bottom: 1.2rem; font-size: var(--h2); color: var(--white); }
+  .class-help__copy p { max-width: 35rem; margin-bottom: 2rem; color: var(--gray-200); }
+  .class-help__image { min-height: 410px; }
+  .registration-note { padding-block: 1rem; color: var(--gray-700); font-size: 0.75rem; }
+  @media (max-width: 1180px) {
+    .class-row { grid-template-columns: 140px minmax(260px, 1.2fr) minmax(300px, 1.4fr) 110px; }
+    .class-row__action { grid-column: 4; grid-row: 2; }
+  }
+  @media (max-width: 900px) {
+    .classes-intro, .class-help__inner { grid-template-columns: 1fr; }
+    .classes-intro__image { width: 100%; height: 360px; min-height: 0; aspect-ratio: auto; }
+    .class-help__copy { padding-right: 0; }
+    .class-help__image { min-height: 360px; }
+    .class-row { grid-template-columns: 120px 1fr 130px; gap: 0.7rem 1.2rem; }
+    .class-row__details { grid-column: 2 / -1; }
+    .class-row__status { grid-column: 3; grid-row: 1; }
+    .class-row__action { grid-column: 2 / -1; grid-row: auto; }
+    .class-row__action .button { width: auto; }
+  }
+  @media (max-width: 580px) {
+    .class-row { grid-template-columns: 1fr; padding-block: 1.6rem; }
+    .class-row__date, .class-row__main, .class-row__details, .class-row__status, .class-row__action { grid-column: 1; grid-row: auto; }
+    .class-row__status { color: var(--gray-700); }
+    .class-row__action .button { width: 100%; }
+  }
+</style>

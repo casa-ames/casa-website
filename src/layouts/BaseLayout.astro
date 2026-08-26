@@ -1,0 +1,51 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import { site } from '../config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  active?: 'home' | 'about' | 'classes' | 'studio-space' | 'contact';
+  image?: string;
+}
+
+const {
+  title,
+  description = site.tagline,
+  active = 'home',
+  image = `${import.meta.env.BASE_URL}images/hero-texture.webp`,
+} = Astro.props;
+const pageTitle = title ? `${title} — CASA Ames` : 'CASA Ames — A place to make, learn and belong';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon-64.png`} />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:url" content={canonical} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="page-shell">
+      <Header active={active} />
+    </div>
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const home = `${base}/`;
+---
+
+<BaseLayout title="Page not found" description="The requested CASA page could not be found.">
+  <section class="not-found page-shell section">
+    <p class="eyeless-label">404</p>
+    <h1 class="page-heading">This page has<br />left the studio.</h1>
+    <p class="lead">Let’s get you back to CASA.</p>
+    <a class="button button--red" href={home}>Return home</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found { min-height: 65vh; }
+  .not-found .lead { margin: 2rem 0; }
+</style>

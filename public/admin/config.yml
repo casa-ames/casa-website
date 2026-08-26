@@ -1,0 +1,102 @@
+backend:
+  name: github
+  repo: casa-ames/casa-website
+  branch: main
+  base_url: https://REPLACE_WITH_DECAP_OAUTH_WORKER.workers.dev
+  auth_endpoint: auth
+
+local_backend: true
+site_url: https://casa-ames.github.io/casa-website
+display_url: https://casa-ames.github.io/casa-website
+logo_url: /casa-website/images/casa-logo-source.jpg
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: classes
+    label: Classes
+    label_singular: Class
+    folder: src/data/classes
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{dateLabel}}"
+    sortable_fields: [dateStart, title, status]
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Short summary, name: summary, widget: text }
+      - { label: Display date, name: dateLabel, widget: string, hint: "Example: SEP 8–29" }
+      - { label: Start date, name: dateStart, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
+      - { label: End date, name: dateEnd, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, required: false }
+      - { label: Time, name: time, widget: string }
+      - { label: Instructor, name: instructor, widget: string }
+      - { label: Price, name: price, widget: string }
+      - { label: Location, name: location, widget: string }
+      - { label: Image, name: image, widget: image }
+      - { label: Image description, name: imageAlt, widget: string, hint: "Describe what is visibly happening for screen-reader users." }
+      - label: Status
+        name: status
+        widget: select
+        options:
+          - { label: Open, value: upcoming }
+          - { label: Registration coming soon, value: coming-soon }
+          - { label: Sold out, value: sold-out }
+          - { label: Cancelled, value: cancelled }
+          - { label: Past, value: past }
+      - { label: Show on homepage, name: featured, widget: boolean, default: false }
+      - { label: Zeffy registration link, name: registrationUrl, widget: string, required: false }
+      - { label: Full description, name: body, widget: markdown, required: false }
+
+  - name: gallery
+    label: Gallery
+    label_singular: Photograph
+    folder: src/data/gallery
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{caption}}"
+    fields:
+      - { label: Caption, name: caption, widget: string }
+      - { label: Image description, name: alt, widget: string, hint: "Describe what is visibly happening for screen-reader users." }
+      - { label: Image, name: image, widget: image }
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - { label: CASA studio, value: studio }
+          - { label: People, value: people }
+          - { label: Artwork, value: artwork }
+          - { label: History / exhibition, value: history }
+      - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+
+  - name: pages
+    label: Page introductions
+    files:
+      - label: Home
+        name: home
+        file: src/data/pages/home.md
+        fields: &page_fields
+          - { label: Browser title, name: title, widget: string }
+          - { label: Search description, name: description, widget: text }
+          - { label: Heading line one, name: headingLine1, widget: string }
+          - { label: Heading line two, name: headingLine2, widget: string, required: false }
+          - { label: Introductory sentence, name: intro, widget: text }
+      - label: About
+        name: about
+        file: src/data/pages/about.md
+        fields: *page_fields
+      - label: Classes
+        name: classes
+        file: src/data/pages/classes.md
+        fields: *page_fields
+      - label: Studio Space
+        name: studio-space
+        file: src/data/pages/studio-space.md
+        fields: *page_fields
+      - label: Contact
+        name: contact
+        file: src/data/pages/contact.md
+        fields: *page_fields

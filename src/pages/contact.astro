@@ -1,0 +1,161 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+
+const page = await getEntry('pages', 'contact');
+if (!page) throw new Error('Missing contact page content');
+---
+
+<BaseLayout title={page.data.title} active="contact" description={page.data.description}>
+  <section class="contact-main page-shell section--compact">
+    <div class="contact-copy">
+      <h1 class="page-heading">{page.data.headingLine1}<br />{page.data.headingLine2}</h1>
+      <p class="lead">{page.data.intro}</p>
+      <dl class="contact-routes">
+        <div><dt>Classes</dt><dd>Questions about workshops and registration</dd></div>
+        <div><dt>Studio space</dt><dd>Availability, tours and making arrangements</dd></div>
+        <div><dt>Something else</dt><dd>General inquiries, partnerships and ideas</dd></div>
+      </dl>
+    </div>
+
+    <form class="contact-form" method="post" data-contact-form data-endpoint={site.contactEndpoint} novalidate>
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+      </div>
+      <div class="form-field">
+        <label for="interest">I’m looking for…</label>
+        <select id="interest" name="interest" required>
+          <option value="">Choose one</option>
+          <option value="classes">Classes</option>
+          <option value="studio-space">Studio space</option>
+          <option value="general">Something else</option>
+        </select>
+      </div>
+      <div class="form-field form-field--wide">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+      </div>
+      <div class="form-field form-field--honeypot" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" name="source" value="CASA website" />
+      <button class="button button--red" type="submit">Send message</button>
+      <p class="contact-form__privacy">Your message goes directly to CASA. We do not sell or share your information.</p>
+      <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
+      <noscript><p class="contact-form__status">JavaScript is required for this form. Email <a href={`mailto:${site.email}`}>{site.email}</a>.</p></noscript>
+    </form>
+  </section>
+
+  <section class="visit page-shell">
+    <figure class="visit__image media-frame">
+      <img src={`${import.meta.env.BASE_URL}images/studio-community.webp`} alt="Artists creating together around tables in CASA's studio" loading="lazy" />
+    </figure>
+    <div class="visit__copy">
+      <h2>Visit CASA</h2>
+      <p>{site.location}</p>
+      <a class="text-link" href={site.mapUrl} target="_blank" rel="noreferrer">Open in maps</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ fallbackEmail: site.email }}>
+  const form = document.querySelector('[data-contact-form]');
+  const status = document.querySelector('[data-form-status]');
+  const params = new URLSearchParams(window.location.search);
+  const interestFromUrl = params.get('interest') || '';
+  const classFromUrl = params.get('class') || '';
+  const interestField = form?.querySelector('[name="interest"]');
+  const messageField = form?.querySelector('[name="message"]');
+
+  if (interestField instanceof HTMLSelectElement && [...interestField.options].some(({ value }) => value === interestFromUrl)) {
+    interestField.value = interestFromUrl;
+  }
+  if (messageField instanceof HTMLTextAreaElement && classFromUrl) {
+    messageField.value = `I'm interested in ${classFromUrl}. `;
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+    if (!form.reportValidity()) return;
+
+    const endpoint = form.dataset.endpoint || '';
+    if (!endpoint.startsWith('https://script.google.com/')) {
+      status.textContent = `Online sending is being connected. For now, email ${fallbackEmail}.`;
+      status.className = 'contact-form__status is-error';
+      return;
+    }
+
+    const submit = form.querySelector('button[type="submit"]');
+    if (submit instanceof HTMLButtonElement) {
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+    }
+    status.textContent = '';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send');
+      form.reset();
+      status.textContent = 'Thank you. Your message is on its way to CASA.';
+      status.className = 'contact-form__status is-success';
+    } catch {
+      status.textContent = `We could not send your message. Please email ${fallbackEmail}.`;
+      status.className = 'contact-form__status is-error';
+    } finally {
+      if (submit instanceof HTMLButtonElement) {
+        submit.disabled = false;
+        submit.textContent = 'Send message';
+      }
+    }
+  });
+</script>
+
+<style>
+  .contact-main { display: grid; grid-template-columns: minmax(380px, 0.85fr) minmax(520px, 1.15fr); gap: clamp(4rem, 8vw, 9rem); }
+  .contact-copy .lead { margin: 2rem 0 2.5rem; max-width: 36rem; }
+  .contact-routes { margin: 0; }
+  .contact-routes div { display: grid; grid-template-columns: 180px 1fr; gap: 1.5rem; border-bottom: 1px solid var(--red); padding-block: 1.35rem; }
+  .contact-routes dt { font-weight: 600; }
+  .contact-routes dd { margin: 0; color: var(--gray-700); font-size: 0.88rem; }
+  .contact-form { display: grid; grid-template-columns: 1fr 1fr; align-content: start; gap: 1.4rem 1.2rem; padding-top: 0.8rem; }
+  .form-field { display: grid; gap: 0.5rem; }
+  .form-field--wide { grid-column: 1 / -1; }
+  .form-field label { font-size: 0.85rem; font-weight: 600; }
+  .form-field input, .form-field select, .form-field textarea { width: 100%; border: 1px solid var(--black); padding: 0.85rem 0.9rem; background: var(--white); color: var(--black); font-size: 1rem; line-height: 1.3; }
+  .form-field input, .form-field select { min-height: 3.35rem; }
+  .form-field textarea { min-height: 180px; resize: vertical; }
+  .form-field--honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .contact-form .button { grid-column: 1; width: max-content; }
+  .contact-form__privacy { grid-column: 1 / -1; margin: 0; color: var(--gray-700); font-size: 0.74rem; }
+  .contact-form__status { grid-column: 1 / -1; min-height: 1.4rem; margin: 0; font-size: 0.86rem; }
+  .contact-form__status.is-success { color: #087a3e; }
+  .contact-form__status.is-error { color: #a40000; }
+  .visit { display: grid; grid-template-columns: minmax(560px, 1.4fr) minmax(280px, 0.6fr); align-items: stretch; padding-bottom: var(--section); }
+  .visit__image { aspect-ratio: 16 / 6.5; }
+  .visit__copy { display: flex; align-items: flex-start; flex-direction: column; justify-content: center; padding: 3rem clamp(2rem, 5vw, 5rem); }
+  .visit__copy h2 { margin-bottom: 1.2rem; font-size: var(--h2); }
+  .visit__copy p { color: var(--gray-700); }
+  @media (max-width: 900px) {
+    .contact-main, .visit { grid-template-columns: 1fr; }
+    .visit__copy { padding-inline: 0; }
+  }
+  @media (max-width: 600px) {
+    .contact-routes div { grid-template-columns: 1fr; gap: 0.35rem; }
+    .contact-form { grid-template-columns: 1fr; }
+    .form-field, .form-field--wide { grid-column: 1; }
+    .contact-form .button { width: 100%; }
+    .visit__image { width: 100%; height: 300px; min-height: 0; aspect-ratio: auto; }
+  }
+</style>

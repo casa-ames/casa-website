@@ -1,0 +1,104 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (path: string) => `${base}${path}` || '/';
+const page = await getEntry('pages', 'studio-space');
+if (!page) throw new Error('Missing studio space page content');
+---
+
+<BaseLayout title={page.data.title} active="studio-space" description={page.data.description}>
+  <section class="space-intro page-shell section--compact">
+    <div class="space-intro__copy">
+      <h1 class="page-heading">{page.data.headingLine1}<br />{page.data.headingLine2}</h1>
+      <p class="lead">{page.data.intro}</p>
+      <a class="button button--red" href={`${href('/contact/')}?interest=studio-space`}>Ask about studio space</a>
+    </div>
+    <figure class="space-intro__image media-frame">
+      <img src={`${import.meta.env.BASE_URL}images/studio-space.webp`} alt="Wide view of an actual CASA studio room with shared work tables and artwork" />
+    </figure>
+  </section>
+
+  <section class="space-details page-shell section--compact">
+    <div class="space-details__main">
+      <section aria-labelledby="find-title">
+        <h2 id="find-title">What you’ll find</h2>
+        <div class="space-features">
+          <article><h3>Shared work areas</h3><p>Room to spread out, collaborate and focus.</p></article>
+          <article><h3>Tools & equipment</h3><p>Access to a range of studio tools and gear.</p></article>
+          <article><h3>Storage options</h3><p>Space for materials and work when available.</p></article>
+          <article><h3>Creative community</h3><p>Work alongside other artists and makers.</p></article>
+        </div>
+      </section>
+      <div class="space-details__lower">
+        <section class="space-who" aria-labelledby="who-title">
+          <h2 id="who-title">Who it’s for</h2>
+          <p>Emerging and established artists, students and makers working in many media. Whether you need occasional bench space or regular access to a shared studio, CASA offers flexible possibilities shaped around the work and available space.</p>
+        </section>
+        <section class="space-process" aria-labelledby="process-title">
+          <h2 id="process-title">How it works</h2>
+          <ol>
+            <li><span>01</span><h3>Tell us what you make</h3><p>Share a little about your practice and what you need.</p></li>
+            <li><span>02</span><h3>Tour the studio</h3><p>See the space, meet the community and ask questions.</p></li>
+            <li><span>03</span><h3>Find the right arrangement</h3><p>We’ll work with you to find a fit that supports your work.</p></li>
+          </ol>
+        </section>
+      </div>
+      <p class="space-note">Availability and arrangements vary. Contact CASA for current options.</p>
+    </div>
+    <figure class="space-details__image media-frame">
+      <img src={`${import.meta.env.BASE_URL}images/studio-supplies.webp`} alt="Organized art supplies and tools in a wooden cabinet at CASA" loading="lazy" />
+    </figure>
+  </section>
+
+  <section class="space-cta black-band">
+    <div class="page-shell space-cta__inner">
+      <h2>Need room to make?</h2>
+      <a class="button button--dark" href={`${href('/contact/')}?interest=studio-space`}>Start a conversation <ArrowIcon /></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .space-intro { display: grid; grid-template-columns: minmax(330px, 0.62fr) minmax(620px, 1.38fr); align-items: center; gap: clamp(3rem, 6vw, 7rem); }
+  .space-intro__copy .lead { margin: 2rem 0 2.4rem; max-width: 34rem; }
+  .space-intro__image { aspect-ratio: 16 / 5.6; }
+  .space-details { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.45fr); gap: clamp(3rem, 5vw, 5rem); border-top: 1px solid var(--red); }
+  .space-details h2 { border-bottom: 1px solid var(--red); padding-bottom: 0.7rem; font-size: clamp(1.55rem, 2.5vw, 2.5rem); letter-spacing: -0.035em; line-height: 1; }
+  .space-features { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .space-features article { border-right: 1px solid var(--red); padding: 0.3rem 1.8rem 0.6rem; }
+  .space-features article:first-child { padding-left: 0; }
+  .space-features article:last-child { border-right: 0; }
+  .space-features h3 { margin-bottom: 0.7rem; font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+  .space-features p, .space-who p, .space-process p { color: var(--gray-700); font-size: 0.88rem; }
+  .space-details__lower { display: grid; grid-template-columns: 0.58fr 1.42fr; gap: 3rem; margin-top: 4rem; }
+  .space-who { border-right: 1px solid var(--red); padding-right: 2.5rem; }
+  .space-process ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4rem; margin: 0; padding: 0; list-style: none; }
+  .space-process li { position: relative; }
+  .space-process li:not(:last-child)::after { content: '→'; position: absolute; top: 0; right: -1.7rem; color: var(--red); font-size: 1.5rem; }
+  .space-process span { display: block; margin-bottom: 0.8rem; font-size: 2rem; letter-spacing: -0.05em; }
+  .space-process h3 { margin-bottom: 0.7rem; font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+  .space-note { border-bottom: 1px solid var(--red); margin: 3rem 0 0; padding-bottom: 1rem; color: var(--gray-700); font-size: 0.8rem; }
+  .space-details__image { align-self: end; aspect-ratio: 4 / 4.4; }
+  .space-cta__inner { display: flex; min-height: 220px; align-items: center; justify-content: space-between; gap: 3rem; }
+  .space-cta h2 { margin: 0; font-size: var(--h2); color: var(--white); }
+  @media (max-width: 1050px) {
+    .space-intro, .space-details { grid-template-columns: 1fr; }
+    .space-intro__image { width: 100%; height: 370px; min-height: 0; aspect-ratio: auto; }
+    .space-details__image { width: min(100%, 520px); justify-self: end; }
+  }
+  @media (max-width: 760px) {
+    .space-features { grid-template-columns: 1fr 1fr; }
+    .space-features article { border-bottom: 1px solid var(--red); }
+    .space-features article:nth-child(odd) { padding-left: 0; }
+    .space-features article:nth-child(even) { border-right: 0; }
+    .space-details__lower { grid-template-columns: 1fr; }
+    .space-who { border-right: 0; padding-right: 0; }
+    .space-process ol { grid-template-columns: 1fr; }
+    .space-process li { border-bottom: var(--line); padding-bottom: 1.2rem; }
+    .space-process li::after { display: none; }
+    .space-cta__inner { min-height: 330px; align-items: stretch; flex-direction: column; justify-content: center; }
+  }
+</style>
