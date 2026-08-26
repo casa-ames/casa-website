@@ -40,8 +40,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="page-shell">
-      <Header active={active} />
+    <div class="site-header-shell">
+      <div class="page-shell">
+        <Header active={active} />
+      </div>
     </div>
     <main id="main-content">
       <slot />
