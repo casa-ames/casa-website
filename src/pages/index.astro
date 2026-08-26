@@ -25,8 +25,8 @@ const href = (path: string) => `${base}${path}` || '/';
       <p class="home-hero__tagline">{page.data.headingLine1}<br />{page.data.headingLine2}</p>
       <div class="home-hero__actions" aria-label="Ways to get involved">
         <a class="button button--red" href={href('/classes/')}>Take a class</a>
-        <a class="button" href={href('/studio-space/')}>Find studio space</a>
-        <a class="home-hero__quiet-link" href={href('/contact/')}>Connect with us <ArrowIcon /></a>
+        <a class="button button--red" href={href('/studio-space/')}>Find studio space</a>
+        <a class="button button--red" href={href('/contact/')}>Connect with us</a>
       </div>
     </div>
   </section>
@@ -103,10 +103,8 @@ const href = (path: string) => `${base}${path}` || '/';
   .home-hero__content { position: relative; z-index: 1; display: flex; width: min(58%, 760px); min-height: inherit; flex-direction: column; justify-content: center; padding-block: clamp(2.5rem, 4.4vw, 4.5rem); }
   :global(.home-hero__logo) { width: min(88%, 580px); margin: -6% 0 -2%; }
   .home-hero__tagline { margin: 0 0 clamp(1.8rem, 3vw, 2.5rem); font-size: clamp(1.65rem, 3vw, 3.1rem); letter-spacing: -0.035em; line-height: 1.15; }
-  .home-hero__actions { display: flex; align-items: center; gap: 1rem; }
-  .home-hero__quiet-link { display: inline-flex; align-items: center; gap: 0.6rem; margin-left: 0.3rem; padding: 0.8rem 0; font-size: 0.86rem; font-weight: 600; text-transform: uppercase; }
-  .home-hero__quiet-link :global(.arrow-icon) { color: var(--red); transition: transform var(--motion); }
-  .home-hero__quiet-link:hover :global(.arrow-icon) { transform: translateX(0.3rem); }
+  .home-hero__actions { display: grid; width: min(100%, 650px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .home-hero__actions .button { width: 100%; padding-inline: 0.9rem; }
   .home-values { display: grid; grid-template-columns: minmax(0, 1fr) minmax(440px, 1.05fr); border-top: 1px solid var(--red); padding-bottom: 0; }
   .home-values__copy { padding: clamp(2.5rem, 5vw, 5rem) clamp(2rem, 5vw, 5rem) clamp(3rem, 6vw, 6rem) 0; }
   .home-values__grid { display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -137,7 +135,7 @@ const href = (path: string) => `${base}${path}` || '/';
   @media (max-width: 1050px) {
     .home-hero__media { width: 62%; }
     .home-hero__content { width: 62%; }
-    .home-hero__actions { flex-wrap: wrap; }
+    .home-hero__actions { width: 100%; }
     .home-values { grid-template-columns: 1fr; }
     .home-values__copy { padding-right: 0; }
     .home-values__image { min-height: 440px; }
