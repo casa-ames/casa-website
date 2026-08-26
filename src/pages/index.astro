@@ -101,8 +101,8 @@ const href = (path: string) => `${base}${path}` || '/';
   .home-hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--white) 0%, transparent 30%); pointer-events: none; }
   .home-hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 58% center; }
   .home-hero__content { position: relative; z-index: 1; display: flex; width: min(58%, 760px); min-height: inherit; flex-direction: column; justify-content: center; padding-block: clamp(2.5rem, 4.4vw, 4.5rem); }
-  :global(.home-hero__logo) { width: min(88%, 580px); margin: -6% 0 -2%; }
-  .home-hero__tagline { margin: 0 0 clamp(1.8rem, 3vw, 2.5rem); font-size: clamp(1.65rem, 3vw, 3.1rem); letter-spacing: -0.035em; line-height: 1.15; }
+  .home-hero__content :global(.home-hero__logo) { width: min(88%, 580px); margin: -6% 0 0; }
+  .home-hero__tagline { margin: clamp(0.8rem, 1.5vw, 1.4rem) 0 clamp(2.4rem, 4vw, 3.4rem); font-size: clamp(1.65rem, 3vw, 3.1rem); letter-spacing: -0.035em; line-height: 1.45; }
   .home-hero__actions { display: grid; width: min(100%, 650px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .home-hero__actions .button { width: 100%; padding-inline: 0.9rem; }
   .home-values { display: grid; grid-template-columns: minmax(0, 1fr) minmax(440px, 1.05fr); border-top: 1px solid var(--red); padding-bottom: 0; }
@@ -145,7 +145,7 @@ const href = (path: string) => `${base}${path}` || '/';
     .home-hero__media { position: relative; order: 1; width: calc(100% + 2.2rem); height: 42svh; margin-left: -1.1rem; }
     .home-hero__media::after { background: linear-gradient(180deg, var(--white) 0%, transparent 28%); }
     .home-hero__content { order: 0; width: 100%; min-height: 0; padding: 1.8rem 0 1.5rem; }
-    :global(.home-hero__logo) { width: min(86vw, 440px); margin: -10% 0 -6%; }
+    .home-hero__content :global(.home-hero__logo) { width: min(86vw, 440px); margin: -10% 0 0; }
     .home-hero__tagline { font-size: clamp(1.45rem, 6.6vw, 2rem); }
     .home-hero__actions { display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
     .home-hero__quiet-link { justify-content: center; min-height: 3rem; margin: 0; }
