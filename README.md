@@ -27,10 +27,11 @@ The class entries currently included in `src/data/classes/` are design-review sa
 ## Services that still need one-time connection
 
 1. **Public URL:** Set `site` and `base` through the `SITE_URL` and `BASE_PATH` environment variables, or update the fallbacks in `astro.config.mjs` after the final domain is chosen.
-2. **Contact form:** In the CASA Google account, create an Apps Script project, paste in `google-apps-script/Code.gs`, deploy it as a web app that runs as the owner and is available to anyone, then put its `/exec` URL into `src/config/site.ts`.
-3. **Editor login:** Deploy a small Decap GitHub OAuth worker, authorize only the `casa-ames/casa-website` repository, and replace `REPLACE_WITH_DECAP_OAUTH_WORKER` in `public/admin/config.yml`.
+2. **Contact form:** Formspree is connected and delivery to the temporary CASA Gmail mailbox has been verified. Move delivery and fallback addresses to CASA's Google Workspace mailbox after the final domain is established.
+3. **Editor login:** Deploy a small Decap GitHub OAuth worker, authorize the `casa-ames/casa-website` repository, and replace `REPLACE_WITH_DECAP_OAUTH_WORKER` in `public/admin/config.yml`.
 4. **Zeffy:** Paste each live Zeffy event URL into the class's “Zeffy registration link” field in the editor.
-5. **GitHub Pages:** In repository settings, set Pages source to “GitHub Actions.” If the organization’s GitHub plan does not allow Pages from a private repository, keep the repository private and connect the same repository to Cloudflare Pages or Netlify instead.
+
+See [`docs/HANDOFF_CHECKLIST.md`](docs/HANDOFF_CHECKLIST.md) for the complete launch, ownership, domain, Workspace, and future members-area checklist.
 
 No passwords, Gmail credentials, API keys, donor data, or payment details belong in this repository.
 
