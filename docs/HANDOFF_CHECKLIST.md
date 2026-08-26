@@ -10,10 +10,10 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] Formspree contact endpoint connected and a real mailbox delivery test completed.
 - [x] Decap CMS editor interface and content models scaffolded at `/admin/`.
 - [x] Decap GitHub OAuth Worker deployed and `/admin/` authentication connected.
+- [x] Editor login tested with an authorized CASA GitHub account.
 
 ## Before CASA review
 
-- [ ] Test an editor login using an authorized CASA GitHub account.
 - [ ] Test creating, editing, archiving, and publishing a sample class through the editor.
 - [ ] Test an image upload, caption, and accessible image description through the editor.
 - [ ] Add real Zeffy registration URLs when CASA supplies or creates them.
