@@ -9,10 +9,10 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] Responsive first-draft website published at `https://casa-ames.github.io/casa-website/`.
 - [x] Formspree contact endpoint connected and a real mailbox delivery test completed.
 - [x] Decap CMS editor interface and content models scaffolded at `/admin/`.
+- [x] Decap GitHub OAuth Worker deployed and `/admin/` authentication connected.
 
 ## Before CASA review
 
-- [ ] Deploy the Decap GitHub OAuth Worker and connect `/admin/` authentication.
 - [ ] Test an editor login using an authorized CASA GitHub account.
 - [ ] Test creating, editing, archiving, and publishing a sample class through the editor.
 - [ ] Test an image upload, caption, and accessible image description through the editor.
@@ -56,4 +56,3 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [ ] Select authenticated hosting and a user-management system for the members subdomain.
 - [ ] Keep member data and private application code separate from the public GitHub Pages repository.
 - [ ] Define account creation, removal, password recovery, privacy, and data-retention procedures before launch.
-
