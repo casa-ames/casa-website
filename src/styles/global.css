@@ -220,6 +220,13 @@ p:last-child { margin-bottom: 0; }
   border: 0;
 }
 
+.site-header-shell {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  background: var(--white);
+}
+
 .site-header {
   position: relative;
   z-index: 50;
