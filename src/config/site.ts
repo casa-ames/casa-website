@@ -6,7 +6,7 @@ export const site = {
   location: 'Ames, Iowa',
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=Creative+Artists+Studios+of+Ames+Iowa',
   publicationUrl: 'https://sebastiansanchez.net/casa25',
-  contactEndpoint: 'REPLACE_WITH_GOOGLE_APPS_SCRIPT_WEB_APP_URL',
+  contactEndpoint: 'https://formspree.io/f/xaewrvay',
   social: {
     facebook: '',
     instagram: '',
