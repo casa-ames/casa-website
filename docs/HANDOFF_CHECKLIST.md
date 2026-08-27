@@ -48,8 +48,8 @@ This is the durable checklist for preparing the website for CASA ownership and r
 ## Content and operations
 
 - [ ] Establish who at CASA owns class updates, gallery updates, inquiries, and account administration.
-- [ ] Write a short staff guide for publishing classes, uploading images, adding Zeffy links, and archiving past offerings.
-- [ ] Set an image-size and accessible-description standard for future uploads.
+- [x] Write a short staff guide for publishing classes, uploading images, adding Zeffy links, and archiving past offerings.
+- [x] Set a provisional image-size and accessible-description standard for future uploads.
 - [ ] Decide how frequently old classes, gallery items, and Formspree submissions should be archived or removed.
 - [ ] Conduct a final accessibility, keyboard, mobile, performance, metadata, and broken-link review.
 
