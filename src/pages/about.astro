@@ -9,9 +9,9 @@ const page = await getEntry('pages', 'about');
 if (!page) throw new Error('Missing about page content');
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const href = (path: string) => `${base}${path}` || '/';
-const featured = gallery.find(({ data }) => data.caption.startsWith('Open studio'))?.data;
-const history = gallery.find(({ data }) => data.category === 'history')?.data;
-const artwork = gallery.find(({ data }) => data.category === 'artwork')?.data;
+const featuredGallery = gallery.filter(({ data }) => data.featured).map(({ data }) => data);
+const heroPhoto = featuredGallery[0];
+const storyPhotos = featuredGallery.slice(1);
 ---
 
 <BaseLayout title={page.data.title} active="about" description={page.data.description}>
@@ -20,33 +20,25 @@ const artwork = gallery.find(({ data }) => data.category === 'artwork')?.data;
       <h1 class="page-heading">{page.data.headingLine1}<br />{page.data.headingLine2}</h1>
       <p class="lead">{page.data.intro}</p>
     </div>
-    {featured && (
+    {heroPhoto && (
       <figure class="about-intro__media media-frame">
-        <img src={`${import.meta.env.BASE_URL}${featured.image.replace(/^\//, '')}`} alt={featured.alt} />
-        <figcaption class="caption">{featured.caption}</figcaption>
+        <img src={`${import.meta.env.BASE_URL}${heroPhoto.image.replace(/^\//, '')}`} alt={heroPhoto.alt} />
+        <figcaption class="caption">{heroPhoto.caption}</figcaption>
       </figure>
     )}
   </section>
 
   <section class="about-story page-shell section--compact" aria-labelledby="story-title">
-    <div class="about-story__gallery">
-      {history && (
-        <figure class="about-story__history media-frame">
-          <img src={`${import.meta.env.BASE_URL}${history.image.replace(/^\//, '')}`} alt={history.alt} loading="lazy" />
-          <figcaption class="caption">{history.caption}</figcaption>
-        </figure>
-      )}
-      <figure class="about-story__work media-frame">
-        <img src={`${import.meta.env.BASE_URL}images/gallery-making.webp`} alt="Artist working with materials on a shared CASA studio table" loading="lazy" />
-        <figcaption class="caption">Studio work in progress</figcaption>
-      </figure>
-      {artwork && (
-        <figure class="about-story__art media-frame">
-          <img src={`${import.meta.env.BASE_URL}${artwork.image.replace(/^\//, '')}`} alt={artwork.alt} loading="lazy" />
-          <figcaption class="caption">{artwork.caption}</figcaption>
-        </figure>
-      )}
-    </div>
+    {storyPhotos.length > 0 && (
+      <div class="about-story__gallery">
+        {storyPhotos.map((photo) => (
+          <figure class:list={['about-story__photo', 'media-frame', { 'about-story__photo--history': photo.category === 'history' }]}>
+            <img src={`${import.meta.env.BASE_URL}${photo.image.replace(/^\//, '')}`} alt={photo.alt} loading="lazy" />
+            <figcaption class="caption">{photo.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
     <div class="about-story__copy">
       <h2 id="story-title">Our story</h2>
       <p>For more than 25 years, CASA has made space for artists at every stage—supporting affordable studio access, approachable classes and opportunities to show and connect.</p>
@@ -82,8 +74,8 @@ const artwork = gallery.find(({ data }) => data.category === 'artwork')?.data;
   .about-story { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr); gap: clamp(3rem, 6vw, 7rem); border-top: var(--line); }
   .about-story__gallery { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 1.25rem; }
   .about-story__gallery figure { overflow: visible; }
-  .about-story__history { grid-column: 1 / -1; aspect-ratio: 16 / 6.5; }
-  .about-story__work, .about-story__art { aspect-ratio: 4 / 3; }
+  .about-story__photo { aspect-ratio: 4 / 3; }
+  .about-story__photo--history { grid-column: 1 / -1; aspect-ratio: 16 / 6.5; }
   .about-story__copy { align-self: center; }
   .about-story__copy h2 { margin-bottom: 2rem; font-size: var(--h2); }
   .about-story__copy p { color: var(--gray-700); }
@@ -104,7 +96,7 @@ const artwork = gallery.find(({ data }) => data.category === 'artwork')?.data;
   }
   @media (max-width: 620px) {
     .about-story__gallery { grid-template-columns: 1fr; }
-    .about-story__history { grid-column: 1; width: 100%; height: 240px; min-height: 0; aspect-ratio: auto; }
+    .about-story__photo--history { grid-column: 1; width: 100%; height: 240px; min-height: 0; aspect-ratio: auto; }
     .publication { grid-template-columns: 110px 1fr; gap: 1.5rem; }
     .publication__mark > span:first-child { font-size: 2.7rem; }
     .about-cta { align-items: flex-start; flex-direction: column; }
