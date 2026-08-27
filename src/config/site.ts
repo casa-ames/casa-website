@@ -3,12 +3,11 @@ export const site = {
   shortName: 'CASA',
   tagline: 'A place to make, learn and belong in the heart of Ames, Iowa',
   email: 'admincasa0@gmail.com',
-  location: 'Ames, Iowa',
+  location: '130 S. Sheldon Avenue, Suite 107, Ames, IA 50014',
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=Creative+Artists+Studios+of+Ames+Iowa',
-  publicationUrl: 'https://sebastiansanchez.net/casa25',
   contactEndpoint: 'https://formspree.io/f/xaewrvay',
   social: {
-    facebook: '',
-    instagram: '',
+    facebook: 'https://www.facebook.com/creativeartistsames/',
+    instagram: 'https://www.instagram.com/creative_artists_studio_ames/',
   },
 };

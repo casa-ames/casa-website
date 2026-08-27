@@ -34,6 +34,20 @@ const gallery = defineCollection({
   }),
 });
 
+const externalGalleries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/data/external-galleries' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    url: z.url(),
+    linkLabel: z.string().default('View gallery'),
+    order: z.number(),
+    visible: z.boolean().default(true),
+    marker: z.string().optional(),
+    markerDetail: z.string().optional(),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/pages' }),
   schema: z.object({
@@ -45,4 +59,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { classes, gallery, pages };
+export const collections = { classes, gallery, externalGalleries, pages };

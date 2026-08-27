@@ -15,13 +15,15 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] Sample class created, edited, archived as a past offering, and published through the editor.
 - [x] Class image upload and accessible image description tested through the editor.
 - [x] Closed Zeffy test campaign created and linked to the hidden sample class.
+- [x] Gallery image upload, caption, accessible description, editorial workflow, and public rendering tested.
+- [x] External gallery links made editable through the CMS and seeded with the CASA 25th Anniversary photobook.
 
 ## Before CASA review
 
-- [ ] Test a gallery image upload, caption, and accessible image description through the editor.
 - [ ] Add real Zeffy registration URLs when CASA supplies or creates them.
 - [ ] Confirm or replace all sample class titles, dates, instructors, prices, locations, and availability.
-- [ ] Confirm CASA's street address, public email address, phone number, hours, and social-media links.
+- [x] Confirm CASA's street address and Facebook and Instagram links.
+- [ ] Confirm CASA's public email address, phone number when available, and hours.
 - [ ] Review all copy and selected photographs with CASA.
 
 ## Domain and Google Workspace migration
@@ -48,7 +50,7 @@ This is the durable checklist for preparing the website for CASA ownership and r
 ## Content and operations
 
 - [ ] Establish who at CASA owns class updates, gallery updates, inquiries, and account administration.
-- [x] Write a short staff guide for publishing classes, uploading images, adding Zeffy links, and archiving past offerings.
+- [x] Write a staff guide for Zeffy events, class publishing, gallery management, external links, images, and archiving.
 - [x] Set a provisional image-size and accessible-description standard for future uploads.
 - [ ] Decide how frequently old classes, gallery items, and Formspree submissions should be archived or removed.
 - [ ] Conduct a final accessibility, keyboard, mobile, performance, metadata, and broken-link review.

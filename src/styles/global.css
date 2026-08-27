@@ -298,7 +298,16 @@ p:last-child { margin-bottom: 0; }
 
 .site-footer__nav a:hover { color: var(--white); }
 
-.site-footer__meta { justify-self: end; margin: 0; color: var(--gray-500); font-size: 0.78rem; }
+.site-footer__end { display: grid; justify-items: end; gap: 0.45rem; }
+.site-footer__social { display: flex; gap: 0.55rem; }
+.site-footer__social a { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--gray-700); border-radius: 50%; color: var(--gray-200); transition: border-color var(--motion), color var(--motion); }
+.site-footer__social a:hover { border-color: var(--white); color: var(--white); }
+.site-footer__social svg { width: 17px; height: 17px; fill: currentColor; }
+.site-footer__social svg rect, .site-footer__social svg circle:not(.instagram-dot) { fill: none; stroke: currentColor; stroke-width: 1.8; }
+.site-footer__social .instagram-dot { fill: currentColor; stroke: none; }
+.site-footer__meta, .site-footer__credit { margin: 0; color: var(--gray-500); font-size: 0.72rem; text-align: right; }
+.site-footer__credit a { color: var(--gray-300); }
+.site-footer__credit a:hover { color: var(--white); }
 
 @media (max-width: 900px) {
   :root { --gutter: 1.25rem; --section: 5rem; }
@@ -324,13 +333,17 @@ p:last-child { margin-bottom: 0; }
   .site-footer__inner { grid-template-columns: 1fr auto; padding-block: 2.5rem; }
   .site-footer__nav { grid-column: 1 / -1; grid-row: 1; flex-wrap: wrap; }
   .site-footer__brand { grid-column: 1; grid-row: 2; }
-  .site-footer__meta { grid-column: 2; grid-row: 2; }
+  .site-footer__end { grid-column: 2; grid-row: 2; }
 }
 
 @media (max-width: 560px) {
   .page-shell { width: calc(100% - 2.2rem); }
   .button { width: 100%; }
   .site-footer__nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; }
+  .site-footer__inner { grid-template-columns: 1fr; }
+  .site-footer__brand, .site-footer__end { grid-column: 1; }
+  .site-footer__end { justify-items: start; }
+  .site-footer__meta, .site-footer__credit { text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {

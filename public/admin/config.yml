@@ -13,7 +13,7 @@ site_url: https://casa-ames.github.io/casa-website
 display_url: https://casa-ames.github.io/casa-website
 logo_url: /casa-website/images/casa-logo-source.jpg
 media_folder: public/images/uploads
-public_folder: /casa-website/images/uploads
+public_folder: /images/uploads
 
 collections:
   - name: classes
@@ -56,6 +56,7 @@ collections:
     label_singular: Photograph
     folder: src/data/gallery
     create: true
+    identifier_field: caption
     extension: md
     format: frontmatter
     slug: "{{slug}}"
@@ -74,6 +75,27 @@ collections:
           - { label: History / exhibition, value: history }
       - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
       - { label: Featured, name: featured, widget: boolean, default: false }
+
+  - name: external-galleries
+    label: External galleries
+    label_singular: External gallery
+    folder: src/data/external-galleries
+    create: true
+    identifier_field: title
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: External URL, name: url, widget: string, hint: "Paste the public https:// link visitors should open." }
+      - { label: Link label, name: linkLabel, widget: string, default: "View gallery" }
+      - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
+      - { label: Display on About page, name: visible, widget: boolean, default: true }
+      - { label: Large marker, name: marker, widget: string, required: false, hint: "Optional short text, such as 25." }
+      - { label: Marker detail, name: markerDetail, widget: string, required: false, hint: "Optional short label, such as Years of CASA." }
 
   - name: pages
     label: Page introductions
