@@ -41,10 +41,10 @@ const externalGalleries = defineCollection({
     description: z.string(),
     url: z.url(),
     linkLabel: z.string().default('View gallery'),
+    image: z.string(),
+    imageAlt: z.string(),
     order: z.number(),
     visible: z.boolean().default(true),
-    marker: z.string().optional(),
-    markerDetail: z.string().optional(),
   }),
 });
 

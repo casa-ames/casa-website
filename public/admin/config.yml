@@ -92,10 +92,10 @@ collections:
       - { label: Description, name: description, widget: text }
       - { label: External URL, name: url, widget: string, hint: "Paste the public https:// link visitors should open." }
       - { label: Link label, name: linkLabel, widget: string, default: "View gallery" }
+      - { label: Thumbnail image, name: image, widget: image, hint: "Upload a small representative image for this gallery or publication." }
+      - { label: Thumbnail description, name: imageAlt, widget: string, hint: "Briefly describe the visible thumbnail for screen-reader users." }
       - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
       - { label: Display on About page, name: visible, widget: boolean, default: true }
-      - { label: Large marker, name: marker, widget: string, required: false, hint: "Optional short text, such as 25." }
-      - { label: Marker detail, name: markerDetail, widget: string, required: false, hint: "Optional short label, such as Years of CASA." }
 
   - name: pages
     label: Page introductions

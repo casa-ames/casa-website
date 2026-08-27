@@ -82,8 +82,8 @@ Use an external gallery link for a substantial exhibition, publication, photoboo
 
 1. Open **External galleries** and choose **New External gallery**.
 2. Add its title, brief description, public `https://` URL and link label.
-3. Set a display order and turn on **Display on About page**.
-4. Optionally add a short large marker and marker detail, such as `25` and `Years of CASA`.
+3. Upload a representative thumbnail image and add a concise description of what is visibly shown.
+4. Set a display order and turn on **Display on About page**.
 5. Move the link through the editorial workflow (**Draft → In Review → Ready → Published**), then test it from the public About page.
 
 External links should lead directly to public, reputable pages and should be reviewed periodically for availability.
