@@ -11,11 +11,14 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] Decap CMS editor interface and content models scaffolded at `/admin/`.
 - [x] Decap GitHub OAuth Worker deployed and `/admin/` authentication connected.
 - [x] Editor login tested with an authorized CASA GitHub account.
+- [x] Editorial workflow tested from draft through review, ready, and publication.
+- [x] Sample class created, edited, archived as a past offering, and published through the editor.
+- [x] Class image upload and accessible image description tested through the editor.
+- [x] Closed Zeffy test campaign created and linked to the hidden sample class.
 
 ## Before CASA review
 
-- [ ] Test creating, editing, archiving, and publishing a sample class through the editor.
-- [ ] Test an image upload, caption, and accessible image description through the editor.
+- [ ] Test a gallery image upload, caption, and accessible image description through the editor.
 - [ ] Add real Zeffy registration URLs when CASA supplies or creates them.
 - [ ] Confirm or replace all sample class titles, dates, instructors, prices, locations, and availability.
 - [ ] Confirm CASA's street address, public email address, phone number, hours, and social-media links.
