@@ -47,8 +47,8 @@ If registration must stop immediately, close or pause sales in Zeffy first, then
 
 1. Open **Gallery** and choose **New Photograph**.
 2. Add a short caption, an accessible image description, the image, and the appropriate category.
-3. Set a display-order number. Lower numbers appear earlier.
-4. Use **Featured** sparingly for photographs CASA wants emphasized.
+3. Set a display-order number. Lower numbers appear earlier, and the first featured photograph becomes the large introductory image.
+4. Turn on **Featured** for photographs that should appear on the public About page. Leave it off to keep an uploaded record in the editor without displaying it.
 5. Complete the editorial workflow and verify the public About page after deployment.
 
 Only upload photographs CASA owns or has permission to publish. Do not upload private documents, contact lists, financial records, identification, or images without confirmed usage rights.
