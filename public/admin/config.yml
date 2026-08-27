@@ -36,7 +36,7 @@ collections:
       - { label: Instructor, name: instructor, widget: string }
       - { label: Price, name: price, widget: string }
       - { label: Location, name: location, widget: string }
-      - { label: Image, name: image, widget: image }
+      - { label: Image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) first. Upload the downloaded WebP, not the original.", media_library: { config: { max_file_size: 2097152 } } }
       - { label: Image description, name: imageAlt, widget: string, hint: "Describe what is visibly happening for screen-reader users." }
       - label: Status
         name: status
@@ -64,7 +64,7 @@ collections:
     fields:
       - { label: Caption, name: caption, widget: string }
       - { label: Image description, name: alt, widget: string, hint: "Describe what is visibly happening for screen-reader users." }
-      - { label: Image, name: image, widget: image }
+      - { label: Image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) first. Upload the downloaded WebP, not the original.", media_library: { config: { max_file_size: 2097152 } } }
       - label: Category
         name: category
         widget: select
@@ -92,7 +92,7 @@ collections:
       - { label: Description, name: description, widget: text }
       - { label: External URL, name: url, widget: string, hint: "Paste the public https:// link visitors should open." }
       - { label: Link label, name: linkLabel, widget: string, default: "View gallery" }
-      - { label: Thumbnail image, name: image, widget: image, hint: "Upload a small representative image for this gallery or publication." }
+      - { label: Thumbnail image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) and choose the thumbnail setting. Upload the downloaded WebP.", media_library: { config: { max_file_size: 2097152 } } }
       - { label: Thumbnail description, name: imageAlt, widget: string, hint: "Briefly describe the visible thumbnail for screen-reader users." }
       - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
       - { label: Display on About page, name: visible, widget: boolean, default: true }

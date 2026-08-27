@@ -92,11 +92,22 @@ External links should lead directly to public, reputable pages and should be rev
 
 Keep the CASA website gallery highly curated—approximately 20–30 excellent photographs rather than a comprehensive archive. Favor images that collectively show the studios, artists, artwork, learning and community. For larger bodies of work, add an external gallery link, such as the existing CASA 25th Anniversary photobook.
 
-Until CASA adopts a different technical standard, use these practical defaults:
+Before uploading any photograph:
 
-- JPEG or WebP in the sRGB color space.
-- Approximately 1,600–2,400 pixels on the longest side.
-- Preferably under 1 MB per image.
+1. Open **Prepare an image** from the red button at the lower-right corner of the CASA website editor. You can also open `https://casa-ames.github.io/casa-website/image-prep/` directly.
+2. Choose the original JPG, PNG or WebP from your computer.
+3. Choose **Class or gallery image** for ordinary website photographs, or **External gallery thumbnail** for the small preview attached to an outside publication or gallery.
+4. Wait for the prepared preview, then choose **Download WebP**.
+5. Return to the editor and upload the newly downloaded file ending in `-web.webp`. Do not upload the large original.
+
+The tool works entirely in the browser: the original is not sent anywhere, and the prepared image is resized, compressed and converted to WebP before it reaches GitHub. The editor rejects files larger than 2 MB as an additional safeguard.
+
+Use these practical defaults:
+
+- Use the WebP produced by the preparation tool.
+- Class and gallery photographs are limited to 2,400 pixels on the longest side.
+- External gallery thumbnails are limited to 1,200 pixels on the longest side.
+- The tool aims for approximately 1 MB or less while retaining good visual quality.
 - Clear, descriptive filenames without confidential information.
 - A concise description of the visible subject and activity for screen-reader users; do not repeat the caption word for word.
 

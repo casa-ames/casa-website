@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/png" href="../favicon-64.png" />
+    <title>Prepare an image — CASA Website Editor</title>
+    <style>
+      :root {
+        --red: #ff0000;
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f7f7f7;
+        --gray-100: #eeeeee;
+        --gray-200: #d8d8d8;
+        --gray-700: #4b4b4b;
+        --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html { background: var(--white); color: var(--black); font-family: var(--font); }
+
+      body { margin: 0; min-width: 320px; font-size: 1rem; line-height: 1.45; }
+
+      button, input, select { border-radius: 0; font: inherit; }
+
+      button, a { -webkit-tap-highlight-color: transparent; }
+
+      img { display: block; max-width: 100%; }
+
+      a { color: inherit; }
+
+      :focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .shell { width: min(calc(100% - 2.5rem), 1180px); margin-inline: auto; }
+
+      .topbar {
+        display: flex;
+        min-height: 76px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .brand { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+
+      .brand img { width: 78px; height: 48px; object-fit: contain; }
+
+      .brand span, .back-link { font-size: 1rem; font-weight: 600; }
+
+      .back-link { color: var(--red); text-underline-offset: 0.25em; }
+
+      main { padding-block: clamp(3.5rem, 7vw, 7rem); }
+
+      .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 0.48fr); gap: 3rem; align-items: end; }
+
+      h1 {
+        max-width: 800px;
+        margin: 0;
+        font-size: clamp(3rem, 7vw, 6.8rem);
+        font-weight: 500;
+        letter-spacing: -0.06em;
+        line-height: 0.9;
+      }
+
+      .intro p { max-width: 35rem; margin: 0; color: var(--gray-700); font-size: 1.1rem; }
+
+      .workspace { display: grid; grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); margin-top: clamp(3.5rem, 7vw, 7rem); padding-top: clamp(2rem, 4vw, 4rem); border-top: 1px solid var(--gray-200); }
+
+      .controls { align-self: start; }
+
+      .field { margin-bottom: 2rem; }
+
+      .field label, .field legend { display: block; margin-bottom: 0.65rem; font-weight: 700; }
+
+      .field small { display: block; margin-top: 0.6rem; color: var(--gray-700); }
+
+      .file-input { width: 100%; border: 1px solid var(--black); padding: 1rem; background: var(--white); }
+
+      select { width: 100%; min-height: 3.25rem; border: 1px solid var(--black); padding: 0.75rem 2.5rem 0.75rem 0.9rem; background: var(--white); color: var(--black); }
+
+      .button {
+        display: inline-flex;
+        min-height: 3.25rem;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--red);
+        padding: 0.9rem 1.55rem;
+        background: var(--red);
+        color: var(--white);
+        font-weight: 700;
+        line-height: 1;
+        text-decoration: none;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .button:hover { border-color: var(--black); background: var(--black); }
+
+      .button[aria-disabled="true"] { border-color: var(--gray-200); background: var(--gray-200); color: var(--gray-700); cursor: not-allowed; pointer-events: none; }
+
+      .privacy { margin-top: 1.5rem; padding-left: 1rem; border-left: 3px solid var(--red); color: var(--gray-700); }
+
+      .status { min-height: 1.5em; margin-top: 1.5rem; font-weight: 600; }
+
+      .status[data-state="error"] { color: #a00000; }
+
+      .preview-panel { min-width: 0; }
+
+      .empty-state { display: grid; min-height: 430px; place-items: center; border: 1px dashed var(--gray-200); background: var(--gray-50); color: var(--gray-700); text-align: center; }
+
+      .result[hidden], .empty-state[hidden] { display: none; }
+
+      .preview-image { width: 100%; max-height: 620px; object-fit: contain; background: var(--gray-100); }
+
+      .result-meta { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 1px; background: var(--gray-200); gap: 1px; }
+
+      .stat { min-width: 0; padding: 1rem; background: var(--white); }
+
+      .stat span { display: block; color: var(--gray-700); font-size: 0.9rem; }
+
+      .stat strong { display: block; margin-top: 0.2rem; font-size: 1.15rem; overflow-wrap: anywhere; }
+
+      .result-actions { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 1.5rem; }
+
+      .result-actions p { margin: 0; color: var(--gray-700); }
+
+      .steps { margin: 5rem 0 0; padding: 2rem 0 0; border-top: 1px solid var(--gray-200); }
+
+      .steps h2 { margin: 0 0 1.5rem; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 500; letter-spacing: -0.04em; }
+
+      .steps ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 0; padding-left: 1.3rem; }
+
+      .steps li { padding-left: 0.4rem; }
+
+      @media (max-width: 800px) {
+        .intro, .workspace { grid-template-columns: 1fr; }
+        .intro { align-items: start; }
+        .workspace { gap: 3rem; }
+        .steps ol { grid-template-columns: 1fr; gap: 1rem; }
+      }
+
+      @media (max-width: 560px) {
+        .shell { width: min(calc(100% - 2rem), 1180px); }
+        .topbar { align-items: flex-start; flex-direction: column; justify-content: center; gap: 0.25rem; padding-block: 1rem; }
+        .brand img { width: 64px; }
+        .result-meta { grid-template-columns: 1fr; }
+        .result-actions { align-items: stretch; flex-direction: column; }
+        .button { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shell topbar">
+      <a class="brand" href="../admin/" aria-label="Return to the CASA Website Editor">
+        <img src="../images/casa-logo-source.jpg" alt="" />
+        <span>Website Editor</span>
+      </a>
+      <a class="back-link" href="../admin/">Return to editor</a>
+    </header>
+
+    <main class="shell">
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title">Prepare an image.</h1>
+        <p>Turn a large JPG, PNG or WebP into a web-ready WebP before uploading it to the CASA editor.</p>
+      </section>
+
+      <section class="workspace" aria-label="Image preparation workspace">
+        <form class="controls" id="image-form">
+          <div class="field">
+            <label for="source-image">Choose an image</label>
+            <input class="file-input" id="source-image" name="source-image" type="file" accept="image/jpeg,image/png,image/webp" />
+            <small>JPG, PNG or WebP. The original file stays on this device.</small>
+          </div>
+
+          <div class="field">
+            <label for="image-use">Image use</label>
+            <select id="image-use" name="image-use">
+              <option value="website">Class or gallery image — 2400 px maximum</option>
+              <option value="thumbnail">External gallery thumbnail — 1200 px maximum</option>
+            </select>
+          </div>
+
+          <p class="privacy">Nothing is uploaded while preparing the image. Processing happens entirely in this browser.</p>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="preview-panel">
+          <div class="empty-state" id="empty-state">
+            <p>Choose an image to see the prepared result.</p>
+          </div>
+
+          <section class="result" id="result" aria-labelledby="result-title" hidden>
+            <h2 id="result-title" class="sr-only">Prepared image result</h2>
+            <img class="preview-image" id="preview" alt="Preview of the prepared image" />
+            <div class="result-meta">
+              <div class="stat"><span>Original</span><strong id="original-stat">—</strong></div>
+              <div class="stat"><span>Prepared</span><strong id="prepared-stat">—</strong></div>
+              <div class="stat"><span>Reduction</span><strong id="reduction-stat">—</strong></div>
+            </div>
+            <div class="result-actions">
+              <p id="output-name"></p>
+              <a class="button" id="download" href="#" download aria-disabled="true">Download WebP</a>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">Three steps</h2>
+        <ol>
+          <li>Choose the original and the way it will be used.</li>
+          <li>Download the prepared WebP shown above.</li>
+          <li>Upload that downloaded file in the CASA editor.</li>
+        </ol>
+      </section>
+    </main>
+
+    <script>
+      const TARGET_BYTES = 1024 * 1024;
+      const presets = {
+        website: { maxDimension: 2400, startingQuality: 0.84 },
+        thumbnail: { maxDimension: 1200, startingQuality: 0.82 },
+      };
+
+      const input = document.querySelector('#source-image');
+      const useSelect = document.querySelector('#image-use');
+      const status = document.querySelector('#status');
+      const emptyState = document.querySelector('#empty-state');
+      const result = document.querySelector('#result');
+      const preview = document.querySelector('#preview');
+      const originalStat = document.querySelector('#original-stat');
+      const preparedStat = document.querySelector('#prepared-stat');
+      const reductionStat = document.querySelector('#reduction-stat');
+      const outputName = document.querySelector('#output-name');
+      const download = document.querySelector('#download');
+
+      let currentObjectUrl = '';
+      let processingId = 0;
+
+      const formatBytes = (bytes) => {
+        if (bytes < 1024) return `${bytes} B`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+      };
+
+      const outputFilename = (name) => {
+        const stem = name.replace(/\.[^.]+$/, '').replace(/[^a-z0-9_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'casa-image';
+        return `${stem}-web.webp`;
+      };
+
+      const canvasToBlob = (canvas, quality) => new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('This browser could not create the WebP file.')), 'image/webp', quality);
+      });
+
+      async function decodeImage(file) {
+        if ('createImageBitmap' in window) {
+          return createImageBitmap(file, { imageOrientation: 'from-image' });
+        }
+
+        const url = URL.createObjectURL(file);
+        try {
+          const image = new Image();
+          image.src = url;
+          await image.decode();
+          return image;
+        } finally {
+          URL.revokeObjectURL(url);
+        }
+      }
+
+      async function prepareImage() {
+        const file = input.files?.[0];
+        const id = ++processingId;
+
+        if (!file) {
+          emptyState.hidden = false;
+          result.hidden = true;
+          status.textContent = '';
+          return;
+        }
+
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+          status.dataset.state = 'error';
+          status.textContent = 'Please choose a JPG, PNG or WebP image.';
+          return;
+        }
+
+        status.dataset.state = 'working';
+        status.textContent = 'Preparing your image…';
+        download.setAttribute('aria-disabled', 'true');
+
+        try {
+          const source = await decodeImage(file);
+          if (id !== processingId) return;
+
+          const sourceWidth = source.width || source.naturalWidth;
+          const sourceHeight = source.height || source.naturalHeight;
+          const preset = presets[useSelect.value];
+          const scale = Math.min(1, preset.maxDimension / Math.max(sourceWidth, sourceHeight));
+          let width = Math.max(1, Math.round(sourceWidth * scale));
+          let height = Math.max(1, Math.round(sourceHeight * scale));
+          let blob;
+          let canvas;
+
+          for (let dimensionPass = 0; dimensionPass < 3; dimensionPass += 1) {
+            canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const context = canvas.getContext('2d', { alpha: true });
+            context.imageSmoothingEnabled = true;
+            context.imageSmoothingQuality = 'high';
+            context.drawImage(source, 0, 0, width, height);
+
+            for (let quality = preset.startingQuality; quality >= 0.58; quality -= 0.06) {
+              blob = await canvasToBlob(canvas, quality);
+              if (blob.size <= TARGET_BYTES) break;
+            }
+
+            if (blob.size <= TARGET_BYTES || Math.max(width, height) <= 1200) break;
+            width = Math.max(1, Math.round(width * 0.82));
+            height = Math.max(1, Math.round(height * 0.82));
+          }
+
+          if (typeof source.close === 'function') source.close();
+          if (id !== processingId) return;
+
+          if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+          currentObjectUrl = URL.createObjectURL(blob);
+
+          const filename = outputFilename(file.name);
+          preview.src = currentObjectUrl;
+          download.href = currentObjectUrl;
+          download.download = filename;
+          download.removeAttribute('aria-disabled');
+          originalStat.textContent = `${sourceWidth} × ${sourceHeight} · ${formatBytes(file.size)}`;
+          preparedStat.textContent = `${width} × ${height} · ${formatBytes(blob.size)}`;
+          const reduction = Math.max(0, Math.round((1 - blob.size / file.size) * 100));
+          reductionStat.textContent = blob.size < file.size
+            ? `${reduction >= 100 ? '>99' : reduction}% smaller`
+            : 'Web-ready format';
+          outputName.textContent = filename;
+          emptyState.hidden = true;
+          result.hidden = false;
+          status.dataset.state = 'success';
+          status.textContent = 'Your WebP is ready to download.';
+        } catch (error) {
+          console.error(error);
+          status.dataset.state = 'error';
+          status.textContent = 'That image could not be processed. Try another JPG, PNG or WebP file.';
+          download.setAttribute('aria-disabled', 'true');
+        }
+      }
+
+      input.addEventListener('change', prepareImage);
+      useSelect.addEventListener('change', prepareImage);
+      window.addEventListener('beforeunload', () => {
+        if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+      });
+    </script>
+  </body>
+</html>
