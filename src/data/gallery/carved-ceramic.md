@@ -5,4 +5,5 @@ image: /images/hero-texture.webp
 category: artwork
 order: 5
 featured: true
+hero: true
 ---

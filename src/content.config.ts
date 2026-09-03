@@ -31,6 +31,7 @@ const gallery = defineCollection({
     category: z.enum(['studio', 'people', 'artwork', 'history']),
     order: z.number(),
     featured: z.boolean().default(false),
+    hero: z.boolean().default(false),
   }),
 });
 

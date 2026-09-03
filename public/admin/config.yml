@@ -12,8 +12,8 @@ local_backend: true
 site_url: https://casa-ames.github.io/casa-website
 display_url: https://casa-ames.github.io/casa-website
 logo_url: /casa-website/images/casa-logo-source.jpg
-media_folder: public/images/uploads
-public_folder: /images/uploads
+media_folder: public/images
+public_folder: /images
 
 collections:
   - name: classes
@@ -52,8 +52,8 @@ collections:
       - { label: Full description, name: body, widget: markdown, required: false }
 
   - name: gallery
-    label: Gallery
-    label_singular: Photograph
+    label: Image library
+    label_singular: Image
     folder: src/data/gallery
     create: true
     identifier_field: caption
@@ -74,7 +74,8 @@ collections:
           - { label: Artwork, value: artwork }
           - { label: History / exhibition, value: history }
       - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
-      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Show on About page, name: featured, widget: boolean, default: false }
+      - { label: Show in homepage hero, name: hero, widget: boolean, default: false, hint: "Keep approximately 5–7 strong images selected. Their display order controls the rotation order." }
 
   - name: external-galleries
     label: External galleries

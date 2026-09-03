@@ -3,11 +3,20 @@ import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Logo from '../components/Logo.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
+import { publicAsset } from '../utils/publicAsset';
 
-const classes = (await getCollection('classes'))
+const allClasses = await getCollection('classes');
+const classes = allClasses
   .filter(({ data }) => data.featured && data.status !== 'past' && data.status !== 'cancelled')
   .sort((a, b) => a.data.dateStart.getTime() - b.data.dateStart.getTime())
   .slice(0, 3);
+const heroImages = (await getCollection('gallery'))
+  .filter(({ data }) => data.hero)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map(({ data }) => data);
+const homeHeroImages = heroImages.length > 0
+  ? heroImages
+  : [{ image: '/images/hero-texture.webp', alt: 'Close view of black and cream carved ceramic vessels' }];
 const page = await getEntry('pages', 'home');
 if (!page) throw new Error('Missing home page content');
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -16,13 +25,22 @@ const href = (path: string) => `${base}${path}` || '/';
 
 <BaseLayout active="home">
   <section class="home-hero page-shell" aria-labelledby="home-title">
-    <div class="home-hero__media" aria-hidden="true">
-      <img src={`${import.meta.env.BASE_URL}images/hero-texture.webp`} alt="" />
+    <div class="home-hero__media" aria-hidden="true" data-hero-rotator>
+      {homeHeroImages.map((photo, index) => (
+        <img
+          class:list={['home-hero__slide', { 'is-active': index === 0 }]}
+          src={publicAsset(photo.image)}
+          alt=""
+          loading={index === 0 ? 'eager' : 'lazy'}
+          fetchpriority={index === 0 ? 'high' : 'auto'}
+          data-hero-slide
+        />
+      ))}
     </div>
     <div class="home-hero__content">
       <h1 id="home-title" class="sr-only">CASA — A place to make, learn and belong in Ames, Iowa</h1>
       <Logo id="home-hero" tone="red" class="home-hero__logo" />
-      <p class="home-hero__tagline">{page.data.headingLine1}<br />{page.data.headingLine2}</p>
+      <p class="home-hero__tagline">{[page.data.headingLine1, page.data.headingLine2].filter(Boolean).join(' ')}</p>
       <div class="home-hero__actions" aria-label="Ways to get involved">
         <a class="button button--red" href={href('/classes/')}>Take a class</a>
         <a class="button button--red" href={href('/studio-space/')}>Find studio space</a>
@@ -60,16 +78,16 @@ const href = (path: string) => `${base}${path}` || '/';
       <a class="text-link" href={href('/classes/')}>View all classes <ArrowIcon /></a>
     </div>
     <div class="home-classes__list">
-      {classes.map(({ data }) => (
-        <article class="home-class">
+      {classes.map(({ id, data }) => (
+        <a class="home-class" href={`${href('/classes/')}#class-${id}`} aria-label={`View information about ${data.title}`}>
           <p class="home-class__date">{data.dateLabel}</p>
           <div>
             <h3>{data.title}</h3>
             <p>{data.summary}</p>
           </div>
           <p class="home-class__meta">{data.time}</p>
-          <a class="home-class__link" href={href('/classes/')} aria-label={`View registration details for ${data.title}`}><ArrowIcon /></a>
-        </article>
+          <span class="home-class__link" aria-hidden="true"><ArrowIcon /></span>
+        </a>
       ))}
     </div>
   </section>
@@ -95,14 +113,45 @@ const href = (path: string) => `${base}${path}` || '/';
   </section>
 </BaseLayout>
 
+<script>
+  const rotator = document.querySelector('[data-hero-rotator]');
+  const slides = Array.from(rotator?.querySelectorAll('[data-hero-slide]') ?? []);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (slides.length > 1 && !reduceMotion.matches) {
+    let activeIndex = 0;
+    let timer: number | undefined;
+
+    const advance = () => {
+      slides[activeIndex]?.classList.remove('is-active');
+      activeIndex = (activeIndex + 1) % slides.length;
+      slides[activeIndex]?.classList.add('is-active');
+    };
+
+    const start = () => {
+      if (timer === undefined) timer = window.setInterval(advance, 7000);
+    };
+
+    const stop = () => {
+      if (timer !== undefined) window.clearInterval(timer);
+      timer = undefined;
+    };
+
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    start();
+  }
+</script>
+
 <style>
   .home-hero { position: relative; min-height: min(710px, calc(100vh - 74px)); overflow: hidden; }
   .home-hero__media { position: absolute; z-index: 0; top: 0; right: 0; bottom: 0; width: 66%; }
-  .home-hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--white) 0%, transparent 30%); pointer-events: none; }
-  .home-hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 58% center; }
+  .home-hero__media { background: var(--gray-100); }
+  .home-hero__media::after { content: ''; position: absolute; z-index: 2; inset: 0; background: linear-gradient(90deg, var(--white) 0%, transparent 30%); pointer-events: none; }
+  .home-hero__slide { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; transition: opacity 1.2s ease; }
+  .home-hero__slide.is-active { opacity: 1; }
   .home-hero__content { position: relative; z-index: 1; display: flex; width: min(58%, 760px); min-height: inherit; flex-direction: column; justify-content: center; padding-block: clamp(2.5rem, 4.4vw, 4.5rem); }
   .home-hero__content :global(.home-hero__logo) { width: min(88%, 580px); margin: -6% 0 0; }
-  .home-hero__tagline { margin: clamp(0.8rem, 1.5vw, 1.4rem) 0 clamp(2.4rem, 4vw, 3.4rem); font-size: clamp(1.65rem, 3vw, 3.1rem); letter-spacing: -0.035em; line-height: 1.45; }
+  .home-hero__tagline { width: min(100%, 25ch); margin: clamp(0.8rem, 1.5vw, 1.4rem) 0 clamp(2.4rem, 4vw, 3.4rem); font-size: clamp(1.65rem, 3vw, 3.1rem); font-style: italic; letter-spacing: -0.035em; line-height: 1.35; text-wrap: balance; }
   .home-hero__actions { display: grid; width: min(100%, 650px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .home-hero__actions .button { width: 100%; padding-inline: 0.9rem; }
   .home-values { display: grid; grid-template-columns: minmax(0, 1fr) minmax(440px, 1.05fr); border-top: 1px solid var(--red); padding-bottom: 0; }
@@ -118,13 +167,15 @@ const href = (path: string) => `${base}${path}` || '/';
   .home-classes__heading { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
   .home-classes__heading h2 { margin: 0; font-size: clamp(2rem, 3.4vw, 3.6rem); }
   .home-classes__list { border-top: 1px solid var(--black); }
-  .home-class { display: grid; grid-template-columns: minmax(150px, 0.8fr) minmax(300px, 2fr) minmax(170px, 1fr) 52px; align-items: center; gap: 1.8rem; border-bottom: var(--line); padding-block: 1.45rem; }
+  .home-class { display: grid; grid-template-columns: minmax(150px, 0.8fr) minmax(300px, 2fr) minmax(170px, 1fr) 52px; align-items: center; gap: 1.8rem; border-bottom: var(--line); padding: 1.45rem 0.7rem; margin-inline: -0.7rem; transition: background var(--motion); }
+  .home-class:hover { background: var(--gray-50); }
+  .home-class:focus-visible { outline-offset: -2px; }
   .home-class__date { margin: 0; font-size: 1rem; font-weight: 700; }
   .home-class h3 { margin-bottom: 0.35rem; font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1.1; }
   .home-class p { margin-bottom: 0; }
   .home-class > div p, .home-class__meta { color: var(--gray-700); font-size: 1rem; }
   .home-class__link { display: grid; width: 44px; height: 44px; place-items: center; color: var(--red); transition: transform var(--motion); }
-  .home-class__link:hover { transform: translateX(0.3rem); }
+  .home-class:hover .home-class__link { transform: translateX(0.3rem); }
   .home-about { background: var(--gray-50); }
   .home-about__inner { display: grid; grid-template-columns: minmax(300px, 0.65fr) minmax(480px, 1.35fr); align-items: center; gap: clamp(3rem, 7vw, 8rem); }
   .home-about__copy h2 { margin-bottom: 2rem; font-size: var(--h2); }
@@ -146,7 +197,7 @@ const href = (path: string) => `${base}${path}` || '/';
     .home-hero__media::after { background: linear-gradient(180deg, var(--white) 0%, transparent 28%); }
     .home-hero__content { order: 0; width: 100%; min-height: 0; padding: 1.8rem 0 1.5rem; }
     .home-hero__content :global(.home-hero__logo) { width: min(86vw, 440px); margin: -10% 0 0; }
-    .home-hero__tagline { font-size: clamp(1.45rem, 6.6vw, 2rem); }
+    .home-hero__tagline { width: 100%; font-size: clamp(1.25rem, 5.5vw, 1.65rem); line-height: 1.35; }
     .home-hero__actions { display: grid; grid-template-columns: 1fr; gap: 0.7rem; }
     .home-hero__quiet-link { justify-content: center; min-height: 3rem; margin: 0; }
     .home-values__grid { grid-template-columns: 1fr; }

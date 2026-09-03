@@ -66,13 +66,16 @@ Open the class, make the change, and pass it through the editorial workflow (**D
 
 If registration must stop immediately, close or pause sales in Zeffy first, then update the website status to **Sold out** or **Cancelled** and publish. Keep the class details synchronized on both platforms.
 
-## Add a gallery photograph
+## Add or reuse a website image
 
-1. Open **Gallery** and choose **New Photograph**.
+The **Image library** indexes CASA photographs used throughout the website. Existing photographs can be selected again from the image field’s media browser without uploading a duplicate.
+
+1. Open **Image library** and choose **New Image**.
 2. Add a short caption, an accessible image description, the image and the appropriate category.
-3. Set a display-order number. Lower numbers appear earlier, and the first featured photograph becomes the large introductory image.
-4. Turn on **Featured** for photographs that should appear on the public About page. Leave it off to keep an uploaded record in the editor without displaying it.
-5. Move the photograph through the editorial workflow (**Draft → In Review → Ready → Published**) and verify the public About page after deployment.
+3. Set a display-order number. Lower numbers appear earlier.
+4. Turn on **Show on About page** only for a small, curated selection. The first selected image becomes the large introductory image there.
+5. Turn on **Show in homepage hero** for photographs that should join the seven-second homepage rotation. Keep approximately 5–7 strong images selected and include a balance of close artwork details, people and wider views.
+6. Move the image through the editorial workflow (**Draft → In Review → Ready → Published**) and verify the relevant public page after deployment.
 
 Only upload photographs CASA owns or has permission to publish. Do not upload private documents, contact lists, financial records, identification or images without confirmed usage rights.
 
