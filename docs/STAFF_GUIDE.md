@@ -38,14 +38,15 @@ For the current Zeffy interface, see [Configuring an Event Campaign](https://sup
 1. Open **Classes** and choose **New Class**.
 2. Enter the class information. The display date is the short label visitors see, while the start and end dates control chronological ordering.
 3. Upload one landscape-oriented image and write an image description that explains what is visibly happening.
-4. Choose the correct status:
+4. Enter the horizontal and vertical focal-point numbers copied from **Prepare an image**. These control which part of the photograph remains visible in the class thumbnail.
+5. Choose the correct status:
    - **Open** shows the registration action when a Zeffy link is present.
    - **Registration coming soon** announces the offering without opening sales.
    - **Sold out** or **Cancelled** clearly closes registration.
    - **Past** removes the class from current public listings while keeping its record in the editor.
-5. Turn on **Show on homepage** only for a small number of current priority offerings.
-6. Paste the public Zeffy campaign link into **Zeffy registration link**.
-7. Save the entry and move it through the editorial workflow (**Draft → In Review → Ready → Published**).
+6. Turn on **Show on homepage** only for a small number of current priority offerings.
+7. Paste the public Zeffy campaign link into **Zeffy registration link**.
+8. Save the entry and move it through the editorial workflow (**Draft → In Review → Ready → Published**).
 
 After publication, open the public class listing and test its registration button. Confirm that the Zeffy page has the same title, dates, times, price, capacity, location and availability.
 
@@ -72,10 +73,11 @@ The **Image library** indexes CASA photographs used throughout the website. Exis
 
 1. Open **Image library** and choose **New Image**.
 2. Add a short caption, an accessible image description, the image and the appropriate category.
-3. Set a display-order number. Lower numbers appear earlier.
-4. Turn on **Show on About page** only for a small, curated selection. The first selected image becomes the large introductory image there.
-5. Turn on **Show in homepage hero** for photographs that should join the seven-second homepage rotation. Keep approximately 5–7 strong images selected and include a balance of close artwork details, people and wider views.
-6. Move the image through the editorial workflow (**Draft → In Review → Ready → Published**) and verify the relevant public page after deployment.
+3. Enter the horizontal and vertical focal-point numbers copied from **Prepare an image**. Preview both a wide frame and a thumbnail when the photograph may appear in more than one place.
+4. Set a display-order number. Lower numbers appear earlier.
+5. Turn on **Show on About page** only for a small, curated selection. The first selected image becomes the large introductory image there.
+6. Turn on **Show in homepage hero** for photographs that should join the seven-second homepage rotation. Keep approximately 5–7 strong images selected and include a balance of close artwork details, people and wider views.
+7. Move the image through the editorial workflow (**Draft → In Review → Ready → Published**) and verify the relevant public page after deployment.
 
 Only upload photographs CASA owns or has permission to publish. Do not upload private documents, contact lists, financial records, identification or images without confirmed usage rights.
 
@@ -86,8 +88,9 @@ Use an external gallery link for a substantial exhibition, publication, photoboo
 1. Open **External galleries** and choose **New External gallery**.
 2. Add its title, brief description, public `https://` URL and link label.
 3. Upload a representative thumbnail image and add a concise description of what is visibly shown.
-4. Set a display order and turn on **Display on About page**.
-5. Move the link through the editorial workflow (**Draft → In Review → Ready → Published**), then test it from the public About page.
+4. Enter the horizontal and vertical focal-point numbers copied from **Prepare an image**.
+5. Set a display order and turn on **Display on About page**.
+6. Move the link through the editorial workflow (**Draft → In Review → Ready → Published**), then test it from the public About page.
 
 External links should lead directly to public, reputable pages and should be reviewed periodically for availability.
 
@@ -100,10 +103,16 @@ Before uploading any photograph:
 1. Open **Prepare an image** from the red button at the lower-right corner of the CASA website editor. You can also open `https://casa-ames.github.io/casa-website/image-prep/` directly.
 2. Choose the original JPG, PNG or WebP from your computer.
 3. Choose **Class or gallery image** for ordinary website photographs, or **External gallery thumbnail** for the small preview attached to an outside publication or gallery.
-4. Wait for the prepared preview, then choose **Download WebP**.
-5. Return to the editor and upload the newly downloaded file ending in `-web.webp`. Do not upload the large original.
+4. Choose a framing preview that resembles the intended placement. The 4:3 option matches class and gallery thumbnails; the wide option is useful for banners and wide gallery arrangements.
+5. Drag the photograph within the preview—or use the horizontal and vertical sliders—until faces and other important details sit comfortably inside the frame. The faint inner rectangle is a conservative safe area for important subjects.
+6. Try any other framing shapes in which the photograph may appear. The preview does not permanently crop the photograph.
+7. Choose **Copy focal point**, then note the horizontal and vertical numbers. These are entered in the corresponding focal-point fields in the website editor.
+8. Choose **Download WebP**.
+9. Return to the editor, upload the newly downloaded file ending in `-web.webp`, and enter the two focal-point numbers. Do not upload the large original.
 
 The tool works entirely in the browser: the original is not sent anywhere, and the prepared image is resized, compressed and converted to WebP before it reaches GitHub. The editor rejects files larger than 2 MB as an additional safeguard.
+
+The downloaded WebP retains the complete photograph rather than permanently cutting away its edges. The focal-point settings tell the website how to position that image whenever a layout needs to crop it. This makes the same image reusable while helping prevent faces from being cut off awkwardly.
 
 Use these practical defaults:
 

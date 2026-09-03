@@ -26,7 +26,7 @@ const storyPhotos = featuredGallery.slice(1);
     </div>
     {heroPhoto && (
       <figure class="about-intro__media media-frame">
-        <img src={publicAsset(heroPhoto.image)} alt={heroPhoto.alt} />
+        <img src={publicAsset(heroPhoto.image)} alt={heroPhoto.alt} style={`object-position: ${heroPhoto.focusX}% ${heroPhoto.focusY}%`} />
         <figcaption class="caption">{heroPhoto.caption}</figcaption>
       </figure>
     )}
@@ -37,7 +37,7 @@ const storyPhotos = featuredGallery.slice(1);
       <div class="about-story__gallery">
         {storyPhotos.map((photo) => (
           <figure class:list={['about-story__photo', 'media-frame', { 'about-story__photo--history': photo.category === 'history' }]}>
-            <img src={publicAsset(photo.image)} alt={photo.alt} loading="lazy" />
+            <img src={publicAsset(photo.image)} alt={photo.alt} loading="lazy" style={`object-position: ${photo.focusX}% ${photo.focusY}%`} />
             <figcaption class="caption">{photo.caption}</figcaption>
           </figure>
         ))}
@@ -63,7 +63,7 @@ const storyPhotos = featuredGallery.slice(1);
         {externalGalleries.map((item) => (
           <article class="external-gallery">
             <a class="external-gallery__thumbnail media-frame" href={item.url} target="_blank" rel="noreferrer" aria-label={`${item.linkLabel}: ${item.title}`}>
-              <img src={publicAsset(item.image)} alt={item.imageAlt} loading="lazy" />
+              <img src={publicAsset(item.image)} alt={item.imageAlt} loading="lazy" style={`object-position: ${item.focusX}% ${item.focusY}%`} />
             </a>
             <div class="external-gallery__copy">
               <h3>{item.title}</h3>

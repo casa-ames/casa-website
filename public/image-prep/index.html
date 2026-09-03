@@ -91,6 +91,14 @@
 
       .field small { display: block; margin-top: 0.6rem; color: var(--gray-700); }
 
+      .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+
+      .range-field label { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; font-weight: 600; }
+
+      .range-field output { color: var(--red); font-variant-numeric: tabular-nums; }
+
+      input[type="range"] { width: 100%; accent-color: var(--red); }
+
       .file-input { width: 100%; border: 1px solid var(--black); padding: 1rem; background: var(--white); }
 
       select { width: 100%; min-height: 3.25rem; border: 1px solid var(--black); padding: 0.75rem 2.5rem 0.75rem 0.9rem; background: var(--white); color: var(--black); }
@@ -113,6 +121,10 @@
 
       .button:hover { border-color: var(--black); background: var(--black); }
 
+      .button--quiet { border-color: var(--black); background: var(--white); color: var(--black); }
+
+      .button--quiet:hover { border-color: var(--red); background: var(--red); color: var(--white); }
+
       .button[aria-disabled="true"] { border-color: var(--gray-200); background: var(--gray-200); color: var(--gray-700); cursor: not-allowed; pointer-events: none; }
 
       .privacy { margin-top: 1.5rem; padding-left: 1rem; border-left: 3px solid var(--red); color: var(--gray-700); }
@@ -127,9 +139,50 @@
 
       .result[hidden], .empty-state[hidden] { display: none; }
 
-      .preview-image { width: 100%; max-height: 620px; object-fit: contain; background: var(--gray-100); }
+      .crop-stage {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        background: var(--gray-100);
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+      }
 
-      .result-meta { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 1px; background: var(--gray-200); gap: 1px; }
+      .crop-stage:active { cursor: grabbing; }
+
+      .preview-image { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; pointer-events: none; }
+
+      .crop-stage::after {
+        position: absolute;
+        border: 1px solid rgb(255 255 255 / 75%);
+        box-shadow: 0 0 0 1px rgb(0 0 0 / 18%);
+        content: '';
+        inset: 8%;
+        pointer-events: none;
+      }
+
+      .focal-marker {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1.35rem;
+        height: 1.35rem;
+        border: 2px solid var(--white);
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px rgb(0 0 0 / 70%);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+      }
+
+      .focal-marker::before, .focal-marker::after { position: absolute; background: var(--white); content: ''; }
+      .focal-marker::before { top: 50%; left: -0.35rem; width: 1.8rem; height: 1px; }
+      .focal-marker::after { top: -0.35rem; left: 50%; width: 1px; height: 1.8rem; }
+
+      .preview-guidance { margin: 0.7rem 0 0; color: var(--gray-700); }
+
+      .result-meta { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 1px; background: var(--gray-200); gap: 1px; }
 
       .stat { min-width: 0; padding: 1rem; background: var(--white); }
 
@@ -138,6 +191,8 @@
       .stat strong { display: block; margin-top: 0.2rem; font-size: 1.15rem; overflow-wrap: anywhere; }
 
       .result-actions { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 1.5rem; }
+
+      .result-buttons { display: flex; gap: 0.75rem; }
 
       .result-actions p { margin: 0; color: var(--gray-700); }
 
@@ -154,14 +209,16 @@
         .intro { align-items: start; }
         .workspace { gap: 3rem; }
         .steps ol { grid-template-columns: 1fr; gap: 1rem; }
+        .result-meta { grid-template-columns: repeat(2, 1fr); }
       }
 
       @media (max-width: 560px) {
         .shell { width: min(calc(100% - 2rem), 1180px); }
         .topbar { align-items: flex-start; flex-direction: column; justify-content: center; gap: 0.25rem; padding-block: 1rem; }
         .brand img { width: 64px; }
-        .result-meta { grid-template-columns: 1fr; }
+        .field-grid, .result-meta { grid-template-columns: 1fr; }
         .result-actions { align-items: stretch; flex-direction: column; }
+        .result-buttons { flex-direction: column; }
         .button { width: 100%; }
       }
     </style>
@@ -197,6 +254,30 @@
             </select>
           </div>
 
+          <div class="field">
+            <label for="frame-shape">Framing preview</label>
+            <select id="frame-shape" name="frame-shape">
+              <option value="card">Class or gallery thumbnail — 4:3</option>
+              <option value="wide">Wide gallery image — 16:7</option>
+              <option value="square">Square preview — 1:1</option>
+              <option value="portrait">Portrait preview — 4:5</option>
+            </select>
+            <small>This changes only the preview. The downloaded WebP keeps the complete photograph so it can be reused.</small>
+          </div>
+
+          <div class="field field-grid" aria-label="Focal point controls">
+            <div class="range-field">
+              <label for="focus-x">Horizontal focal point <output id="focus-x-value" for="focus-x">50%</output></label>
+              <input id="focus-x" name="focus-x" type="range" min="0" max="100" value="50" />
+              <small>Left to right</small>
+            </div>
+            <div class="range-field">
+              <label for="focus-y">Vertical focal point <output id="focus-y-value" for="focus-y">50%</output></label>
+              <input id="focus-y" name="focus-y" type="range" min="0" max="100" value="50" />
+              <small>Top to bottom</small>
+            </div>
+          </div>
+
           <p class="privacy">Nothing is uploaded while preparing the image. Processing happens entirely in this browser.</p>
           <p class="status" id="status" role="status" aria-live="polite"></p>
         </form>
@@ -208,15 +289,23 @@
 
           <section class="result" id="result" aria-labelledby="result-title" hidden>
             <h2 id="result-title" class="sr-only">Prepared image result</h2>
-            <img class="preview-image" id="preview" alt="Preview of the prepared image" />
+            <div class="crop-stage" id="crop-stage" aria-label="Crop preview. Drag the photograph to adjust its framing.">
+              <img class="preview-image" id="preview" alt="Preview of the prepared image" />
+              <span class="focal-marker" id="focal-marker" aria-hidden="true"></span>
+            </div>
+            <p class="preview-guidance">Drag the photograph or use the sliders until faces and other important details sit comfortably inside the frame.</p>
             <div class="result-meta">
               <div class="stat"><span>Original</span><strong id="original-stat">—</strong></div>
               <div class="stat"><span>Prepared</span><strong id="prepared-stat">—</strong></div>
               <div class="stat"><span>Reduction</span><strong id="reduction-stat">—</strong></div>
+              <div class="stat"><span>Editor focal point</span><strong id="focus-stat">50% · 50%</strong></div>
             </div>
             <div class="result-actions">
               <p id="output-name"></p>
-              <a class="button" id="download" href="#" download aria-disabled="true">Download WebP</a>
+              <div class="result-buttons">
+                <button class="button button--quiet" id="copy-focus" type="button">Copy focal point</button>
+                <a class="button" id="download" href="#" download aria-disabled="true">Download WebP</a>
+              </div>
             </div>
           </section>
         </div>
@@ -225,9 +314,9 @@
       <section class="steps" aria-labelledby="steps-title">
         <h2 id="steps-title">Three steps</h2>
         <ol>
-          <li>Choose the original and the way it will be used.</li>
-          <li>Download the prepared WebP shown above.</li>
-          <li>Upload that downloaded file in the CASA editor.</li>
+          <li>Choose the original and preview the shape in which it will appear.</li>
+          <li>Adjust the focal point, then download the prepared WebP.</li>
+          <li>Upload it in the editor and enter the two copied focal-point numbers.</li>
         </ol>
       </section>
     </main>
@@ -238,21 +327,52 @@
         website: { maxDimension: 2400, startingQuality: 0.84 },
         thumbnail: { maxDimension: 1200, startingQuality: 0.82 },
       };
+      const framePresets = {
+        card: { ratio: '4 / 3' },
+        wide: { ratio: '16 / 7' },
+        square: { ratio: '1 / 1' },
+        portrait: { ratio: '4 / 5' },
+      };
 
       const input = document.querySelector('#source-image');
       const useSelect = document.querySelector('#image-use');
+      const frameSelect = document.querySelector('#frame-shape');
+      const focusX = document.querySelector('#focus-x');
+      const focusY = document.querySelector('#focus-y');
+      const focusXValue = document.querySelector('#focus-x-value');
+      const focusYValue = document.querySelector('#focus-y-value');
       const status = document.querySelector('#status');
       const emptyState = document.querySelector('#empty-state');
       const result = document.querySelector('#result');
       const preview = document.querySelector('#preview');
+      const cropStage = document.querySelector('#crop-stage');
+      const focalMarker = document.querySelector('#focal-marker');
       const originalStat = document.querySelector('#original-stat');
       const preparedStat = document.querySelector('#prepared-stat');
       const reductionStat = document.querySelector('#reduction-stat');
+      const focusStat = document.querySelector('#focus-stat');
       const outputName = document.querySelector('#output-name');
       const download = document.querySelector('#download');
+      const copyFocus = document.querySelector('#copy-focus');
 
       let currentObjectUrl = '';
       let processingId = 0;
+      let dragStart = null;
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+      const updateFramingPreview = () => {
+        const x = Number(focusX.value);
+        const y = Number(focusY.value);
+        const frame = framePresets[frameSelect.value];
+        cropStage.style.aspectRatio = frame.ratio;
+        preview.style.objectPosition = `${x}% ${y}%`;
+        focalMarker.style.left = `${x}%`;
+        focalMarker.style.top = `${y}%`;
+        focusXValue.value = `${x}%`;
+        focusYValue.value = `${y}%`;
+        focusStat.textContent = `${x}% · ${y}%`;
+      };
 
       const formatBytes = (bytes) => {
         if (bytes < 1024) return `${bytes} B`;
@@ -370,6 +490,45 @@
 
       input.addEventListener('change', prepareImage);
       useSelect.addEventListener('change', prepareImage);
+      input.addEventListener('change', () => {
+        focusX.value = '50';
+        focusY.value = '50';
+        updateFramingPreview();
+      });
+      frameSelect.addEventListener('change', updateFramingPreview);
+      focusX.addEventListener('input', updateFramingPreview);
+      focusY.addEventListener('input', updateFramingPreview);
+
+      cropStage.addEventListener('pointerdown', (event) => {
+        dragStart = { pointerX: event.clientX, pointerY: event.clientY, focusX: Number(focusX.value), focusY: Number(focusY.value) };
+        cropStage.setPointerCapture(event.pointerId);
+      });
+      cropStage.addEventListener('pointermove', (event) => {
+        if (!dragStart || !cropStage.hasPointerCapture(event.pointerId)) return;
+        const bounds = cropStage.getBoundingClientRect();
+        focusX.value = String(Math.round(clamp(dragStart.focusX - ((event.clientX - dragStart.pointerX) / bounds.width) * 100, 0, 100)));
+        focusY.value = String(Math.round(clamp(dragStart.focusY - ((event.clientY - dragStart.pointerY) / bounds.height) * 100, 0, 100)));
+        updateFramingPreview();
+      });
+      cropStage.addEventListener('pointerup', (event) => {
+        if (cropStage.hasPointerCapture(event.pointerId)) cropStage.releasePointerCapture(event.pointerId);
+        dragStart = null;
+      });
+      cropStage.addEventListener('pointercancel', () => { dragStart = null; });
+
+      copyFocus.addEventListener('click', async () => {
+        const text = `Horizontal ${focusX.value}, Vertical ${focusY.value}`;
+        try {
+          await navigator.clipboard.writeText(text);
+          status.dataset.state = 'success';
+          status.textContent = `Copied: ${text}. Enter these numbers in the image’s focal-point fields in the editor.`;
+        } catch {
+          status.dataset.state = 'error';
+          status.textContent = `Copy was unavailable. Enter Horizontal ${focusX.value} and Vertical ${focusY.value} in the editor.`;
+        }
+      });
+
+      updateFramingPreview();
       window.addEventListener('beforeunload', () => {
         if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
       });

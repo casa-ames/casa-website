@@ -38,6 +38,8 @@ collections:
       - { label: Location, name: location, widget: string }
       - { label: Image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) first. Upload the downloaded WebP, not the original.", media_library: { config: { max_file_size: 2097152 } } }
       - { label: Image description, name: imageAlt, widget: string, hint: "Describe what is visibly happening for screen-reader users." }
+      - { label: Horizontal focal point, name: focusX, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the far left; 100 is the far right. Leave blank to center the image." }
+      - { label: Vertical focal point, name: focusY, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the top; 100 is the bottom. Leave blank to center the image." }
       - label: Status
         name: status
         widget: select
@@ -65,6 +67,8 @@ collections:
       - { label: Caption, name: caption, widget: string }
       - { label: Image description, name: alt, widget: string, hint: "Describe what is visibly happening for screen-reader users." }
       - { label: Image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) first. Upload the downloaded WebP, not the original.", media_library: { config: { max_file_size: 2097152 } } }
+      - { label: Horizontal focal point, name: focusX, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the far left; 100 is the far right. Leave blank to center the image." }
+      - { label: Vertical focal point, name: focusY, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the top; 100 is the bottom. Leave blank to center the image." }
       - label: Category
         name: category
         widget: select
@@ -95,6 +99,8 @@ collections:
       - { label: Link label, name: linkLabel, widget: string, default: "View gallery" }
       - { label: Thumbnail image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) and choose the thumbnail setting. Upload the downloaded WebP.", media_library: { config: { max_file_size: 2097152 } } }
       - { label: Thumbnail description, name: imageAlt, widget: string, hint: "Briefly describe the visible thumbnail for screen-reader users." }
+      - { label: Horizontal focal point, name: focusX, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the far left; 100 is the far right. Leave blank to center the image." }
+      - { label: Vertical focal point, name: focusY, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the top; 100 is the bottom. Leave blank to center the image." }
       - { label: Display order, name: order, widget: number, value_type: int, min: 1 }
       - { label: Display on About page, name: visible, widget: boolean, default: true }
 

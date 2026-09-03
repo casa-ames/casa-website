@@ -38,7 +38,7 @@ const statusLabel = {
       {classes.map(({ id, data }) => (
         <article class="class-row" id={`class-${id}`}>
           <figure class="class-row__thumbnail media-frame">
-            <img src={publicAsset(data.image)} alt={data.imageAlt} loading="lazy" />
+            <img src={publicAsset(data.image)} alt={data.imageAlt} loading="lazy" style={`object-position: ${data.focusX}% ${data.focusY}%`} />
           </figure>
           <p class="class-row__date">{data.dateLabel}</p>
           <div class="class-row__main">

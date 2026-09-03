@@ -16,7 +16,7 @@ const heroImages = (await getCollection('gallery'))
   .map(({ data }) => data);
 const homeHeroImages = heroImages.length > 0
   ? heroImages
-  : [{ image: '/images/hero-texture.webp', alt: 'Close view of black and cream carved ceramic vessels' }];
+  : [{ image: '/images/hero-texture.webp', alt: 'Close view of black and cream carved ceramic vessels', focusX: 50, focusY: 50 }];
 const page = await getEntry('pages', 'home');
 if (!page) throw new Error('Missing home page content');
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -33,6 +33,7 @@ const href = (path: string) => `${base}${path}` || '/';
           alt=""
           loading={index === 0 ? 'eager' : 'lazy'}
           fetchpriority={index === 0 ? 'high' : 'auto'}
+          style={`object-position: ${photo.focusX}% ${photo.focusY}%`}
           data-hero-slide
         />
       ))}
