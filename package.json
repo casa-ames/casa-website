@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "sync:zeffy": "node scripts/sync-zeffy-events.mjs",
+    "prebuild": "node scripts/sync-zeffy-events.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check"

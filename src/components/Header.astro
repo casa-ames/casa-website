@@ -10,7 +10,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const href = (path: string) => `${base}${path}` || '/';
 const links = [
   { key: 'about', label: 'About', path: '/about/' },
-  { key: 'classes', label: 'Classes', path: '/classes/' },
+  { key: 'classes', label: 'Events', path: '/classes/' },
   { key: 'studio-space', label: 'Studio Space', path: '/studio-space/' },
   { key: 'contact', label: 'Contact', path: '/contact/' },
 ] as const;
@@ -18,7 +18,7 @@ const links = [
 
 <header class="site-header" data-header>
   <a class="site-header__brand" href={href('/')} aria-label="CASA home">
-    <Logo id={`header-${active}`} tone="red" />
+    <Logo id={`header-${active}`} variant="primary" />
   </a>
   <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-menu-toggle>
     <span class="sr-only">Open navigation</span>

@@ -17,8 +17,8 @@ public_folder: /images
 
 collections:
   - name: classes
-    label: Classes
-    label_singular: Class
+    label: Website-only listings
+    label_singular: Website-only listing
     folder: src/data/classes
     create: true
     extension: md
@@ -120,7 +120,7 @@ collections:
         name: about
         file: src/data/pages/about.md
         fields: *page_fields
-      - label: Classes
+      - label: Classes & Events
         name: classes
         file: src/data/pages/classes.md
         fields: *page_fields

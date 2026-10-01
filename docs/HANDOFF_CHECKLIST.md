@@ -17,10 +17,13 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] Closed Zeffy test campaign created and linked to the hidden sample class.
 - [x] Gallery image upload, caption, accessible description, editorial workflow, and public rendering tested.
 - [x] External gallery links made editable through the CMS and seeded with the CASA 25th Anniversary photobook.
+- [x] Zeffy read-only API key stored as a protected GitHub Actions secret.
+- [x] Automatic Zeffy campaign import and public event calendar implemented.
 
 ## Before CASA review
 
-- [ ] Add real Zeffy registration URLs when CASA supplies or creates them.
+- [ ] Replace the test Zeffy API key with the treasurer-controlled CASA account key after account handoff.
+- [ ] Create and verify the first real CASA class or event through the Zeffy calendar import.
 - [ ] Confirm or replace all sample class titles, dates, instructors, prices, locations, and availability.
 - [x] Confirm CASA's street address and Facebook and Instagram links.
 - [ ] Confirm CASA's public email address, phone number when available, and hours.

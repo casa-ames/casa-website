@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 */4 * * *'
 
 permissions:
   contents: read
@@ -20,6 +22,7 @@ jobs:
     env:
       SITE_URL: https://casa-ames.github.io
       BASE_PATH: /casa-website/
+      ZEFFY_API_KEY: ${{ secrets.ZEFFY_API_KEY }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7

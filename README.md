@@ -15,8 +15,8 @@ Run `pnpm check` and `pnpm build` before publishing.
 
 Once Decap CMS authentication is connected, CASA staff can visit `/admin/`, sign in with their authorized GitHub account, and:
 
-- create, update, close, or archive classes;
-- paste a Zeffy registration link into a class;
+- create, update, close, or archive website-only listings;
+- create website-only event listings when no Zeffy campaign exists;
 - upload gallery photographs with captions and accessible descriptions;
 - edit the heading and introductory copy on each primary page.
 
@@ -29,7 +29,7 @@ The class entries currently included in `src/data/classes/` are design-review sa
 1. **Public URL:** Set `site` and `base` through the `SITE_URL` and `BASE_PATH` environment variables, or update the fallbacks in `astro.config.mjs` after the final domain is chosen.
 2. **Contact form:** Formspree is connected and delivery to the temporary CASA Gmail mailbox has been verified. Move delivery and fallback addresses to CASA's Google Workspace mailbox after the final domain is established.
 3. **Editor login:** Deploy a small Decap GitHub OAuth worker, authorize the `casa-ames/casa-website` repository, and replace `REPLACE_WITH_DECAP_OAUTH_WORKER` in `public/admin/config.yml`.
-4. **Zeffy:** Paste each live Zeffy event URL into the class's “Zeffy registration link” field in the editor.
+4. **Zeffy:** The read-only API key is stored as the protected `ZEFFY_API_KEY` GitHub Actions secret. Campaign data is imported at build time and the deployment workflow refreshes automatically every four hours. Replace this secret when CASA moves from the test account to the treasurer-controlled account.
 
 See [`docs/HANDOFF_CHECKLIST.md`](docs/HANDOFF_CHECKLIST.md) for the complete launch, ownership, domain, Workspace, and future members-area checklist.
 

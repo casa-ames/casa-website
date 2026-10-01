@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CASA logo proposals</title>
+    <style>
+      :root { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #000; background: #ececec; }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      main { width: min(1500px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 96px; }
+      header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; margin-bottom: 36px; }
+      h1 { margin: 0; font-size: clamp(36px, 6vw, 78px); font-weight: 500; letter-spacing: -.055em; line-height: .95; }
+      h2 { grid-column: 1 / -1; margin: 38px 0 0; font-size: 24px; font-weight: 600; }
+      header p { max-width: 42rem; margin: 0; color: #4b4b4b; font-size: 18px; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+      figure { min-width: 0; margin: 0; border: 1px solid #d8d8d8; background: #fff; }
+      .art { display: grid; min-height: 360px; place-items: center; padding: clamp(28px, 5vw, 70px); }
+      .art img { display: block; width: 100%; height: auto; max-height: 440px; }
+      .art--black { background: #000; }
+      .art--gray { background: #f7f7f7; }
+      figcaption { border-top: 1px solid #d8d8d8; padding: 16px 18px; font-size: 15px; }
+      .wide { grid-column: 1 / -1; }
+      .wide .art { min-height: 300px; }
+      .wide .art img { max-height: 250px; }
+      .mark .art img { width: min(100%, 620px); }
+      code { color: #4b4b4b; font-size: 13px; }
+      @media (max-width: 760px) {
+        main { width: min(100% - 24px, 1500px); padding-top: 32px; }
+        header, .grid { grid-template-columns: 1fr; }
+        .wide, h2 { grid-column: auto; }
+        .art { min-height: 230px; padding: 30px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>CASA logo system<br />proposal 01</h1>
+        <p>The original brush-script silhouette is preserved as vector paths. The organization name is outlined, so these files remain consistent without requiring a font installation.</p>
+      </header>
+      <section class="grid">
+        <h2>Approved wide lockups</h2>
+        <figure class="wide"><div class="art"><img src="casa-lockup-wide-red-black-transparent.svg" alt="Wide CASA logo with a red mark and black organization name beneath it" /></div><figcaption>Primary — red mark and black name for light backgrounds<br /><code>casa-lockup-wide-red-black-transparent.svg</code><br /><code>casa-lockup-wide-red-black-on-white.svg</code></figcaption></figure>
+        <figure class="wide"><div class="art art--black"><img src="casa-lockup-wide-red-white-transparent.svg" alt="Wide CASA logo with a red mark and white organization name on a black background" /></div><figcaption>Reverse — red mark and white name for dark backgrounds<br /><code>casa-lockup-wide-red-white-transparent.svg</code><br /><code>casa-lockup-wide-red-white-on-black.svg</code></figcaption></figure>
+        <figure class="wide"><div class="art art--black"><img src="casa-lockup-wide-white-transparent.svg" alt="Wide CASA logo with a white mark and white organization name on a black background" /></div><figcaption>Monochrome reverse — white mark and white name for dark backgrounds<br /><code>casa-lockup-wide-white-transparent.svg</code><br /><code>casa-lockup-wide-white-on-black.svg</code></figcaption></figure>
+        <h2>Supporting mark and small-format assets</h2>
+        <figure class="mark"><div class="art"><img src="casa-mark-red-transparent.svg" alt="Standalone red CASA mark" /></div><figcaption>Standalone red mark<br /><code>casa-mark-red-transparent.svg</code></figcaption></figure>
+        <figure class="mark"><div class="art art--black"><img src="casa-mark-white-transparent.svg" alt="Standalone white CASA mark on a black preview background" /></div><figcaption>Standalone reverse mark<br /><code>casa-mark-white-transparent.svg</code></figcaption></figure>
+        <figure class="mark"><div class="art art--gray"><img style="width:min(100%,320px)" src="casa-favicon-red-transparent.svg" alt="Square CASA favicon treatment" /></div><figcaption>Square favicon treatment<br /><code>casa-favicon-red-transparent.svg</code></figcaption></figure>
+        <figure class="mark"><div class="art"><img style="width:min(100%,320px)" src="casa-social-avatar-red-on-white.svg" alt="Square CASA social avatar treatment" /></div><figcaption>Square social/avatar treatment<br /><code>casa-social-avatar-red-on-white.svg</code></figcaption></figure>
+      </section>
+    </main>
+  </body>
+</html>
