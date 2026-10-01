@@ -10,16 +10,11 @@ This guide covers routine content updates. It does not require coding.
 
 Your GitHub account must have access to the `casa-ames/casa-website` repository. Ask a CASA GitHub organization owner if the editor does not open.
 
-## Add a class
+## Add a class or event
 
-Every class must be entered in two places:
+For anything that uses Zeffy registration, enter the information **once in Zeffy**. The CASA website securely imports event titles, descriptions, dates and recurring occurrences into its public calendar. The automatic refresh runs every four hours; publishing any other website edit also refreshes the Zeffy information.
 
-- **Zeffy** manages registration, tickets, capacity, attendee information and proceeds.
-- **The CASA website editor** creates the class listing that visitors see on the CASA website.
-
-Some information—including the title, dates, time, location, price and description—must be entered twice, once on each platform. These details must agree before the class is published.
-
-### 1. Create the event in Zeffy
+### Create the campaign in Zeffy
 
 1. Sign in to CASA’s Zeffy account.
 2. Open **Campaigns**, choose **+ New campaign**, and select **Event**.
@@ -29,26 +24,22 @@ Some information—including the title, dates, time, location, price and descrip
 6. Add only the attendee questions CASA genuinely needs.
 7. Review the confirmation message, reminder settings, sales closing time, cancellation information and any additional-donation option.
 8. Preview the event on both desktop and mobile, then complete the builder until Zeffy shows the confirmation that the campaign has been created.
-9. Return to **Campaigns**, open the three-dot menu beside the event, choose **Share**, and select **Copy link**. Copy the public campaign link, not a dashboard or edit URL.
+9. Publish the campaign and open its public page once to confirm that registration works.
+10. Allow up to four hours for it to appear on the CASA website calendar. A website administrator can also run the **Deploy website** workflow in GitHub for an immediate refresh.
 
 For the current Zeffy interface, see [Configuring an Event Campaign](https://support.zeffy.com/configuring-an-event-campaign-on-zeffy-rd9ar) and [How to Find Your Campaign’s Share Link](https://support.zeffy.com/how-to-find-your-campaigns-share-link-p6cug).
 
-### 2. Create the class listing in the CASA website editor
+After the refresh, open the public **Events** page. Confirm that every occurrence appears on the correct calendar date and that the registration button opens the intended Zeffy campaign.
 
-1. Open **Classes** and choose **New Class**.
-2. Enter the class information. The display date is the short label visitors see, while the start and end dates control chronological ordering.
-3. Upload one landscape-oriented image and write an image description that explains what is visibly happening.
-4. Enter the horizontal and vertical focal-point numbers copied from **Prepare an image**. These control which part of the photograph remains visible in the class thumbnail.
-5. Choose the correct status:
-   - **Open** shows the registration action when a Zeffy link is present.
-   - **Registration coming soon** announces the offering without opening sales.
-   - **Sold out** or **Cancelled** clearly closes registration.
-   - **Past** removes the class from current public listings while keeping its record in the editor.
-6. Turn on **Show on homepage** only for a small number of current priority offerings.
-7. Paste the public Zeffy campaign link into **Zeffy registration link**.
-8. Save the entry and move it through the editorial workflow (**Draft → In Review → Ready → Published**).
+### Add a website-only listing
 
-After publication, open the public class listing and test its registration button. Confirm that the Zeffy page has the same title, dates, times, price, capacity, location and availability.
+Use **Website-only listings** in the CASA Website Editor only when an announcement should appear in the schedule but has no Zeffy campaign—for example, an informational open house without registration. Do not duplicate an event already maintained in Zeffy.
+
+1. Open **Website-only listings** and choose **New Website-only listing**.
+2. Enter its public title, summary, dates, time, location and any other applicable information.
+3. Upload a prepared image, add an accessible image description and enter its focal-point settings.
+4. Select its availability and whether it should appear on the homepage.
+5. Save it and move it through the editorial workflow (**Draft → In Review → Ready → Published**).
 
 ## Review and publish
 
@@ -61,11 +52,11 @@ CASA uses an editorial workflow (**Draft → In Review → Ready → Published**
 
 Publishing updates GitHub and starts an automatic website deployment. Allow a few minutes, then open the public page in a new tab and verify the result.
 
-## Edit or archive a class
+## Edit or archive a class or event
 
-Open the class, make the change, and pass it through the editorial workflow (**Draft → In Review → Ready → Published**). After a class ends, set its status to **Past** and publish that change. Do not delete a class merely because it has ended.
+For a Zeffy-managed class or event, make the change in Zeffy. The public calendar will update during the next automatic refresh. Close, cancel or archive registration in Zeffy before making a public announcement elsewhere.
 
-If registration must stop immediately, close or pause sales in Zeffy first, then update the website status to **Sold out** or **Cancelled** and publish. Keep the class details synchronized on both platforms.
+For a website-only listing, open it in the editor, make the change, and pass it through the editorial workflow (**Draft → In Review → Ready → Published**). After it ends, set its status to **Past** rather than deleting its record.
 
 ## Add or reuse a website image
 
@@ -132,7 +123,7 @@ Open **Page introductions** to update the title, search description, heading or 
 Before every publication, confirm:
 
 - Names, dates, times, prices, address and availability are correct.
-- The Zeffy link opens the intended public campaign.
+- Every Zeffy occurrence appears on the intended calendar date and its registration button opens the intended public campaign.
 - Images are authorized, correctly oriented, reasonably sized and described accessibly.
 - External gallery and publication links open the intended public pages.
 - No private information or internal notes appear in public fields.

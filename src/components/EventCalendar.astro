@@ -1,0 +1,151 @@
+---
+import type { EventOccurrence } from '../utils/eventListings';
+import { monthLabel } from '../utils/eventListings';
+
+interface Props {
+  events: EventOccurrence[];
+}
+
+const { events } = Astro.props;
+const currentMonth = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'America/Chicago',
+  year: 'numeric',
+  month: '2-digit',
+}).format(new Date());
+const eventMonths = [...new Set(events.map(({ monthKey }) => monthKey))].sort();
+const [currentYear, currentMonthNumber] = currentMonth.split('-').map(Number);
+const nearTermMonths = Array.from({ length: 6 }, (_, index) => {
+  const date = new Date(Date.UTC(currentYear, currentMonthNumber - 1 + index, 1, 12));
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
+});
+const monthKeys = [...new Set([...nearTermMonths, ...eventMonths])].sort();
+const firstFutureIndex = monthKeys.findIndex((month) => month >= currentMonth && events.some((event) => event.monthKey === month));
+const initialIndex = firstFutureIndex >= 0 ? firstFutureIndex : Math.max(0, monthKeys.indexOf(currentMonth));
+const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+const calendarDays = (key: string) => {
+  const [year, month] = key.split('-').map(Number);
+  const firstWeekday = new Date(Date.UTC(year, month - 1, 1, 12)).getUTCDay();
+  const dayCount = new Date(Date.UTC(year, month, 0, 12)).getUTCDate();
+  const cells = Array.from({ length: Math.ceil((firstWeekday + dayCount) / 7) * 7 }, (_, index) => {
+    const day = index - firstWeekday + 1;
+    if (day < 1 || day > dayCount) return null;
+    const keyForDay = `${key}-${String(day).padStart(2, '0')}`;
+    return { day, key: keyForDay, events: events.filter((event) => event.dateKey === keyForDay) };
+  });
+  return cells;
+};
+---
+
+<section class="event-calendar" aria-labelledby="calendar-heading" data-event-calendar data-initial-index={initialIndex}>
+  <div class="event-calendar__heading">
+    <div>
+      <p class="eyeless-label">Calendar</p>
+      <h2 id="calendar-heading">See what’s happening.</h2>
+    </div>
+    <div class="event-calendar__controls" aria-label="Choose a calendar month">
+      <button type="button" data-calendar-previous aria-label="Show previous month">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+      </button>
+      <p data-calendar-label aria-live="polite">{monthLabel(monthKeys[initialIndex])}</p>
+      <button type="button" data-calendar-next aria-label="Show next month">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="event-calendar__months">
+    {monthKeys.map((month, monthIndex) => (
+      <section
+        class:list={['event-calendar__month', { 'is-active': monthIndex === initialIndex }]}
+        data-calendar-month
+        data-label={monthLabel(month)}
+        aria-label={monthLabel(month)}
+        hidden={monthIndex !== initialIndex}
+      >
+        <div class="event-calendar__weekdays" aria-hidden="true">
+          {weekdays.map((weekday) => <span>{weekday}</span>)}
+        </div>
+        <div class="event-calendar__grid">
+          {calendarDays(month).map((cell) => cell ? (
+            <div class:list={['event-calendar__day', { 'has-events': cell.events.length > 0 }]}>
+              <span class="event-calendar__number">{cell.day}</span>
+              <div class="event-calendar__day-events">
+                {cell.events.map((event) => (
+                  <a href={`#${event.id}`} title={`${event.title} — ${event.timeLabel}`}>
+                    <span class="event-calendar__dot" aria-hidden="true"></span>
+                    <span>{event.title}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : <div class="event-calendar__day is-empty" aria-hidden="true"></div>)}
+        </div>
+      </section>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-event-calendar]').forEach((calendar) => {
+    const months = Array.from(calendar.querySelectorAll<HTMLElement>('[data-calendar-month]'));
+    const previous = calendar.querySelector<HTMLButtonElement>('[data-calendar-previous]');
+    const next = calendar.querySelector<HTMLButtonElement>('[data-calendar-next]');
+    const label = calendar.querySelector<HTMLElement>('[data-calendar-label]');
+    let activeIndex = Number((calendar as HTMLElement).dataset.initialIndex || 0);
+
+    const showMonth = (index: number) => {
+      activeIndex = Math.max(0, Math.min(index, months.length - 1));
+      months.forEach((month, monthIndex) => {
+        const active = monthIndex === activeIndex;
+        month.hidden = !active;
+        month.classList.toggle('is-active', active);
+      });
+      if (label) label.textContent = months[activeIndex]?.dataset.label || '';
+      if (previous) previous.disabled = activeIndex === 0;
+      if (next) next.disabled = activeIndex === months.length - 1;
+    };
+
+    previous?.addEventListener('click', () => showMonth(activeIndex - 1));
+    next?.addEventListener('click', () => showMonth(activeIndex + 1));
+    showMonth(activeIndex);
+  });
+</script>
+
+<style>
+  .event-calendar { border-top: 1px solid var(--red); padding-top: clamp(2rem, 4vw, 4rem); }
+  .event-calendar__heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
+  .event-calendar__heading h2 { margin: 0; font-size: clamp(2.3rem, 4vw, 4.8rem); }
+  .event-calendar__heading .eyeless-label { margin-bottom: 0.9rem; color: var(--red); }
+  .event-calendar__controls { display: grid; min-width: min(100%, 390px); grid-template-columns: 52px minmax(190px, 1fr) 52px; align-items: center; border: 1px solid var(--black); }
+  .event-calendar__controls p { margin: 0; font-size: 1rem; font-weight: 700; text-align: center; text-transform: uppercase; }
+  .event-calendar__controls button { display: grid; width: 52px; height: 52px; place-items: center; border: 0; background: var(--white); color: var(--black); cursor: pointer; transition: background var(--motion), color var(--motion); }
+  .event-calendar__controls button:first-child { border-right: var(--line); }
+  .event-calendar__controls button:last-child { border-left: var(--line); }
+  .event-calendar__controls button:hover:not(:disabled) { background: var(--black); color: var(--white); }
+  .event-calendar__controls button:disabled { color: var(--gray-400); cursor: default; }
+  .event-calendar__controls svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: square; stroke-linejoin: miter; stroke-width: 1.5; }
+  .event-calendar__month[hidden] { display: none; }
+  .event-calendar__weekdays, .event-calendar__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .event-calendar__weekdays { border-bottom: 1px solid var(--black); }
+  .event-calendar__weekdays span { padding: 0.7rem 0.75rem; color: var(--gray-700); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; }
+  .event-calendar__day { position: relative; min-height: 126px; border-right: var(--line); border-bottom: var(--line); padding: 0.65rem; }
+  .event-calendar__day:nth-child(7n + 1) { border-left: var(--line); }
+  .event-calendar__day.is-empty { background: var(--gray-50); }
+  .event-calendar__day.has-events { background: rgb(255 0 0 / 3%); }
+  .event-calendar__number { display: block; margin-bottom: 0.6rem; color: var(--gray-700); font-size: 0.9rem; }
+  .event-calendar__day-events { display: grid; gap: 0.35rem; }
+  .event-calendar__day-events a { display: flex; align-items: flex-start; gap: 0.4rem; color: var(--black); font-size: 0.82rem; font-weight: 600; line-height: 1.2; }
+  .event-calendar__day-events a:hover { color: var(--red); }
+  .event-calendar__dot { width: 6px; height: 6px; flex: 0 0 auto; margin-top: 0.22rem; background: var(--red); }
+  @media (max-width: 760px) {
+    .event-calendar__heading { align-items: stretch; flex-direction: column; }
+    .event-calendar__controls { width: 100%; min-width: 0; }
+    .event-calendar__weekdays span { padding-inline: 0; font-size: 0.72rem; text-align: center; }
+    .event-calendar__day { min-height: 52px; padding: 0.35rem; }
+    .event-calendar__number { margin: 0; font-size: 0.78rem; }
+    .event-calendar__day-events { position: absolute; right: 0.3rem; bottom: 0.3rem; left: 0.3rem; display: flex; flex-wrap: wrap; gap: 3px; }
+    .event-calendar__day-events a { display: block; width: 7px; height: 7px; background: var(--red); overflow: hidden; text-indent: -9999px; }
+    .event-calendar__dot { display: none; }
+  }
+</style>
