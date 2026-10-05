@@ -97,7 +97,7 @@ collections:
       - { label: Description, name: description, widget: text }
       - { label: External URL, name: url, widget: string, hint: "Paste the public https:// link visitors should open." }
       - { label: Link label, name: linkLabel, widget: string, default: "View gallery" }
-      - { label: Thumbnail image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) and choose the thumbnail setting. Upload the downloaded WebP.", media_library: { config: { max_file_size: 2097152 } } }
+      - { label: Thumbnail image, name: image, widget: image, hint: "Use [Prepare an image](/casa-website/image-prep/) and choose CASA website. Upload the downloaded WebP.", media_library: { config: { max_file_size: 2097152 } } }
       - { label: Thumbnail description, name: imageAlt, widget: string, hint: "Briefly describe the visible thumbnail for screen-reader users." }
       - { label: Horizontal focal point, name: focusX, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the far left; 100 is the far right. Leave blank to center the image." }
       - { label: Vertical focal point, name: focusY, widget: number, value_type: int, min: 0, max: 100, default: 50, required: false, hint: "Use the framing preview in Prepare an image. 0 is the top; 100 is the bottom. Leave blank to center the image." }

@@ -19,7 +19,7 @@ For anything that uses Zeffy registration, enter the information **once in Zeffy
 1. Sign in to CASA’s Zeffy account.
 2. Open **Campaigns**, choose **+ New campaign**, and select **Event**.
 3. Enter the class title, date or dates, start and end times, and CASA’s address.
-4. Add the description, an authorized image and CASA branding.
+4. Add the description and CASA branding. For the campaign image, open **Prepare an image**, choose **Zeffy event**, and upload the resulting square JPG.
 5. Create the ticket or registration type, including its price and available quantity. For a free class, enter a ticket price of `0` rather than leaving the price blank.
 6. Add only the attendee questions CASA genuinely needs.
 7. Review the confirmation message, reminder settings, sales closing time, cancellation information and any additional-donation option.
@@ -89,27 +89,33 @@ External links should lead directly to public, reputable pages and should be rev
 
 Keep the CASA website gallery highly curated—approximately 20–30 excellent photographs rather than a comprehensive archive. Favor images that collectively show the studios, artists, artwork, learning and community. For larger bodies of work, add an external gallery link, such as the existing CASA 25th Anniversary photobook.
 
-Before uploading any photograph:
+Open **Prepare an image** from the red button at the lower-right corner of the CASA website editor. You can also open `https://casa-ames.github.io/casa-website/image-prep/` directly. The tool first asks where the photograph will be used.
 
-1. Open **Prepare an image** from the red button at the lower-right corner of the CASA website editor. You can also open `https://casa-ames.github.io/casa-website/image-prep/` directly.
-2. Choose the original JPG, PNG or WebP from your computer.
-3. Choose **Class or gallery image** for ordinary website photographs, or **External gallery thumbnail** for the small preview attached to an outside publication or gallery.
-4. Choose a framing preview that resembles the intended placement. The 4:3 option matches class and gallery thumbnails; the wide option is useful for banners and wide gallery arrangements.
-5. Drag the photograph within the preview—or use the horizontal and vertical sliders—until faces and other important details sit comfortably inside the frame. The faint inner rectangle is a conservative safe area for important subjects.
-6. Try any other framing shapes in which the photograph may appear. The preview does not permanently crop the photograph.
-7. Choose **Copy focal point**, then note the horizontal and vertical numbers. These are entered in the corresponding focal-point fields in the website editor.
-8. Choose **Download WebP**.
-9. Return to the editor, upload the newly downloaded file ending in `-web.webp`, and enter the two focal-point numbers. Do not upload the large original.
+### Prepare an image for the CASA website
 
-The tool works entirely in the browser: the original is not sent anywhere, and the prepared image is resized, compressed and converted to WebP before it reaches GitHub. The editor rejects files larger than 2 MB as an additional safeguard.
+1. Choose **CASA website**, then choose the original JPG, PNG or WebP from your computer.
+2. Choose a framing preview that resembles the intended placement. The 4:3 option matches class and gallery thumbnails; the wide option is useful for banners and wide gallery arrangements.
+3. Drag the photograph within the preview—or use the horizontal and vertical sliders—until faces and other important details sit comfortably inside the frame. The faint inner rectangle is a conservative safe area for important subjects.
+4. Try any other framing shapes in which the photograph may appear. The preview does not permanently crop the photograph.
+5. Choose **Copy focal point**, then choose **Download WebP**.
+6. Return to the CASA editor, upload the newly downloaded file ending in `-web.webp`, and enter the two focal-point numbers. Do not upload the large original.
 
-The downloaded WebP retains the complete photograph rather than permanently cutting away its edges. The focal-point settings tell the website how to position that image whenever a layout needs to crop it. This makes the same image reusable while helping prevent faces from being cut off awkwardly.
+### Prepare an image for a Zeffy event
+
+1. Choose **Zeffy event**, then choose the original JPG, PNG or WebP from your computer.
+2. Drag the photograph within the square preview—or use the sliders—until the important subject is comfortably framed.
+3. Choose **Download JPG**. The file ending in `-zeffy.jpg` is a square image no larger than 1,200 × 1,200 pixels.
+4. Upload that JPG as the campaign banner in Zeffy. Do not create a duplicate event or upload the image again in the CASA editor; the website imports the Zeffy event and its banner automatically.
+
+The tool works entirely in the browser: the original is not sent anywhere. CASA website images are resized, compressed and converted to WebP before they reach GitHub. Zeffy images are converted to a square JPG and remain hosted by Zeffy. The CASA editor rejects files larger than 2 MB as an additional safeguard.
+
+For CASA website images, the downloaded WebP retains the complete photograph rather than permanently cutting away its edges. The focal-point settings tell the website how to position that image whenever a layout needs to crop it. This makes the same image reusable while helping prevent faces from being cut off awkwardly.
 
 Use these practical defaults:
 
-- Use the WebP produced by the preparation tool.
+- For the CASA editor, use the WebP produced by the preparation tool; for Zeffy, use its square JPG.
 - Class and gallery photographs are limited to 2,400 pixels on the longest side.
-- External gallery thumbnails are limited to 1,200 pixels on the longest side.
+- Zeffy campaign images are square JPG files limited to 1,200 × 1,200 pixels.
 - The tool aims for approximately 1 MB or less while retaining good visual quality.
 - Clear, descriptive filenames without confidential information.
 - A concise description of the visible subject and activity for screen-reader users; do not repeat the caption word for word.
