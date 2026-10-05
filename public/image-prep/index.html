@@ -196,7 +196,7 @@
 
       .result-actions p { margin: 0; color: var(--gray-700); }
 
-      .steps { margin: 5rem 0 0; padding: 2rem 0 0; border-top: 1px solid var(--gray-200); }
+      .steps { margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 2rem 0 0; border-top: 1px solid var(--gray-200); }
 
       .steps h2 { margin: 0 0 1.5rem; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 500; letter-spacing: -0.04em; }
 
@@ -236,6 +236,15 @@
       <section class="intro" aria-labelledby="page-title">
         <h1 id="page-title">Prepare an image.</h1>
         <p>Turn a large JPG, PNG or WebP into a web-ready WebP before uploading it to the CASA editor.</p>
+      </section>
+
+      <section class="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">Three steps</h2>
+        <ol>
+          <li>Choose the original and preview the shape in which it will appear.</li>
+          <li>Adjust the focal point, then download the prepared WebP.</li>
+          <li>Upload it in the editor and enter the two copied focal-point numbers.</li>
+        </ol>
       </section>
 
       <section class="workspace" aria-label="Image preparation workspace">
@@ -311,14 +320,6 @@
         </div>
       </section>
 
-      <section class="steps" aria-labelledby="steps-title">
-        <h2 id="steps-title">Three steps</h2>
-        <ol>
-          <li>Choose the original and preview the shape in which it will appear.</li>
-          <li>Adjust the focal point, then download the prepared WebP.</li>
-          <li>Upload it in the editor and enter the two copied focal-point numbers.</li>
-        </ol>
-      </section>
     </main>
 
     <script>
