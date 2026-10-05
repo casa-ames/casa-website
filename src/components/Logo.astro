@@ -1,7 +1,10 @@
 ---
+import horizontalPrimary from '../../design/logo-proposals/casa-lockup-horizontal-red-black-transparent.svg?url';
+import horizontalWhite from '../../design/logo-proposals/casa-lockup-horizontal-white-transparent.svg?url';
+
 interface Props {
   id: string;
-  variant?: 'primary' | 'reverse' | 'white';
+  variant?: 'primary' | 'reverse' | 'white' | 'horizontal-primary' | 'horizontal-white';
   label?: string;
   class?: string;
 }
@@ -16,6 +19,8 @@ const sources = {
   primary: `${import.meta.env.BASE_URL}images/brand/casa-logo-primary.svg`,
   reverse: `${import.meta.env.BASE_URL}images/brand/casa-logo-reverse.svg`,
   white: `${import.meta.env.BASE_URL}images/brand/casa-logo-white.svg`,
+  'horizontal-primary': horizontalPrimary,
+  'horizontal-white': horizontalWhite,
 };
 ---
 
