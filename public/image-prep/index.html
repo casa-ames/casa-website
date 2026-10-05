@@ -81,6 +81,34 @@
 
       .intro p { max-width: 35rem; margin: 0; color: var(--gray-700); font-size: 1.1rem; }
 
+      .destination { margin-top: clamp(2.5rem, 5vw, 4rem); padding-top: 2rem; border-top: 1px solid var(--gray-200); }
+
+      .destination fieldset { margin: 0; padding: 0; border: 0; }
+
+      .destination legend { margin-bottom: 1.5rem; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 500; letter-spacing: -0.04em; }
+
+      .destination-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+
+      .destination-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+      .destination-card {
+        display: grid;
+        min-height: 8.5rem;
+        align-content: space-between;
+        gap: 1rem;
+        border: 1px solid var(--gray-200);
+        padding: 1.4rem;
+        cursor: pointer;
+      }
+
+      .destination-card strong { font-size: 1.25rem; }
+
+      .destination-card span { color: var(--gray-700); }
+
+      .destination-input:checked + .destination-card { border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+
+      .destination-input:focus-visible + .destination-card { outline: 2px solid var(--red); outline-offset: 4px; }
+
       .workspace { display: grid; grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); margin-top: clamp(3.5rem, 7vw, 7rem); padding-top: clamp(2rem, 4vw, 4rem); border-top: 1px solid var(--gray-200); }
 
       .controls { align-self: start; }
@@ -196,7 +224,7 @@
 
       .result-actions p { margin: 0; color: var(--gray-700); }
 
-      .steps { margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 2rem 0 0; border-top: 1px solid var(--gray-200); }
+      .steps { margin: clamp(2rem, 4vw, 3rem) 0 0; }
 
       .steps h2 { margin: 0 0 1.5rem; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 500; letter-spacing: -0.04em; }
 
@@ -204,10 +232,13 @@
 
       .steps li { padding-left: 0.4rem; }
 
+      [hidden] { display: none !important; }
+
       @media (max-width: 800px) {
         .intro, .workspace { grid-template-columns: 1fr; }
         .intro { align-items: start; }
         .workspace { gap: 3rem; }
+        .destination-options { grid-template-columns: 1fr; }
         .steps ol { grid-template-columns: 1fr; gap: 1rem; }
         .result-meta { grid-template-columns: repeat(2, 1fr); }
       }
@@ -235,15 +266,37 @@
     <main class="shell">
       <section class="intro" aria-labelledby="page-title">
         <h1 id="page-title">Prepare an image.</h1>
-        <p>Turn a large JPG, PNG or WebP into a web-ready WebP before uploading it to the CASA editor.</p>
+        <p>Prepare a photograph for the CASA website or a Zeffy event without uploading the large original.</p>
+      </section>
+
+      <section class="destination" aria-labelledby="destination-title">
+        <fieldset>
+          <legend id="destination-title">Where will this image go?</legend>
+          <div class="destination-options">
+            <div>
+              <input class="destination-input" id="destination-website" name="destination" type="radio" value="website" checked />
+              <label class="destination-card" for="destination-website">
+                <strong>CASA website</strong>
+                <span>Full photograph · WebP · up to 2,400 pixels</span>
+              </label>
+            </div>
+            <div>
+              <input class="destination-input" id="destination-zeffy" name="destination" type="radio" value="zeffy" />
+              <label class="destination-card" for="destination-zeffy">
+                <strong>Zeffy event</strong>
+                <span>Square crop · JPG · up to 1,200 × 1,200 pixels</span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
       </section>
 
       <section class="steps" aria-labelledby="steps-title">
-        <h2 id="steps-title">Three steps</h2>
+        <h2 id="steps-title">Three steps for the CASA website</h2>
         <ol>
-          <li>Choose the original and preview the shape in which it will appear.</li>
-          <li>Adjust the focal point, then download the prepared WebP.</li>
-          <li>Upload it in the editor and enter the two copied focal-point numbers.</li>
+          <li id="step-one">Choose the original and preview the shapes in which it may appear.</li>
+          <li id="step-two">Adjust the focal point, then download the prepared WebP.</li>
+          <li id="step-three">Upload it in the CASA editor and enter the two copied focal-point numbers.</li>
         </ol>
       </section>
 
@@ -256,14 +309,6 @@
           </div>
 
           <div class="field">
-            <label for="image-use">Image use</label>
-            <select id="image-use" name="image-use">
-              <option value="website">Class or gallery image — 2400 px maximum</option>
-              <option value="thumbnail">External gallery thumbnail — 1200 px maximum</option>
-            </select>
-          </div>
-
-          <div class="field">
             <label for="frame-shape">Framing preview</label>
             <select id="frame-shape" name="frame-shape">
               <option value="card">Class or gallery thumbnail — 4:3</option>
@@ -271,7 +316,7 @@
               <option value="square">Square preview — 1:1</option>
               <option value="portrait">Portrait preview — 4:5</option>
             </select>
-            <small>This changes only the preview. The downloaded WebP keeps the complete photograph so it can be reused.</small>
+            <small id="frame-help">This changes only the preview. The downloaded WebP keeps the complete photograph so it can be reused.</small>
           </div>
 
           <div class="field field-grid" aria-label="Focal point controls">
@@ -302,12 +347,12 @@
               <img class="preview-image" id="preview" alt="Preview of the prepared image" />
               <span class="focal-marker" id="focal-marker" aria-hidden="true"></span>
             </div>
-            <p class="preview-guidance">Drag the photograph or use the sliders until faces and other important details sit comfortably inside the frame.</p>
+            <p class="preview-guidance" id="preview-guidance">Drag the photograph or use the sliders until faces and other important details sit comfortably inside the frame.</p>
             <div class="result-meta">
               <div class="stat"><span>Original</span><strong id="original-stat">—</strong></div>
               <div class="stat"><span>Prepared</span><strong id="prepared-stat">—</strong></div>
               <div class="stat"><span>Reduction</span><strong id="reduction-stat">—</strong></div>
-              <div class="stat"><span>Editor focal point</span><strong id="focus-stat">50% · 50%</strong></div>
+              <div class="stat"><span id="focus-label">Editor focal point</span><strong id="focus-stat">50% · 50%</strong></div>
             </div>
             <div class="result-actions">
               <p id="output-name"></p>
@@ -325,8 +370,8 @@
     <script>
       const TARGET_BYTES = 1024 * 1024;
       const presets = {
-        website: { maxDimension: 2400, startingQuality: 0.84 },
-        thumbnail: { maxDimension: 1200, startingQuality: 0.82 },
+        website: { maxDimension: 2400, startingQuality: 0.84, minimumQuality: 0.58, mimeType: 'image/webp' },
+        zeffy: { maxDimension: 1200, startingQuality: 0.9, minimumQuality: 0.62, mimeType: 'image/jpeg' },
       };
       const framePresets = {
         card: { ratio: '4 / 3' },
@@ -334,33 +379,69 @@
         square: { ratio: '1 / 1' },
         portrait: { ratio: '4 / 5' },
       };
+      const workflowCopy = {
+        website: {
+          title: 'Three steps for the CASA website',
+          steps: [
+            'Choose the original and preview the shapes in which it may appear.',
+            'Adjust the focal point, then download the prepared WebP.',
+            'Upload it in the CASA editor and enter the two copied focal-point numbers.',
+          ],
+          frameHelp: 'This changes only the preview. The downloaded WebP keeps the complete photograph so it can be reused.',
+          previewGuidance: 'Drag the photograph or use the sliders until faces and other important details sit comfortably inside the frame.',
+          focusLabel: 'Editor focal point',
+          downloadLabel: 'Download WebP',
+        },
+        zeffy: {
+          title: 'Three steps for a Zeffy event',
+          steps: [
+            'Choose the original and check how the important subject fits inside the square.',
+            'Adjust the crop, then download the prepared JPG.',
+            'Upload the JPG as the Zeffy campaign banner. The CASA website will import it automatically.',
+          ],
+          frameHelp: 'Zeffy displays campaign banners as a square. The downloaded JPG permanently uses the crop shown here.',
+          previewGuidance: 'Drag the photograph or use the sliders until faces and other important details sit comfortably inside the square.',
+          focusLabel: 'Crop focal point',
+          downloadLabel: 'Download JPG',
+        },
+      };
 
       const input = document.querySelector('#source-image');
-      const useSelect = document.querySelector('#image-use');
+      const destinationInputs = [...document.querySelectorAll('input[name="destination"]')];
       const frameSelect = document.querySelector('#frame-shape');
+      const frameHelp = document.querySelector('#frame-help');
       const focusX = document.querySelector('#focus-x');
       const focusY = document.querySelector('#focus-y');
       const focusXValue = document.querySelector('#focus-x-value');
       const focusYValue = document.querySelector('#focus-y-value');
+      const stepsTitle = document.querySelector('#steps-title');
+      const stepOne = document.querySelector('#step-one');
+      const stepTwo = document.querySelector('#step-two');
+      const stepThree = document.querySelector('#step-three');
       const status = document.querySelector('#status');
       const emptyState = document.querySelector('#empty-state');
       const result = document.querySelector('#result');
       const preview = document.querySelector('#preview');
       const cropStage = document.querySelector('#crop-stage');
       const focalMarker = document.querySelector('#focal-marker');
+      const previewGuidance = document.querySelector('#preview-guidance');
       const originalStat = document.querySelector('#original-stat');
       const preparedStat = document.querySelector('#prepared-stat');
       const reductionStat = document.querySelector('#reduction-stat');
+      const focusLabel = document.querySelector('#focus-label');
       const focusStat = document.querySelector('#focus-stat');
       const outputName = document.querySelector('#output-name');
       const download = document.querySelector('#download');
       const copyFocus = document.querySelector('#copy-focus');
 
-      let currentObjectUrl = '';
+      let currentOutputUrl = '';
+      let currentPreviewUrl = '';
       let processingId = 0;
       let dragStart = null;
+      let websiteFrame = 'card';
 
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const selectedDestination = () => document.querySelector('input[name="destination"]:checked').value;
 
       const updateFramingPreview = () => {
         const x = Number(focusX.value);
@@ -375,19 +456,42 @@
         focusStat.textContent = `${x}% · ${y}%`;
       };
 
+      const updateWorkflow = () => {
+        const destination = selectedDestination();
+        const copy = workflowCopy[destination];
+
+        if (destination === 'zeffy') {
+          if (!frameSelect.disabled) websiteFrame = frameSelect.value;
+          frameSelect.value = 'square';
+          frameSelect.disabled = true;
+        } else {
+          frameSelect.disabled = false;
+          frameSelect.value = websiteFrame;
+        }
+
+        stepsTitle.textContent = copy.title;
+        [stepOne, stepTwo, stepThree].forEach((step, index) => { step.textContent = copy.steps[index]; });
+        frameHelp.textContent = copy.frameHelp;
+        previewGuidance.textContent = copy.previewGuidance;
+        focusLabel.textContent = copy.focusLabel;
+        download.textContent = copy.downloadLabel;
+        copyFocus.hidden = destination === 'zeffy';
+        updateFramingPreview();
+      };
+
       const formatBytes = (bytes) => {
         if (bytes < 1024) return `${bytes} B`;
         if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
         return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
       };
 
-      const outputFilename = (name) => {
+      const outputFilename = (name, destination) => {
         const stem = name.replace(/\.[^.]+$/, '').replace(/[^a-z0-9_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'casa-image';
-        return `${stem}-web.webp`;
+        return destination === 'zeffy' ? `${stem}-zeffy.jpg` : `${stem}-web.webp`;
       };
 
-      const canvasToBlob = (canvas, quality) => new Promise((resolve, reject) => {
-        canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('This browser could not create the WebP file.')), 'image/webp', quality);
+      const canvasToBlob = (canvas, mimeType, quality) => new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('This browser could not create the prepared image.')), mimeType, quality);
       });
 
       async function decodeImage(file) {
@@ -405,6 +509,64 @@
           URL.revokeObjectURL(url);
         }
       }
+
+      const renderWebsiteImage = async (source, sourceWidth, sourceHeight, preset) => {
+        let scale = Math.min(1, preset.maxDimension / Math.max(sourceWidth, sourceHeight));
+        let width = Math.max(1, Math.round(sourceWidth * scale));
+        let height = Math.max(1, Math.round(sourceHeight * scale));
+        let blob;
+
+        for (let dimensionPass = 0; dimensionPass < 3; dimensionPass += 1) {
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const context = canvas.getContext('2d', { alpha: true });
+          context.imageSmoothingEnabled = true;
+          context.imageSmoothingQuality = 'high';
+          context.drawImage(source, 0, 0, width, height);
+
+          for (let quality = preset.startingQuality; quality >= preset.minimumQuality; quality -= 0.06) {
+            blob = await canvasToBlob(canvas, preset.mimeType, quality);
+            if (blob.size <= TARGET_BYTES) break;
+          }
+
+          if (blob.size <= TARGET_BYTES || Math.max(width, height) <= 1200) break;
+          width = Math.max(1, Math.round(width * 0.82));
+          height = Math.max(1, Math.round(height * 0.82));
+        }
+
+        return { blob, width, height };
+      };
+
+      const renderZeffyImage = async (source, sourceWidth, sourceHeight, preset) => {
+        const cropSize = Math.min(sourceWidth, sourceHeight);
+        const sourceX = (sourceWidth - cropSize) * (Number(focusX.value) / 100);
+        const sourceY = (sourceHeight - cropSize) * (Number(focusY.value) / 100);
+        let size = Math.min(preset.maxDimension, cropSize);
+        let blob;
+
+        for (let dimensionPass = 0; dimensionPass < 3; dimensionPass += 1) {
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const context = canvas.getContext('2d', { alpha: false });
+          context.fillStyle = '#ffffff';
+          context.fillRect(0, 0, size, size);
+          context.imageSmoothingEnabled = true;
+          context.imageSmoothingQuality = 'high';
+          context.drawImage(source, sourceX, sourceY, cropSize, cropSize, 0, 0, size, size);
+
+          for (let quality = preset.startingQuality; quality >= preset.minimumQuality; quality -= 0.06) {
+            blob = await canvasToBlob(canvas, preset.mimeType, quality);
+            if (blob.size <= TARGET_BYTES) break;
+          }
+
+          if (blob.size <= TARGET_BYTES || size <= 800) break;
+          size = Math.max(1, Math.round(size * 0.85));
+        }
+
+        return { blob, width: size, height: size };
+      };
 
       async function prepareImage() {
         const file = input.files?.[0];
@@ -433,41 +595,21 @@
 
           const sourceWidth = source.width || source.naturalWidth;
           const sourceHeight = source.height || source.naturalHeight;
-          const preset = presets[useSelect.value];
-          const scale = Math.min(1, preset.maxDimension / Math.max(sourceWidth, sourceHeight));
-          let width = Math.max(1, Math.round(sourceWidth * scale));
-          let height = Math.max(1, Math.round(sourceHeight * scale));
-          let blob;
-          let canvas;
-
-          for (let dimensionPass = 0; dimensionPass < 3; dimensionPass += 1) {
-            canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            const context = canvas.getContext('2d', { alpha: true });
-            context.imageSmoothingEnabled = true;
-            context.imageSmoothingQuality = 'high';
-            context.drawImage(source, 0, 0, width, height);
-
-            for (let quality = preset.startingQuality; quality >= 0.58; quality -= 0.06) {
-              blob = await canvasToBlob(canvas, quality);
-              if (blob.size <= TARGET_BYTES) break;
-            }
-
-            if (blob.size <= TARGET_BYTES || Math.max(width, height) <= 1200) break;
-            width = Math.max(1, Math.round(width * 0.82));
-            height = Math.max(1, Math.round(height * 0.82));
-          }
+          const destination = selectedDestination();
+          const preset = presets[destination];
+          const prepared = destination === 'zeffy'
+            ? await renderZeffyImage(source, sourceWidth, sourceHeight, preset)
+            : await renderWebsiteImage(source, sourceWidth, sourceHeight, preset);
+          const { blob, width, height } = prepared;
 
           if (typeof source.close === 'function') source.close();
           if (id !== processingId) return;
 
-          if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
-          currentObjectUrl = URL.createObjectURL(blob);
+          if (currentOutputUrl) URL.revokeObjectURL(currentOutputUrl);
+          currentOutputUrl = URL.createObjectURL(blob);
 
-          const filename = outputFilename(file.name);
-          preview.src = currentObjectUrl;
-          download.href = currentObjectUrl;
+          const filename = outputFilename(file.name, destination);
+          download.href = currentOutputUrl;
           download.download = filename;
           download.removeAttribute('aria-disabled');
           originalStat.textContent = `${sourceWidth} × ${sourceHeight} · ${formatBytes(file.size)}`;
@@ -475,12 +617,14 @@
           const reduction = Math.max(0, Math.round((1 - blob.size / file.size) * 100));
           reductionStat.textContent = blob.size < file.size
             ? `${reduction >= 100 ? '>99' : reduction}% smaller`
-            : 'Web-ready format';
+            : destination === 'zeffy' ? 'Zeffy-ready JPG' : 'Web-ready format';
           outputName.textContent = filename;
           emptyState.hidden = true;
           result.hidden = false;
           status.dataset.state = 'success';
-          status.textContent = 'Your WebP is ready to download.';
+          status.textContent = destination === 'zeffy'
+            ? 'Your square JPG is ready to upload to Zeffy.'
+            : 'Your WebP is ready to upload to the CASA editor.';
         } catch (error) {
           console.error(error);
           status.dataset.state = 'error';
@@ -489,16 +633,27 @@
         }
       }
 
-      input.addEventListener('change', prepareImage);
-      useSelect.addEventListener('change', prepareImage);
       input.addEventListener('change', () => {
         focusX.value = '50';
         focusY.value = '50';
+        if (currentPreviewUrl) URL.revokeObjectURL(currentPreviewUrl);
+        currentPreviewUrl = input.files?.[0] ? URL.createObjectURL(input.files[0]) : '';
+        preview.src = currentPreviewUrl;
+        updateFramingPreview();
+        prepareImage();
+      });
+      destinationInputs.forEach((destinationInput) => destinationInput.addEventListener('change', () => {
+        updateWorkflow();
+        prepareImage();
+      }));
+      frameSelect.addEventListener('change', () => {
+        websiteFrame = frameSelect.value;
         updateFramingPreview();
       });
-      frameSelect.addEventListener('change', updateFramingPreview);
       focusX.addEventListener('input', updateFramingPreview);
       focusY.addEventListener('input', updateFramingPreview);
+      focusX.addEventListener('change', () => { if (selectedDestination() === 'zeffy') prepareImage(); });
+      focusY.addEventListener('change', () => { if (selectedDestination() === 'zeffy') prepareImage(); });
 
       cropStage.addEventListener('pointerdown', (event) => {
         dragStart = { pointerX: event.clientX, pointerY: event.clientY, focusX: Number(focusX.value), focusY: Number(focusY.value) };
@@ -514,6 +669,7 @@
       cropStage.addEventListener('pointerup', (event) => {
         if (cropStage.hasPointerCapture(event.pointerId)) cropStage.releasePointerCapture(event.pointerId);
         dragStart = null;
+        if (selectedDestination() === 'zeffy') prepareImage();
       });
       cropStage.addEventListener('pointercancel', () => { dragStart = null; });
 
@@ -529,9 +685,10 @@
         }
       });
 
-      updateFramingPreview();
+      updateWorkflow();
       window.addEventListener('beforeunload', () => {
-        if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+        if (currentOutputUrl) URL.revokeObjectURL(currentOutputUrl);
+        if (currentPreviewUrl) URL.revokeObjectURL(currentPreviewUrl);
       });
     </script>
   </body>
