@@ -25,8 +25,10 @@ const storyPhotos = featuredGallery.slice(1);
       <p class="lead">{page.data.intro}</p>
     </div>
     {heroPhoto && (
-      <figure class="about-intro__media media-frame">
-        <img src={publicAsset(heroPhoto.image)} alt={heroPhoto.alt} style={`object-position: ${heroPhoto.focusX}% ${heroPhoto.focusY}%`} />
+      <figure class="about-intro__media">
+        <div class="about-intro__image media-frame">
+          <img src={publicAsset(heroPhoto.image)} alt={heroPhoto.alt} style={`object-position: ${heroPhoto.focusX}% ${heroPhoto.focusY}%`} />
+        </div>
         <figcaption class="caption">{heroPhoto.caption}</figcaption>
       </figure>
     )}
@@ -36,8 +38,10 @@ const storyPhotos = featuredGallery.slice(1);
     {storyPhotos.length > 0 && (
       <div class="about-story__gallery">
         {storyPhotos.map((photo) => (
-          <figure class:list={['about-story__photo', 'media-frame', { 'about-story__photo--history': photo.category === 'history' }]}>
-            <img src={publicAsset(photo.image)} alt={photo.alt} loading="lazy" style={`object-position: ${photo.focusX}% ${photo.focusY}%`} />
+          <figure class:list={['about-story__photo', { 'about-story__photo--history': photo.category === 'history' }]}>
+            <div class="about-story__image media-frame">
+              <img src={publicAsset(photo.image)} alt={photo.alt} loading="lazy" style={`object-position: ${photo.focusX}% ${photo.focusY}%`} />
+            </div>
             <figcaption class="caption">{photo.caption}</figcaption>
           </figure>
         ))}
@@ -85,13 +89,14 @@ const storyPhotos = featuredGallery.slice(1);
 <style>
   .about-intro { display: grid; grid-template-columns: minmax(330px, 0.85fr) minmax(560px, 1.3fr); align-items: center; gap: clamp(3rem, 6vw, 7rem); }
   .about-intro__copy .lead { margin: 2.6rem 0 0; max-width: 33rem; }
-  .about-intro__media { overflow: visible; aspect-ratio: 16 / 7.1; }
-  .about-intro__media img { object-position: center; }
+  .about-intro__media, .about-story__photo { min-width: 0; margin: 0; }
+  .about-intro__image { aspect-ratio: 16 / 7.1; }
+  .about-intro__image img { object-position: center; }
   .about-story { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr); gap: clamp(3rem, 6vw, 7rem); border-top: var(--line); }
   .about-story__gallery { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 1.25rem; }
-  .about-story__gallery figure { overflow: visible; }
-  .about-story__photo { aspect-ratio: 4 / 3; }
-  .about-story__photo--history { grid-column: 1 / -1; aspect-ratio: 16 / 6.5; }
+  .about-story__image { aspect-ratio: 4 / 3; }
+  .about-story__photo--history { grid-column: 1 / -1; }
+  .about-story__photo--history .about-story__image { aspect-ratio: 16 / 6.5; }
   .about-story__copy { align-self: center; }
   .about-story__copy h2 { margin-bottom: 2rem; font-size: var(--h2); }
   .about-story__copy p { color: var(--gray-700); }
@@ -112,12 +117,13 @@ const storyPhotos = featuredGallery.slice(1);
   .about-cta h2 { margin: 0; font-size: var(--h2); }
   @media (max-width: 940px) {
     .about-intro, .about-story, .external-galleries { grid-template-columns: 1fr; }
-    .about-intro__media { width: 100%; height: 360px; min-height: 0; aspect-ratio: auto; }
+    .about-intro__image { width: 100%; height: 360px; min-height: 0; aspect-ratio: auto; }
     .about-story__copy { grid-row: 1; }
   }
   @media (max-width: 620px) {
     .about-story__gallery { grid-template-columns: 1fr; }
-    .about-story__photo--history { grid-column: 1; width: 100%; height: 240px; min-height: 0; aspect-ratio: auto; }
+    .about-story__photo--history { grid-column: 1; width: 100%; }
+    .about-story__photo--history .about-story__image { height: 240px; min-height: 0; aspect-ratio: auto; }
     .external-gallery { grid-template-columns: minmax(110px, 34%) 1fr; }
     .about-cta { align-items: flex-start; flex-direction: column; }
   }
