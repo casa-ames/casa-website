@@ -130,9 +130,11 @@ const href = (path: string) => `${base}${path}` || '/';
   .history-cta__actions .button { border-color: var(--red); }
   .history-cta__actions .button:hover { border-color: var(--white); background: var(--white); color: var(--black); }
   @media (min-width: 901px) {
+    .history-record { padding-top: clamp(1rem, 2vw, 2rem); }
     .history-record__heading { max-width: 14rem; }
     .history-record__heading h2 { text-wrap: balance; }
     .history-entry { padding-block: clamp(1.3rem, 2vw, 2.1rem); }
+    .history-entry:first-child { padding-top: clamp(0.45rem, 0.75vw, 0.8rem); }
   }
   @media (max-width: 900px) {
     .history-hero, .history-record, .history-open { grid-template-columns: 1fr; }
