@@ -292,11 +292,11 @@
       </section>
 
       <section class="steps" aria-labelledby="steps-title">
-        <h2 id="steps-title">Three steps for the CASA website</h2>
+        <h2 id="steps-title">Prepare an image in three steps</h2>
         <ol>
-          <li id="step-one">Choose the original and preview the shapes in which it may appear.</li>
-          <li id="step-two">Adjust the focal point, then download the prepared WebP.</li>
-          <li id="step-three">Upload it in the CASA editor and enter the two copied focal-point numbers.</li>
+          <li>Choose CASA website or Zeffy, then select the original image.</li>
+          <li>Adjust the framing until important details fit comfortably.</li>
+          <li>Download the prepared image and upload it to the destination you chose.</li>
         </ol>
       </section>
 
@@ -381,24 +381,12 @@
       };
       const workflowCopy = {
         website: {
-          title: 'Three steps for the CASA website',
-          steps: [
-            'Choose the original and preview the shapes in which it may appear.',
-            'Adjust the focal point, then download the prepared WebP.',
-            'Upload it in the CASA editor and enter the two copied focal-point numbers.',
-          ],
           frameHelp: 'This changes only the preview. The downloaded WebP keeps the complete photograph so it can be reused.',
           previewGuidance: 'Drag the photograph or use the sliders until faces and other important details sit comfortably inside the frame.',
           focusLabel: 'Editor focal point',
           downloadLabel: 'Download WebP',
         },
         zeffy: {
-          title: 'Three steps for a Zeffy event',
-          steps: [
-            'Choose the original and check how the important subject fits inside the square.',
-            'Adjust the crop, then download the prepared JPG.',
-            'Upload the JPG as the Zeffy campaign banner. The CASA website will import it automatically.',
-          ],
           frameHelp: 'Zeffy displays campaign banners as a square. The downloaded JPG permanently uses the crop shown here.',
           previewGuidance: 'Drag the photograph or use the sliders until faces and other important details sit comfortably inside the square.',
           focusLabel: 'Crop focal point',
@@ -414,10 +402,6 @@
       const focusY = document.querySelector('#focus-y');
       const focusXValue = document.querySelector('#focus-x-value');
       const focusYValue = document.querySelector('#focus-y-value');
-      const stepsTitle = document.querySelector('#steps-title');
-      const stepOne = document.querySelector('#step-one');
-      const stepTwo = document.querySelector('#step-two');
-      const stepThree = document.querySelector('#step-three');
       const status = document.querySelector('#status');
       const emptyState = document.querySelector('#empty-state');
       const result = document.querySelector('#result');
@@ -469,8 +453,6 @@
           frameSelect.value = websiteFrame;
         }
 
-        stepsTitle.textContent = copy.title;
-        [stepOne, stepTwo, stepThree].forEach((step, index) => { step.textContent = copy.steps[index]; });
         frameHelp.textContent = copy.frameHelp;
         previewGuidance.textContent = copy.previewGuidance;
         focusLabel.textContent = copy.focusLabel;
