@@ -38,7 +38,10 @@ const storyPhotos = featuredGallery.slice(1);
     {storyPhotos.length > 0 && (
       <div class="about-story__gallery">
         {storyPhotos.map((photo) => (
-          <figure class:list={['about-story__photo', { 'about-story__photo--history': photo.category === 'history' }]}>
+          <figure class:list={['about-story__photo', {
+            'about-story__photo--history': photo.category === 'history',
+            'about-story__photo--wheel': photo.image === '/images/class-wheel.webp',
+          }]}>
             <div class="about-story__image media-frame">
               <img src={publicAsset(photo.image)} alt={photo.alt} loading="lazy" style={`object-position: ${photo.focusX}% ${photo.focusY}%`} />
             </div>
@@ -95,6 +98,7 @@ const storyPhotos = featuredGallery.slice(1);
   .about-story { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr); gap: clamp(3rem, 6vw, 7rem); border-top: var(--line); }
   .about-story__gallery { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 1.25rem; }
   .about-story__image { aspect-ratio: 4 / 3; }
+  .about-story__photo--wheel .about-story__image { aspect-ratio: 1.05 / 1; }
   .about-story__photo--history { grid-column: 1 / -1; }
   .about-story__photo--history .about-story__image { aspect-ratio: 16 / 6.5; }
   .about-story__copy { align-self: center; }
