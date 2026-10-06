@@ -31,6 +31,7 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [ ] Confirm CASA's public email address, phone number when available, and hours.
 - [ ] Review all copy and selected photographs with CASA.
 - [ ] Ask CASA to provide the post-2001 chronology, key milestones, names, and historical photographs needed to complete the History page.
+- [ ] Replace the clearly labeled conceptual History-page images with CASA's corresponding archival photographs as they become available.
 - [ ] Confirm the required City of Ames Commission on the Arts acknowledgment and logo treatment for each applicable grant year.
 
 ## Domain and Google Workspace migration

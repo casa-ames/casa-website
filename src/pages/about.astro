@@ -66,9 +66,6 @@ const storyPhotos = featuredGallery.slice(1);
       <p>Supported in part through local option tax funds provided by the City of Ames through the Commission on the Arts.</p>
     </div>
     <div class="supporters__logos" aria-label="Supporting organizations">
-      <a href="https://www.cityofames.org/" target="_blank" rel="noreferrer" aria-label="Visit the City of Ames website">
-        <img src={publicAsset('/images/supporters/city-of-ames.svg')} alt="City of Ames" width="260" height="100" loading="lazy" />
-      </a>
       <a href="https://www.cityofames.org/My-Government/Departments/City-Managers-Office/Commission-on-the-Arts" target="_blank" rel="noreferrer" aria-label="Visit the City of Ames Commission on the Arts website">
         <img src={publicAsset('/images/supporters/commission-on-the-arts.webp')} alt="Ames Commission on the Arts" width="1100" height="331" loading="lazy" />
       </a>
@@ -127,10 +124,9 @@ const storyPhotos = featuredGallery.slice(1);
   .supporters__copy .eyebrow { margin-bottom: 1rem; color: var(--red); font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .supporters__copy h2 { margin-bottom: 1.3rem; font-size: var(--h2); }
   .supporters__copy > p:last-child { max-width: 54rem; margin-bottom: 0; color: var(--gray-700); font-size: clamp(1.1rem, 1.45vw, 1.4rem); line-height: 1.45; }
-  .supporters__logos { display: grid; grid-template-columns: minmax(130px, 0.75fr) minmax(220px, 1.25fr); align-items: center; gap: clamp(1.5rem, 3vw, 3rem); }
+  .supporters__logos { display: grid; grid-template-columns: minmax(260px, 1fr); align-items: center; }
   .supporters__logos a { display: grid; min-height: 130px; place-items: center; border-left: var(--line); padding-left: clamp(1.5rem, 3vw, 3rem); }
-  .supporters__logos img { width: 100%; height: auto; max-height: 104px; object-fit: contain; filter: grayscale(1); transition: filter var(--motion), opacity var(--motion); }
-  .supporters__logos a:first-child img { max-width: 210px; }
+  .supporters__logos img { width: 100%; max-width: 370px; height: auto; max-height: 112px; object-fit: contain; filter: grayscale(1); transition: filter var(--motion), opacity var(--motion); }
   .supporters__logos a:hover img { filter: grayscale(0); opacity: 0.78; }
   .external-galleries { display: grid; grid-template-columns: minmax(260px, 0.55fr) minmax(0, 1.45fr); gap: clamp(3rem, 7vw, 8rem); border-top: var(--line); border-bottom: var(--line); }
   .external-galleries__heading .eyebrow { margin-bottom: 1rem; color: var(--red); font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -156,10 +152,9 @@ const storyPhotos = featuredGallery.slice(1);
     .about-story__gallery { grid-template-columns: 1fr; }
     .about-story__photo--history { grid-column: 1; width: 100%; }
     .about-story__photo--history .about-story__image { height: 240px; min-height: 0; aspect-ratio: auto; }
-    .supporters__logos { grid-template-columns: 1fr; align-items: start; gap: 1.5rem; }
+    .supporters__logos { grid-template-columns: 1fr; align-items: start; }
     .supporters__logos a { min-height: 0; justify-items: start; border-left: 0; border-top: var(--line); padding: 1.5rem 0 0; }
     .supporters__logos img { max-width: 320px; max-height: 90px; object-position: left center; }
-    .supporters__logos a:first-child img { max-width: 190px; }
     .external-gallery { grid-template-columns: minmax(110px, 34%) 1fr; }
     .about-cta { align-items: flex-start; flex-direction: column; }
   }
