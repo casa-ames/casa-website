@@ -19,6 +19,8 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] External gallery links made editable through the CMS and seeded with the CASA 25th Anniversary photobook.
 - [x] Zeffy read-only API key stored as a protected GitHub Actions secret.
 - [x] Automatic Zeffy campaign import and public event calendar implemented.
+- [x] Major-supporter acknowledgment added with official City of Ames and Commission on the Arts artwork.
+- [x] Founding history page seeded from CASA's earlier website and linked from About.
 
 ## Before CASA review
 
@@ -28,6 +30,8 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [x] Confirm CASA's street address and Facebook and Instagram links.
 - [ ] Confirm CASA's public email address, phone number when available, and hours.
 - [ ] Review all copy and selected photographs with CASA.
+- [ ] Ask CASA to provide the post-2001 chronology, key milestones, names, and historical photographs needed to complete the History page.
+- [ ] Confirm the required City of Ames Commission on the Arts acknowledgment and logo treatment for each applicable grant year.
 
 ## Domain and Google Workspace migration
 
