@@ -118,7 +118,7 @@ const imageSource = (image?: string) => image
   .event-list__rows { border-top: 1px solid var(--black); }
   .event-row { display: grid; grid-template-columns: 140px 150px minmax(250px, 1.15fr) minmax(260px, 1.1fr) 110px 150px; align-items: center; gap: clamp(1rem, 1.7vw, 1.8rem); border-bottom: var(--line); padding-block: 1.2rem; scroll-margin-top: 96px; }
   .event-row:target { background: linear-gradient(90deg, rgb(255 0 0 / 7%), transparent 58%); }
-  .event-row__thumbnail { width: 140px; aspect-ratio: 4 / 3; }
+  .event-row__thumbnail { width: 140px; aspect-ratio: 1; }
   .event-row p, .event-row dl { margin: 0; }
   .event-row__date { display: grid; gap: 0.35rem; }
   .event-row__date span { color: var(--red); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
