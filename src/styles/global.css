@@ -113,6 +113,8 @@ p:last-child { margin-bottom: 0; }
   line-height: 0.92;
 }
 
+.spacious-heading { line-height: 1.08; }
+
 .lead {
   max-width: 38rem;
   font-size: clamp(1.25rem, 2.2vw, 2rem);
