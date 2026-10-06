@@ -301,6 +301,7 @@ p:last-child { margin-bottom: 0; }
 .site-footer__nav a:hover { color: var(--white); }
 
 .site-footer__end { display: grid; justify-items: end; gap: 0.45rem; }
+.site-footer__quick-links { display: flex; align-items: center; gap: 0.65rem; }
 .site-footer__sitemap-button {
   border: 0;
   border-bottom: 1px solid var(--gray-700);
@@ -382,6 +383,7 @@ p:last-child { margin-bottom: 0; }
   .site-footer__nav { grid-column: 1; grid-row: 1; }
   .site-footer__brand { grid-column: 1; grid-row: 2; width: min(100%, 280px); }
   .site-footer__end { grid-column: 1; grid-row: 3; width: 100%; justify-items: start; gap: 0.75rem; }
+  .site-footer__quick-links { justify-content: flex-start; }
   .site-footer__meta, .site-footer__credit { text-align: left; }
   .site-footer__credit { max-width: 100%; line-height: 1.4; overflow-wrap: anywhere; }
   .sitemap-dialog__links { grid-template-columns: 1fr; }
