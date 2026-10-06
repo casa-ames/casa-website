@@ -19,7 +19,7 @@ For anything that uses Zeffy registration, enter the information **once in Zeffy
 1. Sign in to CASA’s Zeffy account.
 2. Open **Campaigns**, choose **+ New campaign**, and select **Event**.
 3. Enter the class title, date or dates, start and end times, and CASA’s address.
-4. Add the description and CASA branding. For the campaign image, open **Prepare an image**, choose **Zeffy event**, and upload the resulting square JPG.
+4. Add the description and CASA branding. For the campaign image, open **Prepare an image**, choose **Zeffy event**, and upload the resulting square JPG. The website schedule uses the same square composition.
 5. Create the ticket or registration type, including its price and available quantity. For a free class, enter a ticket price of `0` rather than leaving the price blank.
 6. Add only the attendee questions CASA genuinely needs.
 7. Review the confirmation message, reminder settings, sales closing time, cancellation information and any additional-donation option.
@@ -37,7 +37,7 @@ Use **Website-only listings** in the CASA Website Editor only when an announceme
 
 1. Open **Website-only listings** and choose **New Website-only listing**.
 2. Enter its public title, summary, dates, time, location and any other applicable information.
-3. Upload a prepared image, add an accessible image description and enter its focal-point settings.
+3. Upload a prepared image, add an accessible image description and enter its focal-point settings. Use the square preview because all schedule thumbnails are square.
 4. Select its availability and whether it should appear on the homepage.
 5. Save it and move it through the editorial workflow (**Draft → In Review → Ready → Published**).
 
@@ -94,7 +94,7 @@ Open **Prepare an image** from the red button at the lower-right corner of the C
 ### Prepare an image for the CASA website
 
 1. Choose **CASA website**, then choose the original JPG, PNG or WebP from your computer.
-2. Choose a framing preview that resembles the intended placement. The 4:3 option matches class and gallery thumbnails; the wide option is useful for banners and wide gallery arrangements.
+2. Choose a framing preview that resembles the intended placement. The square option matches event thumbnails, the 4:3 option matches gallery thumbnails, and the wide option is useful for banners and wide gallery arrangements.
 3. Drag the photograph within the preview—or use the horizontal and vertical sliders—until faces and other important details sit comfortably inside the frame. The faint inner rectangle is a conservative safe area for important subjects.
 4. Try any other framing shapes in which the photograph may appear. The preview does not permanently crop the photograph.
 5. Choose **Copy focal point**, then choose **Download WebP**.
@@ -105,7 +105,7 @@ Open **Prepare an image** from the red button at the lower-right corner of the C
 1. Choose **Zeffy event**, then choose the original JPG, PNG or WebP from your computer.
 2. Drag the photograph within the square preview—or use the sliders—until the important subject is comfortably framed.
 3. Choose **Download JPG**. The file ending in `-zeffy.jpg` is a square image no larger than 1,200 × 1,200 pixels.
-4. Upload that JPG as the campaign banner in Zeffy. Do not create a duplicate event or upload the image again in the CASA editor; the website imports the Zeffy event and its banner automatically.
+4. Upload that JPG as the campaign banner in Zeffy. Do not create a duplicate event or upload the image again in the CASA editor; the website imports the Zeffy event and displays that same square crop in the schedule.
 
 The tool works entirely in the browser: the original is not sent anywhere. CASA website images are resized, compressed and converted to WebP before they reach GitHub. Zeffy images are converted to a square JPG and remain hosted by Zeffy. The CASA editor rejects files larger than 2 MB as an additional safeguard.
 
