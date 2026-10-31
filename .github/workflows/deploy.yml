@@ -20,14 +20,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: https://casa-ames.github.io
-      BASE_PATH: /casa-website/
       ZEFFY_API_KEY: ${{ secrets.ZEFFY_API_KEY }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+      - name: Read GitHub Pages address
+        id: pages
+        uses: actions/configure-pages@v5
       - name: Build Astro site
         uses: withastro/action@v6
+        env:
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path || '/' }}
         with:
           path: .
           node-version: 24

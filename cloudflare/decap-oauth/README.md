@@ -17,6 +17,8 @@ Never put either value in this repository, a handoff document, an email, or a ch
 
 The plaintext configuration in `wrangler.toml` restricts editor authentication to CASA's current public site. Add the final custom-domain origin to `ALLOWED_SITE_ORIGINS` during the domain migration, test it, and then remove the GitHub Pages origin if it is retired.
 
+The website generates Decap's `site_domain` from the Pages hostname. This does not authorize a new origin in the worker: update the deployed Cloudflare variable explicitly, retaining the old origin through cutover. Keep `wrangler.toml` aligned too; `wrangler deploy --keep-vars` preserves remotely maintained variables rather than applying changed local variables. See [the migration checklist](../../docs/DOMAIN_MIGRATION.md). The worker callback URL stays unchanged when only the website domain changes.
+
 ## Deployment
 
 From this directory, using an authenticated Wrangler installation:
