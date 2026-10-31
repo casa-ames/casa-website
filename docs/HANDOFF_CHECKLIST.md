@@ -36,14 +36,15 @@ This is the durable checklist for preparing the website for CASA ownership and r
 
 ## Domain and Google Workspace migration
 
-- [ ] Confirm and purchase CASA's final domain; double-check the exact spelling before purchase.
+- [x] Purchase CASA's domain, `creativeartistsames.org` (reported in the domain-planning conversation).
+- [ ] Complete the coordinated [domain migration checklist](DOMAIN_MIGRATION.md); retain the current project URL until cutover.
 - [ ] Configure the domain for the public website and decide whether a separate `members` subdomain will be used later.
 - [ ] Create CASA Google Workspace users, aliases, or Groups for public inquiries.
 - [ ] Replace Formspree delivery to `admincasa0@gmail.com` with the appropriate CASA Google Workspace address or routing group.
 - [ ] Update every visible `mailto:` address and administrative fallback address to the CASA Workspace address.
 - [ ] Verify Formspree delivery, reply-to behavior, and category routing after the mailbox change.
 - [ ] Configure and verify Workspace SPF, DKIM, and DMARC records.
-- [ ] Update the website canonical URL, social-preview URL, CMS `site_url`, CMS `display_url`, media paths, GitHub Pages custom-domain setting, and repository metadata.
+- [ ] Assign the GitHub Pages custom domain at cutover and rerun deployment; canonical/social URLs, CMS URLs, and paths are generated automatically. Update the OAuth worker's trusted origins, staff bookmarks, and repository metadata.
 - [ ] Retest all navigation, images, forms, editor login, and Zeffy links on the custom domain.
 
 ## Access, security, and ownership

@@ -7,7 +7,7 @@ time: Test Only
 instructor: CASA Website Team
 price: N/A
 location: CASA Studio
-image: /casa-website/images/uploads/20260412171609-9587_weblarge.jpg
+image: /images/uploads/20260412171609-9587_weblarge.jpg
 imageAlt: Ceramic artist wearing an apron and gloves while holding an unfinished
   clay mug in the CASA studio.
 status: past
