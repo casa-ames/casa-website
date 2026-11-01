@@ -4,7 +4,7 @@ This guide covers routine content updates. It does not require coding.
 
 ## Sign in
 
-1. Open `https://casa-ames.github.io/casa-website/admin/` in a regular web browser.
+1. Open `https://www.creativeartistsames.org/admin/` in a regular web browser.
 2. Choose **Login with GitHub** and authorize the CASA Website Editor.
 3. Sign in with your own GitHub account. CASA should never share one account or password among staff.
 
@@ -89,7 +89,7 @@ External links should lead directly to public, reputable pages and should be rev
 
 Keep the CASA website gallery highly curated—approximately 20–30 excellent photographs rather than a comprehensive archive. Favor images that collectively show the studios, artists, artwork, learning and community. For larger bodies of work, add an external gallery link, such as the existing CASA 25th Anniversary photobook.
 
-Open **Prepare an image** from the red button at the lower-right corner of the CASA website editor. You can also open `https://casa-ames.github.io/casa-website/image-prep/` directly. The tool first asks where the photograph will be used.
+Open **Prepare an image** from the red button at the lower-right corner of the CASA website editor. You can also open `https://www.creativeartistsames.org/image-prep/` directly. The tool first asks where the photograph will be used.
 
 ### Prepare an image for the CASA website
 
