@@ -6,7 +6,7 @@ This is the durable checklist for preparing the website for CASA ownership and r
 
 - [x] CASA GitHub organization and public website repository created.
 - [x] GitHub Pages deployment configured and verified.
-- [x] Responsive first-draft website published at `https://casa-ames.github.io/casa-website/`.
+- [x] Responsive website published at `https://www.creativeartistsames.org/` with HTTPS enabled.
 - [x] Formspree contact endpoint connected and a real mailbox delivery test completed.
 - [x] Decap CMS editor interface and content models scaffolded at `/admin/`.
 - [x] Decap GitHub OAuth Worker deployed and `/admin/` authentication connected.
@@ -34,18 +34,20 @@ This is the durable checklist for preparing the website for CASA ownership and r
 - [ ] Replace the clearly labeled conceptual History-page images with CASA's corresponding archival photographs as they become available.
 - [ ] Confirm the required City of Ames Commission on the Arts acknowledgment and logo treatment for each applicable grant year.
 
-## Domain and Google Workspace migration
+## Domain and Google Workspace
 
 - [x] Purchase CASA's domain, `creativeartistsames.org` (reported in the domain-planning conversation).
-- [ ] Complete the coordinated [domain migration checklist](DOMAIN_MIGRATION.md); retain the current project URL until cutover.
-- [ ] Configure the domain for the public website and decide whether a separate `members` subdomain will be used later.
+- [x] Complete the coordinated [domain cutover](DOMAIN_MIGRATION.md), including GitHub Pages, Namecheap DNS, deployment, and HTTPS.
+- [x] Configure `www.creativeartistsames.org` as the public website address.
+- [ ] Decide whether a separate `members` subdomain will be used later.
 - [ ] Create CASA Google Workspace users, aliases, or Groups for public inquiries.
 - [ ] Replace Formspree delivery to `admincasa0@gmail.com` with the appropriate CASA Google Workspace address or routing group.
 - [ ] Update every visible `mailto:` address and administrative fallback address to the CASA Workspace address.
 - [ ] Verify Formspree delivery, reply-to behavior, and category routing after the mailbox change.
 - [ ] Configure and verify Workspace SPF, DKIM, and DMARC records.
-- [ ] Assign the GitHub Pages custom domain at cutover and rerun deployment; canonical/social URLs, CMS URLs, and paths are generated automatically. Update the OAuth worker's trusted origins, staff bookmarks, and repository metadata.
-- [ ] Retest all navigation, images, forms, editor login, and Zeffy links on the custom domain.
+- [x] Assign the GitHub Pages custom domain and rerun deployment; canonical/social URLs, CMS URLs, and paths now follow Pages settings automatically.
+- [x] Add the custom website origin to the Cloudflare OAuth worker and update staff-guide bookmarks.
+- [ ] Complete the final operational retest of Formspree delivery, authenticated editor publishing, and the first real Zeffy event on the custom domain.
 
 ## Access, security, and ownership
 
