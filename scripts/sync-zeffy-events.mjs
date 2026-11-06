@@ -6,6 +6,9 @@ const apiKey = process.env.ZEFFY_API_KEY?.trim();
 const isCi = process.env.CI === 'true';
 const outputPath = resolve(dirname(fileURLToPath(import.meta.url)), '../src/data/zeffy-events.json');
 const apiBase = 'https://api.zeffy.com/api/v1';
+const websiteHiddenCampaignTitles = new Set([
+  'annual gala',
+]);
 
 if (!apiKey) {
   if (isCi) throw new Error('ZEFFY_API_KEY is required for the production build.');
@@ -171,6 +174,7 @@ for (const campaign of campaigns) {
 const events = detailedCampaigns
   .map((campaign) => normalizeCampaign(campaign?.data ?? campaign))
   .filter(Boolean)
+  .filter((campaign) => !websiteHiddenCampaignTitles.has(campaign.title.toLowerCase()))
   .sort((a, b) => (a.occurrences[0]?.start ?? '').localeCompare(b.occurrences[0]?.start ?? ''));
 
 await mkdir(dirname(outputPath), { recursive: true });
