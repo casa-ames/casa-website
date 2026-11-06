@@ -28,6 +28,12 @@ collections:
     sortable_fields: [dateStart, title, status]
     fields:
       - { label: Title, name: title, widget: string }
+      - label: Listing type
+        name: kind
+        widget: select
+        default: Event
+        options: [Event, Class]
+        hint: "Choose Event for demonstrations, open houses and gatherings. Choose Class for instruction-focused listings."
       - { label: Short summary, name: summary, widget: text }
       - { label: Display date, name: dateLabel, widget: string, hint: "Example: SEP 8–29" }
       - { label: Start date, name: dateStart, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }

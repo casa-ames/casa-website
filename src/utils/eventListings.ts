@@ -82,7 +82,14 @@ const cleanSummary = (value = '') => {
 };
 
 const safeDate = (value: unknown) => {
-  const date = value instanceof Date ? value : new Date(String(value));
+  const raw = String(value);
+  const date = value instanceof Date
+    ? value.getUTCHours() === 0 && value.getUTCMinutes() === 0 && value.getUTCSeconds() === 0
+      ? new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), 12))
+      : value
+    : /^\d{4}-\d{2}-\d{2}$/.test(raw)
+      ? new Date(`${raw}T12:00:00Z`)
+      : new Date(raw);
   return Number.isNaN(date.getTime()) ? null : date;
 };
 
@@ -96,7 +103,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         id: `class-${id}`,
         title: data.title,
         summary: cleanSummary(data.summary),
-        kind: 'Class' as const,
+        kind: data.kind ?? 'Class',
         start,
         end,
         dateKey: dateKey(start),

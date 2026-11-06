@@ -6,10 +6,11 @@ const classes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/classes' }),
   schema: z.object({
     title: z.string(),
+    kind: z.enum(['Class', 'Event']).default('Class'),
     summary: z.string(),
     dateLabel: z.string(),
-    dateStart: z.coerce.date(),
-    dateEnd: z.coerce.date().optional(),
+    dateStart: z.union([z.string(), z.date()]),
+    dateEnd: z.union([z.string(), z.date()]).optional(),
     time: z.string(),
     instructor: z.string(),
     price: z.string(),
