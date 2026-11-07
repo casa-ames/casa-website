@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { formatCampaignPrice } from './zeffy-price.mjs';
 
 const apiKey = process.env.ZEFFY_API_KEY?.trim();
 const isCi = process.env.CI === 'true';
@@ -119,6 +120,7 @@ const normalizeCampaign = (campaign) => {
     url: campaignUrl(campaign),
     location: location || null,
     image,
+    price: formatCampaignPrice(campaign),
     occurrences,
   };
 };

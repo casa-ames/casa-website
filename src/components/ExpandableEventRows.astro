@@ -1,0 +1,22 @@
+<script>
+  const setExpanded = (row: HTMLElement, expanded: boolean) => {
+    const button = row.querySelector<HTMLButtonElement>('[data-event-toggle]');
+    const label = button?.querySelector<HTMLElement>('[data-event-toggle-label]');
+    row.classList.toggle('is-expanded', expanded);
+    button?.setAttribute('aria-expanded', String(expanded));
+    if (label) label.textContent = expanded ? 'Show less' : 'Show full description';
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-expandable-event]').forEach((row) => {
+    if (row.dataset.expandableReady === 'true') return;
+    row.dataset.expandableReady = 'true';
+    setExpanded(row, false);
+    const toggle = () => setExpanded(row, !row.classList.contains('is-expanded'));
+    row.querySelector<HTMLButtonElement>('[data-event-toggle]')?.addEventListener('click', toggle);
+    row.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element) || target.closest('a, button, dialog')) return;
+      toggle();
+    });
+  });
+</script>
