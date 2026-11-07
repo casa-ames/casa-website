@@ -2,7 +2,9 @@
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
+import EventAction from '../components/EventAction.astro';
 import EventCalendar from '../components/EventCalendar.astro';
+import ExpandableEventRows from '../components/ExpandableEventRows.astro';
 import zeffyData from '../data/zeffy-events.json';
 import { buildEventOccurrences } from '../utils/eventListings';
 import { publicAsset } from '../utils/publicAsset';
@@ -50,7 +52,7 @@ const imageSource = (image?: string) => image
     {events.length > 0 ? (
       <div class="event-list__rows">
         {events.map((event) => (
-          <article class="event-row" id={event.id}>
+          <article class="event-row" id={event.id} data-expandable-event>
             <figure class="event-row__thumbnail media-frame">
               <img src={imageSource(event.image)} alt={event.imageAlt || ''} loading="lazy" />
             </figure>
@@ -60,41 +62,30 @@ const imageSource = (image?: string) => image
             </div>
             <div class="event-row__main">
               <h3>{event.title}</h3>
-              <p>{event.summary}</p>
+              <p id={`${event.id}-description`}>{event.description}</p>
+              <button
+                class="event-row__expand"
+                type="button"
+                data-event-toggle
+                aria-expanded="false"
+                aria-controls={`${event.id}-description`}
+              >
+                <span data-event-toggle-label>Show full description</span>
+                <span aria-hidden="true">＋</span>
+              </button>
             </div>
             <dl class="event-row__details">
               <div><dt>Time</dt><dd>{event.timeLabel}</dd></div>
               {event.instructor && <div><dt>Led by</dt><dd>{event.instructor}</dd></div>}
               {event.location && <div><dt>Location</dt><dd>{event.location}</dd></div>}
-              {event.price && <div><dt>Price</dt><dd>{event.price}</dd></div>}
+              <div><dt>Price</dt><dd>{event.price || 'See registration'}</dd></div>
             </dl>
             <p class="event-row__status">{statusLabel[event.status]}</p>
-            <div class="event-row__action">
-              {event.registrationUrl && event.status === 'upcoming' ? (
-                <a class="button button--red" href={event.registrationUrl} target="_blank" rel="noreferrer">Register</a>
-              ) : event.source === 'website' && event.kind === 'Event' && event.status === 'upcoming' ? (
-                <>
-                  <button class="button" type="button" data-join-dialog={event.id}>Join us</button>
-                  <dialog
-                    class="join-dialog"
-                    id={`join-${event.id}`}
-                    aria-labelledby={`join-${event.id}-title`}
-                  >
-                    <div class="join-dialog__content">
-                      <button class="join-dialog__close" type="button" data-close-dialog aria-label="Close message">×</button>
-                      <p class="eyeless-label">You’re invited</p>
-                      <h2 id={`join-${event.id}-title`}>No need to register, just join us for free!</h2>
-                      <p>
-                        Have a question about this event?{' '}
-                        <a href={`${href('/contact/')}?interest=classes&class=${encodeURIComponent(event.title)}`}>Contact us.</a>
-                      </p>
-                    </div>
-                  </dialog>
-                </>
-              ) : event.status !== 'cancelled' && event.status !== 'sold-out' ? (
-                <a class="button" href={`${href('/contact/')}?interest=classes&class=${encodeURIComponent(event.title)}`}>Ask about it</a>
-              ) : null}
-            </div>
+            <EventAction
+              event={event}
+              class="event-row__action"
+              contactUrl={`${href('/contact/')}?interest=classes&class=${encodeURIComponent(event.title)}`}
+            />
           </article>
         ))}
       </div>
@@ -121,21 +112,8 @@ const imageSource = (image?: string) => image
   <div class="registration-note page-shell">
     <p>Registration and payment are securely handled through Zeffy. CASA does not store payment information on this website.</p>
   </div>
+  <ExpandableEventRows />
 </BaseLayout>
-
-<script>
-  document.querySelectorAll<HTMLButtonElement>('[data-join-dialog]').forEach((button) => {
-    const eventId = button.dataset.joinDialog;
-    const dialog = eventId ? document.getElementById(`join-${eventId}`) : null;
-    if (!(dialog instanceof HTMLDialogElement)) return;
-
-    button.addEventListener('click', () => dialog.showModal());
-    dialog.querySelector<HTMLButtonElement>('[data-close-dialog]')?.addEventListener('click', () => dialog.close());
-    dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-  });
-</script>
 
 <style>
   .classes-intro { display: grid; grid-template-columns: minmax(310px, 0.7fr) minmax(560px, 1.3fr); align-items: center; gap: clamp(3rem, 6vw, 7rem); }
@@ -149,7 +127,9 @@ const imageSource = (image?: string) => image
   .event-list__heading h2 { margin: 0; font-size: clamp(2rem, 3.4vw, 3.8rem); }
   .event-list__heading > p:last-child { max-width: 42rem; margin: 0; color: var(--gray-700); }
   .event-list__rows { border-top: 1px solid var(--black); }
-  .event-row { display: grid; grid-template-columns: 140px 150px minmax(250px, 1.15fr) minmax(260px, 1.1fr) 110px 150px; align-items: center; gap: clamp(1rem, 1.7vw, 1.8rem); border-bottom: var(--line); padding-block: 1.2rem; scroll-margin-top: 96px; }
+  .event-row { display: grid; grid-template-columns: 140px 150px minmax(250px, 1.15fr) minmax(260px, 1.1fr) 110px 150px; align-items: center; gap: clamp(1rem, 1.7vw, 1.8rem); border-bottom: var(--line); padding-block: 1.2rem; scroll-margin-top: 96px; transition: background var(--motion), padding var(--motion); cursor: pointer; }
+  .event-row:hover { background: var(--gray-50); }
+  .event-row.is-expanded { align-items: start; padding-block: 2rem; }
   .event-row:target { background: linear-gradient(90deg, rgb(255 0 0 / 7%), transparent 58%); }
   .event-row__thumbnail { width: 140px; aspect-ratio: 1; }
   .event-row p, .event-row dl { margin: 0; }
@@ -157,23 +137,16 @@ const imageSource = (image?: string) => image
   .event-row__date span { color: var(--red); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
   .event-row__date strong, .event-row__status { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; }
   .event-row__main h3 { margin-bottom: 0.4rem; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
-  .event-row__main p { color: var(--gray-700); font-size: 1rem; line-height: 1.35; }
+  .event-row__main p { display: -webkit-box; overflow: hidden; color: var(--gray-700); font-size: 1rem; line-height: 1.35; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .event-row.is-expanded .event-row__main p { display: block; overflow: visible; }
+  .event-row__expand { display: inline-flex; align-items: center; gap: 0.35rem; border: 0; padding: 0.65rem 0 0; background: transparent; color: var(--red); font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+  .event-row__expand span:last-child { display: inline-block; font-size: 1.05rem; transition: transform var(--motion); }
+  .event-row.is-expanded .event-row__expand span:last-child { transform: rotate(45deg); }
   .event-row__details { display: grid; gap: 0.25rem; color: var(--gray-700); font-size: 0.92rem; }
   .event-row__details div { display: grid; grid-template-columns: 66px 1fr; gap: 0.7rem; }
   .event-row__details dt { color: var(--black); font-weight: 600; }
   .event-row__details dd { margin: 0; }
-  .event-row__action { min-width: 0; }
-  .event-row__action .button { width: 100%; min-height: 2.8rem; padding-inline: 0.7rem; }
-  .join-dialog { width: min(92vw, 520px); max-width: none; border: 0; padding: 0; color: var(--black); box-shadow: 0 22px 70px rgb(0 0 0 / 24%); }
-  .join-dialog::backdrop { background: rgb(0 0 0 / 42%); }
-  .join-dialog__content { position: relative; padding: clamp(2.25rem, 6vw, 4rem); }
-  .join-dialog__content .eyeless-label { margin: 0 0 1rem; color: var(--red); }
-  .join-dialog__content h2 { max-width: 12ch; margin: 0 0 1.5rem; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.08; }
-  .join-dialog__content > p:last-child { margin: 0; color: var(--gray-700); }
-  .join-dialog__content a { color: var(--black); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
-  .join-dialog__content a:hover { color: var(--red); }
-  .join-dialog__close { position: absolute; top: 1rem; right: 1rem; display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 0; background: transparent; color: var(--black); font: inherit; font-size: 1.8rem; line-height: 1; cursor: pointer; }
-  .join-dialog__close:hover { color: var(--red); }
+  :global(.event-row__action) { min-width: 0; cursor: default; }
   .event-list__empty { display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--black); border-bottom: var(--line); padding: 2rem 0; }
   .event-list__empty p { margin: 0; }
   .class-help__inner { display: grid; grid-template-columns: minmax(320px, 0.85fr) minmax(520px, 1.15fr); min-height: 410px; align-items: stretch; }
@@ -185,7 +158,7 @@ const imageSource = (image?: string) => image
   @media (max-width: 1180px) {
     .event-row { grid-template-columns: 120px 130px minmax(240px, 1fr) minmax(240px, 1fr) 120px; }
     .event-row__thumbnail { width: 120px; }
-    .event-row__action { grid-column: 5; grid-row: 2; }
+    :global(.event-row__action) { grid-column: 5; grid-row: 2; }
     .event-row__status { text-align: right; }
   }
   @media (max-width: 900px) {
@@ -201,8 +174,7 @@ const imageSource = (image?: string) => image
     .event-row__main { grid-column: 2 / -1; grid-row: 2; }
     .event-row__details { grid-column: 2 / -1; grid-row: 3; }
     .event-row__status { grid-column: 3; grid-row: 1; }
-    .event-row__action { grid-column: 2 / -1; grid-row: auto; }
-    .event-row__action .button { width: auto; }
+    :global(.event-row__action) { grid-column: 2 / -1; grid-row: auto; width: min(100%, 200px); }
   }
   @media (max-width: 580px) {
     .event-list__heading { grid-template-columns: 1fr; }
@@ -210,9 +182,9 @@ const imageSource = (image?: string) => image
     .event-row__thumbnail { grid-column: 1; grid-row: 1 / 3; width: 96px; }
     .event-row__date { grid-column: 2; grid-row: 1; }
     .event-row__main { grid-column: 2; grid-row: 2; }
-    .event-row__details, .event-row__status, .event-row__action { grid-column: 1 / -1; grid-row: auto; text-align: left; }
+    .event-row__details, .event-row__status, :global(.event-row__action) { grid-column: 1 / -1; grid-row: auto; text-align: left; }
     .event-row__status { color: var(--gray-700); }
-    .event-row__action .button { width: 100%; }
+    :global(.event-row__action) { width: 100%; }
     .event-list__empty { align-items: stretch; flex-direction: column; }
   }
 </style>

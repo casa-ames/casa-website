@@ -4,6 +4,7 @@ export interface EventOccurrence {
   id: string;
   title: string;
   summary: string;
+  description: string;
   kind: 'Class' | 'Event';
   start: Date;
   end?: Date;
@@ -36,6 +37,7 @@ interface ZeffyEvent {
   url?: string | null;
   location?: string | null;
   image?: string | null;
+  price?: string | null;
   occurrences?: ZeffyOccurrence[];
 }
 
@@ -81,6 +83,8 @@ const cleanSummary = (value = '') => {
   return summary.length > 190 ? `${summary.slice(0, 187).trimEnd()}…` : summary;
 };
 
+const plainDescription = (value = '') => value.replace(/\s+/g, ' ').trim();
+
 const safeDate = (value: unknown) => {
   const raw = String(value);
   const date = value instanceof Date
@@ -103,6 +107,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         id: `class-${id}`,
         title: data.title,
         summary: cleanSummary(data.summary),
+        description: plainDescription(data.summary),
         kind: data.kind ?? 'Class',
         start,
         end,
@@ -138,6 +143,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         id: `zeffy-${event.id}-${occurrence.id || index + 1}`,
         title: event.title,
         summary: cleanSummary(event.description) || 'See event information and registration details on Zeffy.',
+        description: plainDescription(event.description) || 'See event information and registration details on Zeffy.',
         kind: /class|workshop/i.test(`${event.type} ${event.title}`) ? 'Class' as const : 'Event' as const,
         start,
         end,
@@ -148,6 +154,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         location: event.location || "Creative Artists’ Studios of Ames",
         image: event.image || undefined,
         imageAlt: event.image ? `${event.title} event image` : undefined,
+        price: event.price || 'See registration',
         registrationUrl: event.url || undefined,
         status,
         source: 'zeffy' as const,
