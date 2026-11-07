@@ -72,6 +72,25 @@ const imageSource = (image?: string) => image
             <div class="event-row__action">
               {event.registrationUrl && event.status === 'upcoming' ? (
                 <a class="button button--red" href={event.registrationUrl} target="_blank" rel="noreferrer">Register</a>
+              ) : event.source === 'website' && event.kind === 'Event' && event.status === 'upcoming' ? (
+                <>
+                  <button class="button" type="button" data-join-dialog={event.id}>Join us</button>
+                  <dialog
+                    class="join-dialog"
+                    id={`join-${event.id}`}
+                    aria-labelledby={`join-${event.id}-title`}
+                  >
+                    <div class="join-dialog__content">
+                      <button class="join-dialog__close" type="button" data-close-dialog aria-label="Close message">×</button>
+                      <p class="eyeless-label">You’re invited</p>
+                      <h2 id={`join-${event.id}-title`}>No need to register, just join us for free!</h2>
+                      <p>
+                        Have a question about this event?{' '}
+                        <a href={`${href('/contact/')}?interest=classes&class=${encodeURIComponent(event.title)}`}>Contact us.</a>
+                      </p>
+                    </div>
+                  </dialog>
+                </>
               ) : event.status !== 'cancelled' && event.status !== 'sold-out' ? (
                 <a class="button" href={`${href('/contact/')}?interest=classes&class=${encodeURIComponent(event.title)}`}>Ask about it</a>
               ) : null}
@@ -104,6 +123,20 @@ const imageSource = (image?: string) => image
   </div>
 </BaseLayout>
 
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-join-dialog]').forEach((button) => {
+    const eventId = button.dataset.joinDialog;
+    const dialog = eventId ? document.getElementById(`join-${eventId}`) : null;
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    button.addEventListener('click', () => dialog.showModal());
+    dialog.querySelector<HTMLButtonElement>('[data-close-dialog]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+</script>
+
 <style>
   .classes-intro { display: grid; grid-template-columns: minmax(310px, 0.7fr) minmax(560px, 1.3fr); align-items: center; gap: clamp(3rem, 6vw, 7rem); }
   .classes-intro__copy .lead { margin: 2rem 0; max-width: 34rem; }
@@ -131,6 +164,16 @@ const imageSource = (image?: string) => image
   .event-row__details dd { margin: 0; }
   .event-row__action { min-width: 0; }
   .event-row__action .button { width: 100%; min-height: 2.8rem; padding-inline: 0.7rem; }
+  .join-dialog { width: min(92vw, 520px); max-width: none; border: 0; padding: 0; color: var(--black); box-shadow: 0 22px 70px rgb(0 0 0 / 24%); }
+  .join-dialog::backdrop { background: rgb(0 0 0 / 42%); }
+  .join-dialog__content { position: relative; padding: clamp(2.25rem, 6vw, 4rem); }
+  .join-dialog__content .eyeless-label { margin: 0 0 1rem; color: var(--red); }
+  .join-dialog__content h2 { max-width: 12ch; margin: 0 0 1.5rem; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.08; }
+  .join-dialog__content > p:last-child { margin: 0; color: var(--gray-700); }
+  .join-dialog__content a { color: var(--black); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .join-dialog__content a:hover { color: var(--red); }
+  .join-dialog__close { position: absolute; top: 1rem; right: 1rem; display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 0; background: transparent; color: var(--black); font: inherit; font-size: 1.8rem; line-height: 1; cursor: pointer; }
+  .join-dialog__close:hover { color: var(--red); }
   .event-list__empty { display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--black); border-bottom: var(--line); padding: 2rem 0; }
   .event-list__empty p { margin: 0; }
   .class-help__inner { display: grid; grid-template-columns: minmax(320px, 0.85fr) minmax(520px, 1.15fr); min-height: 410px; align-items: stretch; }
