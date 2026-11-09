@@ -38,6 +38,7 @@ interface ZeffyEvent {
   location?: string | null;
   image?: string | null;
   price?: string | null;
+  instructor?: string | null;
   occurrences?: ZeffyOccurrence[];
 }
 
@@ -151,6 +152,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         monthKey: monthKey(start),
         dateLabel: eventDateLabel(start),
         timeLabel: eventTimeLabel(start, end),
+        instructor: event.instructor || undefined,
         location: event.location || "Creative Artists’ Studios of Ames",
         image: event.image || undefined,
         imageAlt: event.image ? `${event.title} event image` : undefined,
