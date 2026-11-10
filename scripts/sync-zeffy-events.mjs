@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { extractInstructor } from './zeffy-description.mjs';
 import { formatCampaignPrice } from './zeffy-price.mjs';
+import { plainText } from './zeffy-text.mjs';
 
 const apiKey = process.env.ZEFFY_API_KEY?.trim();
 const isCi = process.env.CI === 'true';
@@ -27,17 +28,6 @@ const firstValue = (object, keys) => {
 };
 
 const asArray = (value) => Array.isArray(value) ? value : [];
-
-const plainText = (value) => String(value ?? '')
-  .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-  .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-  .replace(/<[^>]+>/g, ' ')
-  .replace(/&nbsp;/gi, ' ')
-  .replace(/&amp;/gi, '&')
-  .replace(/&quot;/gi, '"')
-  .replace(/&#39;|&apos;/gi, "'")
-  .replace(/\s+/g, ' ')
-  .trim();
 
 const isoDate = (value) => {
   if (value === undefined || value === null || value === '') return null;
