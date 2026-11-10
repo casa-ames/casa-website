@@ -12,7 +12,9 @@ const isWebsiteOnlyEvent = event.source === 'website' && event.kind === 'Event';
 ---
 
 <div class:list={['event-action', className]} data-event-action>
-  {event.registrationUrl && event.status === 'upcoming' ? (
+  {event.status === 'past' ? (
+    <a class="button" href={contactUrl}>Ask a question</a>
+  ) : event.registrationUrl && event.status === 'upcoming' ? (
     <a class="button button--red" href={event.registrationUrl} target="_blank" rel="noreferrer">Register</a>
   ) : isWebsiteOnlyEvent && event.status === 'upcoming' ? (
     <>

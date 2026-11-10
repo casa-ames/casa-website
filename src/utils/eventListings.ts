@@ -18,7 +18,7 @@ export interface EventOccurrence {
   image?: string;
   imageAlt?: string;
   registrationUrl?: string;
-  status: 'upcoming' | 'sold-out' | 'cancelled' | 'coming-soon';
+  status: 'upcoming' | 'sold-out' | 'cancelled' | 'past' | 'coming-soon';
   source: 'website' | 'zeffy';
 }
 
@@ -38,6 +38,7 @@ interface ZeffyEvent {
   location?: string | null;
   image?: string | null;
   price?: string | null;
+  instructor?: string | null;
   occurrences?: ZeffyOccurrence[];
 }
 
@@ -60,6 +61,9 @@ const dateKey = (date: Date) => {
 };
 
 const monthKey = (date: Date) => dateKey(date).slice(0, 7);
+
+const hasEventDatePassed = (start: Date, end?: Date) =>
+  dateKey(end ?? start) < dateKey(new Date());
 
 const eventDateLabel = (date: Date) => new Intl.DateTimeFormat('en-US', {
   timeZone,
@@ -99,10 +103,14 @@ const safeDate = (value: unknown) => {
 
 export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData): EventOccurrence[] {
   const websiteEvents: EventOccurrence[] = classEntries
-    .filter(({ data }) => data.status !== 'past')
     .map(({ id, data }) => {
       const start = safeDate(data.dateStart)!;
       const end = safeDate(data.dateEnd) ?? undefined;
+      const status = data.status === 'cancelled'
+        ? 'cancelled'
+        : data.status === 'past' || hasEventDatePassed(start, end)
+          ? 'past'
+          : data.status;
       return {
         id: `class-${id}`,
         title: data.title,
@@ -121,7 +129,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         image: data.image,
         imageAlt: data.imageAlt,
         registrationUrl: data.registrationUrl,
-        status: data.status,
+        status,
         source: 'website' as const,
       };
     });
@@ -134,11 +142,13 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
       const normalizedStatus = event.status?.toLowerCase() ?? '';
       const status = /cancel/.test(normalizedStatus)
         ? 'cancelled'
-        : /sold|closed/.test(normalizedStatus)
-          ? 'sold-out'
-          : event.url
-            ? 'upcoming'
-            : 'coming-soon';
+        : hasEventDatePassed(start, end)
+          ? 'past'
+          : /sold|closed/.test(normalizedStatus)
+            ? 'sold-out'
+            : event.url
+              ? 'upcoming'
+              : 'coming-soon';
       return [{
         id: `zeffy-${event.id}-${occurrence.id || index + 1}`,
         title: event.title,
@@ -151,6 +161,7 @@ export function buildEventOccurrences(classEntries: any[], zeffyData: ZeffyData)
         monthKey: monthKey(start),
         dateLabel: eventDateLabel(start),
         timeLabel: eventTimeLabel(start, end),
+        instructor: event.instructor || undefined,
         location: event.location || "Creative Artists’ Studios of Ames",
         image: event.image || undefined,
         imageAlt: event.image ? `${event.title} event image` : undefined,

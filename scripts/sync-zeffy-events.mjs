@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { extractInstructor } from './zeffy-description.mjs';
 import { formatCampaignPrice } from './zeffy-price.mjs';
 
 const apiKey = process.env.ZEFFY_API_KEY?.trim();
@@ -110,11 +111,13 @@ const normalizeCampaign = (campaign) => {
 
   const imageValue = firstValue(campaign, ['image_url', 'imageUrl', 'banner_url', 'bannerUrl', 'cover_url', 'coverUrl', 'image']);
   const image = typeof imageValue === 'string' && /^https?:\/\//i.test(imageValue) ? imageValue : null;
+  const descriptionDetails = extractInstructor(firstValue(campaign, ['description', 'summary', 'content', 'details']));
 
   return {
     id: String(id),
     title,
-    description: plainText(firstValue(campaign, ['description', 'summary', 'content', 'details'])),
+    description: descriptionDetails.description,
+    instructor: descriptionDetails.instructor,
     type: type || 'event',
     status: plainText(firstValue(campaign, ['status', 'state'])).toLowerCase() || 'active',
     url: campaignUrl(campaign),
