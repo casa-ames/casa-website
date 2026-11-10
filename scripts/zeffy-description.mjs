@@ -1,3 +1,5 @@
+import { plainText } from './zeffy-text.mjs';
+
 const decodeDescription = (value) => String(value ?? '')
   .replace(/<style[\s\S]*?<\/style>/gi, ' ')
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -28,7 +30,7 @@ export const extractInstructor = (value) => {
   }
 
   return {
-    description: descriptionLines.join(' ').replace(/\s+/g, ' ').trim(),
+    description: plainText(descriptionLines.join(' ')),
     instructor,
   };
 };
